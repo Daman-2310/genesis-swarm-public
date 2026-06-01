@@ -7,7 +7,7 @@
 # Run:   docker run --rm -v /run/genesis:/run/genesis genesis-zk-worker
 # ─────────────────────────────────────────────────────────────────────────────
 
-FROM rust:1.80-slim-bookworm AS builder
+FROM rust:1.96-slim-bookworm AS builder
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
         pkg-config libssl-dev ca-certificates \
