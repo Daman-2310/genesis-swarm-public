@@ -3,7 +3,7 @@ import { reevaluate, detectChange, alertEmail, type MonitoredFund } from '@/lib/
 
 const base: MonitoredFund = {
   id: 'm1', email: 'fund@example.com', fundName: 'Helios Credit Fund',
-  structure: 'open_ended',
+  structure: 'open_ended', loanOriginating: true,
   declaredLeverageCapPct: 200, declaredRetentionPct: 3, declaredConcentrationCapPct: 15,
   holdings: [{ name: 'Helios Energy', weightPct: 24 }],
   lastVerdict: 'compliant', lastCriticalCount: 0,
@@ -32,6 +32,28 @@ describe('monitor: change detection', () => {
     const change = detectChange(synced, current)
     expect(change.changed).toBe(false)
     expect(change.regressed).toBe(false)
+  })
+
+  it('flags ruleset drift when the rules moved since the last verdict', () => {
+    const current = reevaluate(base)
+    // Stored verdict was issued under an older, different ruleset version.
+    const onOldRuleset: MonitoredFund = {
+      ...base, lastVerdict: 'non-compliant', lastCriticalCount: current.criticalCount,
+      lastRulesetVersion: '2025.0',
+    }
+    const change = detectChange(onOldRuleset, current)
+    expect(change.rulesetChanged).toBe(true)
+    expect(change.newRulesetVersion).toBe(current.rulesetVersion)
+    expect(change.reason.toLowerCase()).toContain('ruleset')
+  })
+
+  it('does NOT flag ruleset drift when the version is unchanged', () => {
+    const current = reevaluate(base)
+    const sameRuleset: MonitoredFund = {
+      ...base, lastVerdict: 'non-compliant', lastCriticalCount: current.criticalCount,
+      lastRulesetVersion: current.rulesetVersion,
+    }
+    expect(detectChange(sameRuleset, current).rulesetChanged).toBe(false)
   })
 })
 
