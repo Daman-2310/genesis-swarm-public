@@ -65,7 +65,7 @@ export default function SecurityPage() {
 
         <Section icon={<GitBranch className="w-4 h-4" />} title="Source available">
           <p>The engine code is public for inspection — no NDA required for technical review:{' '}
-            <a href="https://github.com/Daman-2310/genesis-swarm-public" target="_blank" rel="noopener noreferrer" className="underline hover:text-white" style={{ color: ACCENT }}>github.com/Daman-2310/genesis-swarm-public</a>. The test suite verifies the engines against worked examples.</p>
+            <a href="https://github.com/Daman-2310/provenlex-public" target="_blank" rel="noopener noreferrer" className="underline hover:text-white" style={{ color: ACCENT }}>github.com/Daman-2310/provenlex-public</a>. The test suite verifies the engines against worked examples.</p>
         </Section>
 
         <Section icon={<AlertCircle className="w-4 h-4" />} title="Production vs reference implementation (read this)">
