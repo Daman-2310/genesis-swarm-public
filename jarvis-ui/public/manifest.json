@@ -1,6 +1,6 @@
 {
-  "name": "Genesis Swarm",
-  "short_name": "Genesis Swarm",
+  "name": "ProvenLex",
+  "short_name": "ProvenLex",
   "description": "Deterministic AIFMD II / UCITS prospectus compliance — in the browser, no LLM in the decision path.",
   "start_url": "/",
   "scope": "/",
