@@ -36,13 +36,13 @@ function FxPanel() {
 
   const featured = ['USD', 'GBP', 'CHF', 'JPY']
   return (
-    <div className="rounded-lg p-4" style={{ background: 'rgba(74,158,255,0.03)', border: '1px solid rgba(74,158,255,0.15)' }}>
+    <div className="rounded-lg p-4" style={{ background: 'rgba(91,141,239,0.03)', border: '1px solid rgba(91,141,239,0.15)' }}>
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <TrendingUp className="w-3.5 h-3.5 text-[#4a9eff]" />
-          <span className="text-[10px] font-black uppercase tracking-[0.15em] text-[#4a9eff]">ECB FX Rates</span>
+          <TrendingUp className="w-3.5 h-3.5 text-[#5B8DEF]" />
+          <span className="text-[10px] font-black uppercase tracking-[0.15em] text-[#5B8DEF]">ECB FX Rates</span>
           <span className="px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-wider"
-            style={{ background: 'rgba(0,255,136,0.1)', border: '1px solid rgba(0,255,136,0.35)', color: '#00ff88' }}>
+            style={{ background: 'rgba(16,217,130,0.1)', border: '1px solid rgba(16,217,130,0.35)', color: '#10D982' }}>
             ● LIVE
           </span>
         </div>
@@ -53,7 +53,7 @@ function FxPanel() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
         {loading && !data ? (
           [0, 1, 2, 3].map(i => (
-            <div key={i} className="h-16 rounded animate-pulse" style={{ background: 'rgba(74,158,255,0.04)' }} />
+            <div key={i} className="h-16 rounded animate-pulse" style={{ background: 'rgba(91,141,239,0.04)' }} />
           ))
         ) : (
           featured.map(sym => {
@@ -61,8 +61,8 @@ function FxPanel() {
             return (
               <div key={sym} className="rounded p-2.5"
                 style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
-                <div className="text-[8px] uppercase tracking-widest font-bold text-[rgba(74,158,255,0.6)] mb-1">EUR/{sym}</div>
-                <div className="font-black tabular-nums text-base text-white" style={{ textShadow: '0 0 6px rgba(74,158,255,0.4)' }}>
+                <div className="text-[8px] uppercase tracking-widest font-bold text-[rgba(91,141,239,0.6)] mb-1">EUR/{sym}</div>
+                <div className="font-black tabular-nums text-base text-white" style={{ textShadow: '0 0 6px rgba(91,141,239,0.4)' }}>
                   {rate ? rate.toFixed(sym === 'JPY' ? 2 : 4) : '—'}
                 </div>
               </div>
@@ -116,17 +116,17 @@ function SanctionsPanel() {
 
   const examples = ['ROSNEFT', 'GAZPROM', 'PUTIN', 'SBERBANK']
   const matchColors: Record<SanctionsResult['matchLevel'], string> = {
-    EXACT: '#ff3366', STRONG: '#ff6b3d', PARTIAL: '#ffaa00', WEAK: '#999',
+    EXACT: '#F2566E', STRONG: '#ff6b3d', PARTIAL: '#F5A524', WEAK: '#999',
   }
 
   return (
-    <div className="rounded-lg p-4 flex flex-col" style={{ background: 'rgba(255,51,102,0.03)', border: '1px solid rgba(255,51,102,0.18)' }}>
+    <div className="rounded-lg p-4 flex flex-col" style={{ background: 'rgba(242,86,110,0.03)', border: '1px solid rgba(242,86,110,0.18)' }}>
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <AlertOctagon className="w-3.5 h-3.5 text-[#ff3366]" />
-          <span className="text-[10px] font-black uppercase tracking-[0.15em] text-[#ff3366]">OFAC Sanctions Screening</span>
+          <AlertOctagon className="w-3.5 h-3.5 text-[#F2566E]" />
+          <span className="text-[10px] font-black uppercase tracking-[0.15em] text-[#F2566E]">OFAC Sanctions Screening</span>
           <span className="px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-wider"
-            style={{ background: 'rgba(0,255,136,0.1)', border: '1px solid rgba(0,255,136,0.35)', color: '#00ff88' }}>
+            style={{ background: 'rgba(16,217,130,0.1)', border: '1px solid rgba(16,217,130,0.35)', color: '#10D982' }}>
             ● LIVE
           </span>
         </div>
@@ -145,12 +145,12 @@ function SanctionsPanel() {
             onKeyDown={e => e.key === 'Enter' && screen(q)}
             placeholder="Screen entity against US Treasury SDN list…"
             className="w-full bg-[rgba(255,255,255,0.04)] rounded pl-8 pr-3 py-2 text-[11px] text-white placeholder:text-[rgba(255,255,255,0.3)] focus:outline-none"
-            style={{ border: '1px solid rgba(255,51,102,0.25)' }}
+            style={{ border: '1px solid rgba(242,86,110,0.25)' }}
           />
         </div>
         <button onClick={() => screen(q)} disabled={loading || !q.trim()}
           className="flex items-center gap-1.5 px-3 rounded text-[10px] uppercase tracking-wider font-black disabled:opacity-40"
-          style={{ background: 'rgba(255,51,102,0.12)', border: '1px solid rgba(255,51,102,0.4)', color: '#ff3366' }}>
+          style={{ background: 'rgba(242,86,110,0.12)', border: '1px solid rgba(242,86,110,0.4)', color: '#F2566E' }}>
           {loading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />}
           Screen
         </button>
@@ -161,7 +161,7 @@ function SanctionsPanel() {
         {examples.map(ex => (
           <button key={ex} onClick={() => { setQ(ex); screen(ex) }}
             className="text-[9px] px-2 py-0.5 rounded uppercase tracking-wider"
-            style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,51,102,0.2)', color: '#ff3366' }}>
+            style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(242,86,110,0.2)', color: '#F2566E' }}>
             {ex}
           </button>
         ))}
@@ -175,7 +175,7 @@ function SanctionsPanel() {
           </div>
         )}
         {results !== null && results.length === 0 && !loading && (
-          <div className="flex items-center gap-2 text-[10px] text-[#00ff88]">
+          <div className="flex items-center gap-2 text-[10px] text-[#10D982]">
             <CheckCircle2 className="w-3 h-3" /> No matches — clean pass on US Treasury OFAC SDN list
           </div>
         )}
@@ -183,7 +183,7 @@ function SanctionsPanel() {
           <div className="space-y-1.5">
             {results.map(r => (
               <div key={r.id} className="rounded p-2 flex items-start gap-2"
-                style={{ background: 'rgba(255,51,102,0.04)', border: `1px solid ${matchColors[r.matchLevel]}33` }}>
+                style={{ background: 'rgba(242,86,110,0.04)', border: `1px solid ${matchColors[r.matchLevel]}33` }}>
                 <div className="text-[10px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded shrink-0"
                   style={{ color: matchColors[r.matchLevel], border: `1px solid ${matchColors[r.matchLevel]}`, minWidth: 50, textAlign: 'center' }}>
                   {r.score}
@@ -192,11 +192,11 @@ function SanctionsPanel() {
                   <div className="text-[11px] font-bold text-white truncate">{r.name}</div>
                   <div className="text-[9px] uppercase tracking-wider mt-0.5 flex items-center gap-2 flex-wrap">
                     <span className="font-bold" style={{ color: matchColors[r.matchLevel] }}>{r.matchLevel}</span>
-                    <span className="text-[rgba(74,158,255,0.7)]">{r.type}</span>
+                    <span className="text-[rgba(91,141,239,0.7)]">{r.type}</span>
                     <span className="text-[rgba(255,255,255,0.4)]">SDN #{r.id}</span>
                   </div>
                   {r.program && r.program !== 'unknown' && (
-                    <div className="text-[8px] text-[rgba(255,170,0,0.7)] mt-1 truncate">{r.program}</div>
+                    <div className="text-[8px] text-[rgba(245,165,36,0.7)] mt-1 truncate">{r.program}</div>
                   )}
                 </div>
               </div>
@@ -249,13 +249,13 @@ function GleifPanel() {
   ]
 
   return (
-    <div className="rounded-lg p-4 flex flex-col" style={{ background: 'rgba(0,255,136,0.03)', border: '1px solid rgba(0,255,136,0.18)' }}>
+    <div className="rounded-lg p-4 flex flex-col" style={{ background: 'rgba(16,217,130,0.03)', border: '1px solid rgba(16,217,130,0.18)' }}>
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <Building2 className="w-3.5 h-3.5 text-[#00ff88]" />
-          <span className="text-[10px] font-black uppercase tracking-[0.15em] text-[#00ff88]">GLEIF LEI Lookup</span>
+          <Building2 className="w-3.5 h-3.5 text-[#10D982]" />
+          <span className="text-[10px] font-black uppercase tracking-[0.15em] text-[#10D982]">GLEIF LEI Lookup</span>
           <span className="px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-wider"
-            style={{ background: 'rgba(0,255,136,0.1)', border: '1px solid rgba(0,255,136,0.35)', color: '#00ff88' }}>
+            style={{ background: 'rgba(16,217,130,0.1)', border: '1px solid rgba(16,217,130,0.35)', color: '#10D982' }}>
             ● LIVE
           </span>
         </div>
@@ -273,11 +273,11 @@ function GleifPanel() {
           onKeyDown={e => e.key === 'Enter' && lookup(q)}
           placeholder="Paste a 20-char LEI…"
           className="flex-1 bg-[rgba(255,255,255,0.04)] rounded px-3 py-2 text-[11px] font-mono text-white placeholder:text-[rgba(255,255,255,0.3)] focus:outline-none"
-          style={{ border: '1px solid rgba(0,255,136,0.25)' }}
+          style={{ border: '1px solid rgba(16,217,130,0.25)' }}
         />
         <button onClick={() => lookup(q)} disabled={loading || !q.trim()}
           className="flex items-center gap-1.5 px-3 rounded text-[10px] uppercase tracking-wider font-black disabled:opacity-40"
-          style={{ background: 'rgba(0,255,136,0.12)', border: '1px solid rgba(0,255,136,0.4)', color: '#00ff88' }}>
+          style={{ background: 'rgba(16,217,130,0.12)', border: '1px solid rgba(16,217,130,0.4)', color: '#10D982' }}>
           {loading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />}
           Look Up
         </button>
@@ -288,7 +288,7 @@ function GleifPanel() {
         {examples.map(ex => (
           <button key={ex.lei} onClick={() => { setQ(ex.lei); lookup(ex.lei) }}
             className="text-[9px] px-2 py-0.5 rounded uppercase tracking-wider"
-            style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(0,255,136,0.2)', color: '#00ff88' }}>
+            style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(16,217,130,0.2)', color: '#10D982' }}>
             {ex.label}
           </button>
         ))}
@@ -301,13 +301,13 @@ function GleifPanel() {
           </div>
         )}
         {result?.error && (
-          <div className="text-[10px] text-[#ff3366]">{result.error}</div>
+          <div className="text-[10px] text-[#F2566E]">{result.error}</div>
         )}
         {result && !result.error && result.legalName && (
           <div className="space-y-2">
             <div>
               <div className="text-[10px] font-bold text-white">{result.legalName}</div>
-              <div className="font-mono text-[9px] text-[rgba(0,255,136,0.6)] mt-0.5">{result.lei}</div>
+              <div className="font-mono text-[9px] text-[rgba(16,217,130,0.6)] mt-0.5">{result.lei}</div>
             </div>
             <div className="grid grid-cols-2 gap-2 text-[9px]">
               <div>
@@ -316,7 +316,7 @@ function GleifPanel() {
               </div>
               <div>
                 <div className="text-[7px] uppercase tracking-widest text-[rgba(255,255,255,0.3)]">Status</div>
-                <div className="font-bold text-[#00ff88]">{result.status ?? '—'}</div>
+                <div className="font-bold text-[#10D982]">{result.status ?? '—'}</div>
               </div>
               <div>
                 <div className="text-[7px] uppercase tracking-widest text-[rgba(255,255,255,0.3)]">Legal Form</div>
@@ -330,7 +330,7 @@ function GleifPanel() {
               </div>
             </div>
             {result.registration?.initialRegistrationDate && (
-              <div className="pt-1 border-t border-[rgba(0,255,136,0.08)] text-[8px] text-[rgba(255,255,255,0.4)] uppercase tracking-wider">
+              <div className="pt-1 border-t border-[rgba(16,217,130,0.08)] text-[8px] text-[rgba(255,255,255,0.4)] uppercase tracking-wider">
                 Registered: {result.registration.initialRegistrationDate.slice(0, 10)}
                 {result.registration.lastUpdateDate && ` · Updated: ${result.registration.lastUpdateDate.slice(0, 10)}`}
               </div>
@@ -352,7 +352,7 @@ export default function LiveIntelligence() {
       }}>
       <div className="px-4 py-3 flex items-center justify-between" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(0,0,0,0.3)' }}>
         <div className="flex items-center gap-2.5">
-          <div className="w-1 h-5 rounded-full" style={{ background: '#00ff88', boxShadow: '0 0 8px #00ff88' }} />
+          <div className="w-1 h-5 rounded-full" style={{ background: '#10D982', boxShadow: '0 0 8px #10D982' }} />
           <div>
             <div className="text-[10px] font-black tracking-[0.15em] uppercase text-white">Live Intelligence Feed</div>
             <div className="text-[8px] tracking-wider mt-0.5 uppercase" style={{ color: 'rgba(255,255,255,0.4)' }}>
@@ -361,8 +361,8 @@ export default function LiveIntelligence() {
           </div>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#00ff88]" style={{ animation: 'pulse 0.8s ease-in-out infinite', boxShadow: '0 0 6px #00ff88' }} />
-          <span className="text-[8px] font-black uppercase tracking-wider text-[#00ff88]">REAL DATA</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-[#10D982]" style={{ animation: 'pulse 0.8s ease-in-out infinite', boxShadow: '0 0 6px #10D982' }} />
+          <span className="text-[8px] font-black uppercase tracking-wider text-[#10D982]">REAL DATA</span>
         </div>
       </div>
 

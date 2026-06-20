@@ -209,7 +209,7 @@ export default function CompliancePage() {
 
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '28px' }}>
-        <div style={{ width: 8, height: 8, borderRadius: '50%', background: connected ? '#22c55e' : connecting ? '#f59e0b' : '#4b5563', boxShadow: connected ? '0 0 8px #22c55e' : 'none' }} />
+        <div style={{ width: 8, height: 8, borderRadius: '50%', background: connected ? '#22c55e' : connecting ? '#F5A524' : '#4b5563', boxShadow: connected ? '0 0 8px #22c55e' : 'none' }} />
         <span style={{ color: '#c9a84c', fontWeight: 700, fontSize: '14px', letterSpacing: '0.12em' }}>GENESIS SWARM</span>
         <span style={{ color: '#4b5563' }}>|</span>
         <span style={{ color: '#94a3b8', fontSize: '13px' }}>LUXEMBOURG COMPLIANCE REVIEW ENGINE</span>
@@ -288,7 +288,7 @@ export default function CompliancePage() {
               const run  = ev?.status === 'RUNNING'
               return (
                 <div key={id} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0', borderBottom: i < 9 ? '1px solid #0f1f35' : 'none' }}>
-                  <div style={{ width: 6, height: 6, borderRadius: '50%', flexShrink: 0, background: err ? '#dc2626' : done ? '#22c55e' : run ? '#f59e0b' : '#1e3a5f', boxShadow: run ? '0 0 6px #f59e0b' : done ? '0 0 4px #22c55e' : 'none' }} />
+                  <div style={{ width: 6, height: 6, borderRadius: '50%', flexShrink: 0, background: err ? '#dc2626' : done ? '#22c55e' : run ? '#F5A524' : '#1e3a5f', boxShadow: run ? '0 0 6px #F5A524' : done ? '0 0 4px #22c55e' : 'none' }} />
                   <span style={{ color: done ? '#94a3b8' : run ? '#fbbf24' : '#374151', fontSize: '11px', flex: 1 }}>{name}</span>
                   {ev && <span style={{ color: '#4b5563', fontSize: '9px' }}>{ev.elapsed_ms.toFixed(0)}ms</span>}
                 </div>
@@ -344,7 +344,7 @@ export default function CompliancePage() {
                     ['ESG', report.risk_score.esg],
                   ].map(([k, v]) => {
                     const score = Number(v)
-                    const col = score >= 60 ? '#dc2626' : score >= 30 ? '#f59e0b' : '#22c55e'
+                    const col = score >= 60 ? '#dc2626' : score >= 30 ? '#F5A524' : '#22c55e'
                     return (
                       <div key={k} style={{ background: '#050a14', border: '1px solid #1e3a5f', borderRadius: 6, padding: '10px 12px' }}>
                         <div style={{ color: '#4b5563', fontSize: '9px', marginBottom: 4 }}>{k}</div>

@@ -1,25 +1,13 @@
-// Returns REAL ingested prospectus claims for an entity, if any exist.
-// GET /api/mirror/real?id=<prophecy_id>
-//
-// Used by the Mirror entity page (client side) to surface a "real extracted
-// claims" panel above the synthetic model when a document has been ingested.
+// RETIRED 2026-06-13. This endpoint served or generated speculative / LLM /
+// fabricated assessments (risk verdicts, prophecies, scores, "agent findings")
+// about NAMED real entities — or exposed an AI-plugin surface. That has no place
+// in a deterministic, no-LLM compliance product and carries defamation + GDPR
+// (Art. 5/6) exposure. Use the client-side scanner at /scan (nothing is uploaded).
 
-import { NextRequest } from 'next/server'
-import { getRealMirror } from '@/lib/prospectus-real'
-
-export const runtime = 'nodejs'
-
-export async function GET(req: NextRequest) {
-  const id = new URL(req.url).searchParams.get('id')
-  if (!id) return Response.json({ error: 'missing_id' }, { status: 400 })
-
-  const real = await getRealMirror(id)
-  if (!real) {
-    return Response.json({ ok: true, has_real: false }, {
-      headers: { 'Cache-Control': 'public, max-age=120' },
-    })
-  }
-  return Response.json({ ok: true, has_real: true, ...real }, {
-    headers: { 'Cache-Control': 'public, max-age=120' },
-  })
+const GONE = {
+  error: 'gone',
+  message: 'Retired — this surface produced or served fabricated/LLM assessments about named entities. Use the deterministic client-side scanner at /scan.',
 }
+
+export async function GET() { return Response.json(GONE, { status: 410 }) }
+export async function POST() { return Response.json(GONE, { status: 410 }) }

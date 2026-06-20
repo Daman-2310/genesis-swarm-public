@@ -49,8 +49,8 @@ const TIERS = [
       'Unlimited fund entities', 'Everything in Professional',
       'Dedicated Customer Success Manager', 'On-premise / VPC deployment',
       'API access (full v1)', 'Custom regulatory modules',
-      'SLA guarantee (99.9% uptime)', 'CSSF liaison support',
-      'White-label option', 'SOC 2 Type II report on request',
+      'Custom uptime SLA', 'CSSF liaison support',
+      'White-label option', 'Security review support (pen-test + questionnaire)',
       'Quarterly compliance review calls',
     ],
     missing: [],
@@ -121,26 +121,26 @@ export default function PricingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#050508] text-[#00ff88] font-mono overflow-x-hidden">
+    <div className="min-h-screen bg-[#050508] text-[#10D982] font-mono overflow-x-hidden">
       <div className="scanline pointer-events-none fixed inset-0 z-50" />
 
       {/* Nav */}
-      <div className="sticky top-0 z-40 flex items-center justify-between px-6 py-3 border-b border-[rgba(0,255,136,0.12)]" style={{ background: 'rgba(5,5,8,0.97)', backdropFilter: 'blur(8px)' }}>
+      <div className="sticky top-0 z-40 flex items-center justify-between px-6 py-3 border-b border-[rgba(16,217,130,0.12)]" style={{ background: 'rgba(5,5,8,0.97)', backdropFilter: 'blur(8px)' }}>
         <div className="flex items-center gap-3">
-          <div className="w-2 h-2 rounded-full bg-[#00ff88] animate-pulse" />
-          <a href="/operator" className="font-bold tracking-[0.2em] text-sm uppercase hover:opacity-80">Genesis Swarm</a>
-          <span className="text-[rgba(0,255,136,0.4)] text-[10px] tracking-widest hidden sm:block">// Pricing</span>
+          <div className="w-2 h-2 rounded-full bg-[#10D982] animate-pulse" />
+          <a href="/dashboard" className="font-bold tracking-[0.2em] text-sm uppercase hover:opacity-80">Genesis Swarm</a>
+          <span className="text-[rgba(16,217,130,0.4)] text-[10px] tracking-widest hidden sm:block">// Pricing</span>
         </div>
-        <a href="/operator" className="text-[9px] uppercase tracking-wider px-3 py-1.5 border border-[rgba(0,255,136,0.3)] text-[#00ff88] rounded hover:bg-[rgba(0,255,136,0.08)] transition-colors">← Dashboard</a>
+        <a href="/dashboard" className="text-[9px] uppercase tracking-wider px-3 py-1.5 border border-[rgba(16,217,130,0.3)] text-[#10D982] rounded hover:bg-[rgba(16,217,130,0.08)] transition-colors">← Dashboard</a>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-16">
         {/* Hero */}
         <div className="text-center space-y-4">
-          <div className="text-[9px] uppercase tracking-[0.4em] text-[rgba(0,255,136,0.5)]">Transparent · No hidden fees</div>
+          <div className="text-[9px] uppercase tracking-[0.4em] text-[rgba(16,217,130,0.5)]">Transparent · No hidden fees</div>
           <h1 className="text-4xl sm:text-5xl font-black tracking-tight">RegTech that pays for itself</h1>
           <p className="text-[rgba(255,255,255,0.45)] text-base max-w-xl mx-auto leading-relaxed">One CSSF fine covers years of Genesis Swarm. Most Luxembourg funds spend €80k–€200k per year on compliance consultants. We cost a fraction.</p>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded text-[10px] uppercase tracking-wider font-bold" style={{ background: 'rgba(255,170,0,0.08)', border: '1px solid rgba(255,170,0,0.35)', color: '#ffaa00' }}>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded text-[10px] uppercase tracking-wider font-bold" style={{ background: 'rgba(245,165,36,0.08)', border: '1px solid rgba(245,165,36,0.35)', color: '#F5A524' }}>
             <Zap className="w-3.5 h-3.5" /> DORA deadline: 17 Jan 2025 — Luxembourg enforcement ongoing
           </div>
         </div>
@@ -149,18 +149,18 @@ export default function PricingPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
           {TIERS.map(t => (
             <div key={t.name} className="rounded-lg p-6 space-y-5 flex flex-col relative" style={{
-              background: t.highlight ? 'rgba(0,255,136,0.05)' : 'rgba(0,255,136,0.02)',
-              border: t.highlight ? '2px solid rgba(0,255,136,0.5)' : '1px solid rgba(0,255,136,0.15)',
-              boxShadow: t.highlight ? '0 0 40px rgba(0,255,136,0.1)' : 'none',
+              background: t.highlight ? 'rgba(16,217,130,0.05)' : 'rgba(16,217,130,0.02)',
+              border: t.highlight ? '2px solid rgba(16,217,130,0.5)' : '1px solid rgba(16,217,130,0.15)',
+              boxShadow: t.highlight ? '0 0 40px rgba(16,217,130,0.1)' : 'none',
             }}>
               {t.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-[8px] uppercase tracking-widest font-black" style={{ background: '#00ff88', color: '#050508' }}>{t.badge}</div>
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-[8px] uppercase tracking-widest font-black" style={{ background: '#10D982', color: '#050508' }}>{t.badge}</div>
               )}
               <div>
-                <div className="text-[9px] uppercase tracking-widest text-[rgba(0,255,136,0.5)] mb-1">{t.tagline}</div>
+                <div className="text-[9px] uppercase tracking-widest text-[rgba(16,217,130,0.5)] mb-1">{t.tagline}</div>
                 <div className="text-xl font-black text-white">{t.name}</div>
                 <div className="flex items-baseline gap-1 mt-2">
-                  <span className="text-4xl font-black" style={{ color: t.highlight ? '#00ff88' : 'rgba(255,255,255,0.9)' }}>{t.price}</span>
+                  <span className="text-4xl font-black" style={{ color: t.highlight ? '#10D982' : 'rgba(255,255,255,0.9)' }}>{t.price}</span>
                   {t.period && <span className="text-[rgba(255,255,255,0.35)] text-xs">{t.period}</span>}
                 </div>
               </div>
@@ -168,7 +168,7 @@ export default function PricingPage() {
               <div className="space-y-1.5 flex-1">
                 {t.features.map(f => (
                   <div key={f} className="flex items-start gap-2 text-[10px] text-[rgba(255,255,255,0.65)]">
-                    <CheckCircle className="w-3 h-3 text-[#00ff88] shrink-0 mt-0.5" />
+                    <CheckCircle className="w-3 h-3 text-[#10D982] shrink-0 mt-0.5" />
                     <span>{f}</span>
                   </div>
                 ))}
@@ -181,10 +181,10 @@ export default function PricingPage() {
               </div>
 
               <button onClick={() => subscribe(t.tier)} disabled={loading !== null} className="w-full block text-center py-3 rounded font-bold text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 disabled:opacity-60" style={{
-                background: t.highlight ? 'rgba(0,255,136,0.15)' : 'rgba(0,255,136,0.06)',
-                border: `1px solid ${t.highlight ? 'rgba(0,255,136,0.6)' : 'rgba(0,255,136,0.25)'}`,
-                color: '#00ff88',
-                boxShadow: t.highlight ? '0 0 20px rgba(0,255,136,0.15)' : 'none',
+                background: t.highlight ? 'rgba(16,217,130,0.15)' : 'rgba(16,217,130,0.06)',
+                border: `1px solid ${t.highlight ? 'rgba(16,217,130,0.6)' : 'rgba(16,217,130,0.25)'}`,
+                color: '#10D982',
+                boxShadow: t.highlight ? '0 0 20px rgba(16,217,130,0.15)' : 'none',
               }}>
                 {loading === t.tier ? <><Loader2 className="w-4 h-4 animate-spin" /> Opening checkout…</> : t.cta}
               </button>
@@ -198,19 +198,19 @@ export default function PricingPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-[10px]">
               <thead>
-                <tr className="border-b border-[rgba(0,255,136,0.15)]">
-                  <th className="text-left py-3 px-4 text-[rgba(0,255,136,0.5)] uppercase tracking-widest font-bold w-1/3">Feature</th>
-                  <th className="text-center py-3 px-4 text-[rgba(0,255,136,0.5)] uppercase tracking-widest font-bold">Starter</th>
-                  <th className="text-center py-3 px-4 text-[#00ff88] uppercase tracking-widest font-bold">Professional</th>
-                  <th className="text-center py-3 px-4 text-[rgba(0,255,136,0.5)] uppercase tracking-widest font-bold">Enterprise</th>
+                <tr className="border-b border-[rgba(16,217,130,0.15)]">
+                  <th className="text-left py-3 px-4 text-[rgba(16,217,130,0.5)] uppercase tracking-widest font-bold w-1/3">Feature</th>
+                  <th className="text-center py-3 px-4 text-[rgba(16,217,130,0.5)] uppercase tracking-widest font-bold">Starter</th>
+                  <th className="text-center py-3 px-4 text-[#10D982] uppercase tracking-widest font-bold">Professional</th>
+                  <th className="text-center py-3 px-4 text-[rgba(16,217,130,0.5)] uppercase tracking-widest font-bold">Enterprise</th>
                 </tr>
               </thead>
               <tbody>
                 {COMPARE.map((row, i) => (
-                  <tr key={row.feature} className="border-b border-[rgba(0,255,136,0.06)]" style={{ background: i % 2 === 0 ? 'rgba(0,255,136,0.01)' : 'transparent' }}>
+                  <tr key={row.feature} className="border-b border-[rgba(16,217,130,0.06)]" style={{ background: i % 2 === 0 ? 'rgba(16,217,130,0.01)' : 'transparent' }}>
                     <td className="py-2.5 px-4 text-[rgba(255,255,255,0.6)]">{row.feature}</td>
                     <td className="py-2.5 px-4 text-center text-[rgba(255,255,255,0.4)]"><CompareCell value={row.starter} /></td>
-                    <td className="py-2.5 px-4 text-center text-[#00ff88] font-bold"><CompareCell value={row.pro} /></td>
+                    <td className="py-2.5 px-4 text-center text-[#10D982] font-bold"><CompareCell value={row.pro} /></td>
                     <td className="py-2.5 px-4 text-center text-[rgba(255,255,255,0.4)]"><CompareCell value={row.enterprise} /></td>
                   </tr>
                 ))}
@@ -220,14 +220,14 @@ export default function PricingPage() {
         </div>
 
         {/* Trust bar */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 py-8 border-t border-b border-[rgba(0,255,136,0.1)]">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 py-8 border-t border-b border-[rgba(16,217,130,0.1)]">
           {[
             { icon: Shield, title: '90-day pilot', body: 'No commitment. Cancel any time. Full access from day one.' },
             { icon: Globe, title: 'Luxembourg-native', body: 'Built specifically for CSSF, DORA, AIFMD II, and SFDR frameworks.' },
             { icon: Zap, title: 'Live in 24h', body: 'No lengthy onboarding. You get compliance output on day one.' },
           ].map(({ icon: Icon, title, body }) => (
-            <div key={title} className="flex items-start gap-3 p-4 rounded" style={{ background: 'rgba(0,255,136,0.02)', border: '1px solid rgba(0,255,136,0.1)' }}>
-              <Icon className="w-5 h-5 text-[#00ff88] shrink-0 mt-0.5" />
+            <div key={title} className="flex items-start gap-3 p-4 rounded" style={{ background: 'rgba(16,217,130,0.02)', border: '1px solid rgba(16,217,130,0.1)' }}>
+              <Icon className="w-5 h-5 text-[#10D982] shrink-0 mt-0.5" />
               <div>
                 <div className="font-bold text-white text-sm mb-1">{title}</div>
                 <div className="text-[rgba(255,255,255,0.4)] text-[11px] leading-relaxed">{body}</div>
@@ -238,7 +238,7 @@ export default function PricingPage() {
 
         {/* Error banner */}
         {error && (
-          <div className="rounded p-3 text-center text-[11px]" style={{ background: 'rgba(255,170,0,0.08)', border: '1px solid rgba(255,170,0,0.35)', color: '#ffaa00' }}>
+          <div className="rounded p-3 text-center text-[11px]" style={{ background: 'rgba(245,165,36,0.08)', border: '1px solid rgba(245,165,36,0.35)', color: '#F5A524' }}>
             {error}
           </div>
         )}
@@ -246,7 +246,7 @@ export default function PricingPage() {
         {/* CTA */}
         <div className="text-center space-y-4">
           <p className="text-[rgba(255,255,255,0.4)] text-sm">Questions? Talk to the founding team directly.</p>
-          <a href="/trial" className="inline-flex items-center gap-2 px-8 py-3.5 rounded font-bold text-sm uppercase tracking-wider transition-all" style={{ background: 'rgba(0,255,136,0.12)', border: '1px solid rgba(0,255,136,0.6)', color: '#00ff88', boxShadow: '0 0 30px rgba(0,255,136,0.15)' }}>
+          <a href="/trial" className="inline-flex items-center gap-2 px-8 py-3.5 rounded font-bold text-sm uppercase tracking-wider transition-all" style={{ background: 'rgba(16,217,130,0.12)', border: '1px solid rgba(16,217,130,0.6)', color: '#10D982', boxShadow: '0 0 30px rgba(16,217,130,0.15)' }}>
             <Zap className="w-4 h-4" /> Request 90-day pilot
           </a>
         </div>

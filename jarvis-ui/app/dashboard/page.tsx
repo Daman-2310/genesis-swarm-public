@@ -53,9 +53,9 @@ interface AlertPreferences {
 
 function PlanBadge({ plan }: { plan: string }) {
   const tiers: Record<string, { label: string; color: string }> = {
-    starter:    { label: 'Starter',    color: '#4a9eff' },
-    pro:        { label: 'Pro',        color: '#00ff88' },
-    enterprise: { label: 'Enterprise', color: '#ffaa00' },
+    starter:    { label: 'Starter',    color: '#5B8DEF' },
+    pro:        { label: 'Pro',        color: '#10D982' },
+    enterprise: { label: 'Enterprise', color: '#F5A524' },
   }
   const t = tiers[plan] ?? tiers.starter
   return (
@@ -193,7 +193,7 @@ function DashboardInner() {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#050508] flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-[#00ff88] animate-spin" />
+        <Loader2 className="w-6 h-6 text-[#10D982] animate-spin" />
       </div>
     )
   }
@@ -210,16 +210,16 @@ function DashboardInner() {
         style={{ background: 'rgba(5,5,12,0.85)', backdropFilter: 'blur(16px)' }}>
         <a href="/" className="flex items-center gap-2.5">
           <div className="w-7 h-7 rounded-md flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #00ff88 0%, #00aa55 100%)', boxShadow: '0 0 14px rgba(0,255,136,0.4)' }}>
+            style={{ background: 'linear-gradient(135deg, #10D982 0%, #0B9E63 100%)', boxShadow: '0 0 14px rgba(16,217,130,0.4)' }}>
             <Sparkles className="w-4 h-4 text-black" />
           </div>
           <div className="leading-tight">
             <div className="text-sm font-black tracking-[0.15em] text-white">GENESIS SWARM</div>
-            <div className="text-[8px] uppercase tracking-[0.25em] text-[#00ff88]">DASHBOARD</div>
+            <div className="text-[8px] uppercase tracking-[0.25em] text-[#10D982]">DASHBOARD</div>
           </div>
         </a>
         <div className="flex items-center gap-3">
-          <a href="/operator" className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded text-[10px] uppercase tracking-wider font-bold text-[rgba(255,255,255,0.7)] hover:text-white">
+          <a href="/dashboard" className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded text-[10px] uppercase tracking-wider font-bold text-[rgba(255,255,255,0.7)] hover:text-white">
             <Activity className="w-3 h-3" /> Live Dashboard
           </a>
           <a href="/analyze" className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded text-[10px] uppercase tracking-wider font-bold text-[rgba(255,255,255,0.7)] hover:text-white">
@@ -232,8 +232,8 @@ function DashboardInner() {
             <Newspaper className="w-3 h-3" /> Intelligence
           </a>
           <button onClick={logout}
-            className="p-2 rounded transition-all hover:bg-[rgba(255,51,102,0.08)]"
-            style={{ border: '1px solid rgba(255,51,102,0.2)', color: 'rgba(255,51,102,0.6)' }}
+            className="p-2 rounded transition-all hover:bg-[rgba(242,86,110,0.08)]"
+            style={{ border: '1px solid rgba(242,86,110,0.2)', color: 'rgba(242,86,110,0.6)' }}
             title="Sign out">
             <LogOut className="w-3.5 h-3.5" />
           </button>
@@ -244,8 +244,8 @@ function DashboardInner() {
 
         {upgraded && (
           <div className="mb-6 rounded-xl p-4 flex items-center gap-3"
-            style={{ background: 'rgba(0,255,136,0.06)', border: '1px solid rgba(0,255,136,0.35)' }}>
-            <CheckCircle2 className="w-5 h-5 text-[#00ff88]" />
+            style={{ background: 'rgba(16,217,130,0.06)', border: '1px solid rgba(16,217,130,0.35)' }}>
+            <CheckCircle2 className="w-5 h-5 text-[#10D982]" />
             <div className="flex-1">
               <div className="font-black text-sm text-white">Welcome to {upgraded.charAt(0).toUpperCase() + upgraded.slice(1)}</div>
               <div className="text-[11px] text-[rgba(255,255,255,0.55)]">Your subscription is active — 14-day trial starts now.</div>
@@ -272,9 +272,9 @@ function DashboardInner() {
             <button onClick={() => upgrade('pro')} disabled={upgradeBusy === 'pro'}
               className="px-4 py-2 rounded text-[10px] uppercase tracking-wider font-black flex items-center gap-1.5"
               style={{
-                background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
+                background: 'linear-gradient(135deg, #10D982 0%, #0B9E63 100%)',
                 color: '#000',
-                boxShadow: '0 0 16px rgba(0,255,136,0.35)',
+                boxShadow: '0 0 16px rgba(16,217,130,0.35)',
               }}>
               {upgradeBusy === 'pro' ? <Loader2 className="w-3 h-3 animate-spin" /> : <Crown className="w-3 h-3" />}
               Upgrade to Pro €499/mo
@@ -285,7 +285,7 @@ function DashboardInner() {
         {/* Persistence warning when in-memory */}
         {persistence === 'memory' && (
           <div className="mb-6 rounded-lg p-3 text-[10px] flex items-center gap-2"
-            style={{ background: 'rgba(255,170,0,0.04)', border: '1px solid rgba(255,170,0,0.25)', color: '#ffaa00' }}>
+            style={{ background: 'rgba(245,165,36,0.04)', border: '1px solid rgba(245,165,36,0.25)', color: '#F5A524' }}>
             ⓘ <span>Persistence in transient memory — saved analyses will not survive server restarts. Provision Vercel KV (Upstash) to enable durable storage.</span>
           </div>
         )}
@@ -294,27 +294,27 @@ function DashboardInner() {
         {benchmark && benchmark.hasData && (
           <section className="mb-8">
             <div className="rounded-2xl p-6"
-              style={{ background: 'linear-gradient(135deg, rgba(155,109,255,0.04) 0%, rgba(74,158,255,0.03) 100%)',
-                       border: '1px solid rgba(155,109,255,0.3)',
-                       boxShadow: '0 0 40px rgba(155,109,255,0.06)' }}>
+              style={{ background: 'linear-gradient(135deg, rgba(91,141,239,0.04) 0%, rgba(91,141,239,0.03) 100%)',
+                       border: '1px solid rgba(91,141,239,0.3)',
+                       boxShadow: '0 0 40px rgba(91,141,239,0.06)' }}>
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <div className="text-[10px] uppercase tracking-[0.25em] text-[#9b6dff] font-black mb-1">INDUSTRY BENCHMARK</div>
+                  <div className="text-[10px] uppercase tracking-[0.25em] text-[#5B8DEF] font-black mb-1">INDUSTRY BENCHMARK</div>
                   <h2 className="text-2xl md:text-3xl font-black text-white">
                     You&apos;re at the{' '}
-                    <span style={{ background: 'linear-gradient(90deg, #9b6dff, #4a9eff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                    <span style={{ background: 'linear-gradient(90deg, #5B8DEF, #5B8DEF)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                       {benchmark.percentile}{benchmark.percentile && benchmark.percentile >= 4 ? <sup className="text-base">th</sup> : null}
                     </span>{' '}
                     percentile
                   </h2>
                   <div className="text-[11px] text-[rgba(255,255,255,0.5)] mt-1">
                     among {benchmark.totalFunds} Luxembourg AIFMs tracked
-                    {benchmark.mode === 'synthetic-baseline' && <span className="text-[#ffaa00] ml-1">(baseline)</span>}
+                    {benchmark.mode === 'synthetic-baseline' && <span className="text-[#F5A524] ml-1">(baseline)</span>}
                   </div>
                 </div>
                 <div className="text-right">
                   <div className="text-4xl font-black tabular-nums"
-                    style={{ color: '#9b6dff', textShadow: '0 0 24px rgba(155,109,255,0.5)' }}>
+                    style={{ color: '#5B8DEF', textShadow: '0 0 24px rgba(91,141,239,0.5)' }}>
                     {benchmark.myAvg}
                   </div>
                   <div className="text-[9px] uppercase tracking-widest text-[rgba(255,255,255,0.4)]">avg compliance</div>
@@ -327,11 +327,11 @@ function DashboardInner() {
                 </div>
                 <div>
                   <div className="text-[8px] uppercase tracking-widest text-[rgba(255,255,255,0.4)] mb-1">Top 10%</div>
-                  <div className="text-lg font-black tabular-nums text-[#00ff88]">{benchmark.top10}</div>
+                  <div className="text-lg font-black tabular-nums text-[#10D982]">{benchmark.top10}</div>
                 </div>
                 <div>
                   <div className="text-[8px] uppercase tracking-widest text-[rgba(255,255,255,0.4)] mb-1">Your gap to top 10%</div>
-                  <div className="text-lg font-black tabular-nums text-[#ffaa00]">{(benchmark.top10 - benchmark.myAvg).toFixed(1)}</div>
+                  <div className="text-lg font-black tabular-nums text-[#F5A524]">{(benchmark.top10 - benchmark.myAvg).toFixed(1)}</div>
                 </div>
               </div>
             </div>
@@ -349,7 +349,7 @@ function DashboardInner() {
             </div>
             <a href="/analyze"
               className="flex items-center gap-1.5 px-3 py-2 rounded text-[10px] uppercase tracking-wider font-bold"
-              style={{ background: 'rgba(0,255,136,0.08)', border: '1px solid rgba(0,255,136,0.35)', color: '#00ff88' }}>
+              style={{ background: 'rgba(16,217,130,0.08)', border: '1px solid rgba(16,217,130,0.35)', color: '#10D982' }}>
               <Plus className="w-3 h-3" /> Analyse New Fund
             </a>
           </div>
@@ -362,9 +362,9 @@ function DashboardInner() {
               <a href="/analyze"
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded text-[11px] uppercase tracking-wider font-black"
                 style={{
-                  background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
+                  background: 'linear-gradient(135deg, #10D982 0%, #0B9E63 100%)',
                   color: '#000',
-                  boxShadow: '0 0 16px rgba(0,255,136,0.3)',
+                  boxShadow: '0 0 16px rgba(16,217,130,0.3)',
                 }}>
                 Drop your first prospectus <ArrowRight className="w-3 h-3" />
               </a>
@@ -372,7 +372,7 @@ function DashboardInner() {
           ) : (
             <div className="space-y-2">
               {items.map(item => {
-                const color = item.complianceScore >= 80 ? '#00ff88' : item.complianceScore >= 60 ? '#ffaa00' : '#ff3366'
+                const color = item.complianceScore >= 80 ? '#10D982' : item.complianceScore >= 60 ? '#F5A524' : '#F2566E'
                 return (
                   <div key={item.id} className="rounded-lg p-4 flex items-center gap-4"
                     style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
@@ -395,8 +395,8 @@ function DashboardInner() {
                       )}
                     </div>
                     <button onClick={() => remove(item.id)}
-                      className="p-2 rounded transition-all hover:bg-[rgba(255,51,102,0.08)]"
-                      style={{ color: 'rgba(255,51,102,0.5)' }} title="Remove">
+                      className="p-2 rounded transition-all hover:bg-[rgba(242,86,110,0.08)]"
+                      style={{ color: 'rgba(242,86,110,0.5)' }} title="Remove">
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -411,32 +411,32 @@ function DashboardInner() {
           <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
             <div>
               <h2 className="text-base font-black uppercase tracking-[0.15em] text-white flex items-center gap-2">
-                <Key className="w-4 h-4 text-[#4a9eff]" /> API Keys
+                <Key className="w-4 h-4 text-[#5B8DEF]" /> API Keys
               </h2>
               <p className="text-[11px] text-[rgba(255,255,255,0.45)] mt-1">
                 Embed Genesis Swarm into your stack. Rate-limited by plan.
               </p>
             </div>
             <a href="/docs" className="flex items-center gap-1.5 px-3 py-2 rounded text-[10px] uppercase tracking-wider font-bold"
-              style={{ background: 'rgba(74,158,255,0.08)', border: '1px solid rgba(74,158,255,0.35)', color: '#4a9eff' }}>
+              style={{ background: 'rgba(91,141,239,0.08)', border: '1px solid rgba(91,141,239,0.35)', color: '#5B8DEF' }}>
               <Code2 className="w-3 h-3" /> API Docs
             </a>
           </div>
 
           {newPlainKey && (
             <div className="rounded-xl p-4 mb-4"
-              style={{ background: 'rgba(255,170,0,0.05)', border: '1px solid rgba(255,170,0,0.4)', boxShadow: '0 0 24px rgba(255,170,0,0.08)' }}>
+              style={{ background: 'rgba(245,165,36,0.05)', border: '1px solid rgba(245,165,36,0.4)', boxShadow: '0 0 24px rgba(245,165,36,0.08)' }}>
               <div className="flex items-center gap-2 mb-2">
-                <Key className="w-3.5 h-3.5 text-[#ffaa00]" />
-                <span className="text-[10px] uppercase tracking-[0.2em] font-black text-[#ffaa00]">SAVE THIS KEY NOW</span>
+                <Key className="w-3.5 h-3.5 text-[#F5A524]" />
+                <span className="text-[10px] uppercase tracking-[0.2em] font-black text-[#F5A524]">SAVE THIS KEY NOW</span>
               </div>
               <p className="text-[11px] text-[rgba(255,255,255,0.65)] mb-2">It will not be shown again.</p>
               <div className="flex items-center gap-2">
-                <code className="flex-1 font-mono text-[12px] text-[#ffaa00] bg-[rgba(0,0,0,0.4)] px-3 py-2 rounded break-all"
-                  style={{ border: '1px solid rgba(255,170,0,0.25)' }}>{newPlainKey}</code>
+                <code className="flex-1 font-mono text-[12px] text-[#F5A524] bg-[rgba(0,0,0,0.4)] px-3 py-2 rounded break-all"
+                  style={{ border: '1px solid rgba(245,165,36,0.25)' }}>{newPlainKey}</code>
                 <button onClick={() => { navigator.clipboard.writeText(newPlainKey); setNewPlainKey(null) }}
                   className="px-3 py-2 rounded text-[10px] uppercase tracking-wider font-bold"
-                  style={{ background: 'rgba(255,170,0,0.15)', border: '1px solid rgba(255,170,0,0.45)', color: '#ffaa00' }}>
+                  style={{ background: 'rgba(245,165,36,0.15)', border: '1px solid rgba(245,165,36,0.45)', color: '#F5A524' }}>
                   <Copy className="w-3 h-3 inline" /> Copy & close
                 </button>
               </div>
@@ -450,10 +450,10 @@ function DashboardInner() {
                 onChange={e => setKeyName(e.target.value)}
                 placeholder="Key name (e.g. 'Production', 'My laptop')"
                 className="flex-1 bg-[rgba(0,0,0,0.4)] rounded px-3 py-2 text-[11px] text-white placeholder:text-[rgba(255,255,255,0.3)] focus:outline-none"
-                style={{ border: '1px solid rgba(74,158,255,0.25)' }} />
+                style={{ border: '1px solid rgba(91,141,239,0.25)' }} />
               <button onClick={createApiKey} disabled={keyCreating}
                 className="flex items-center gap-1.5 px-4 py-2 rounded text-[10px] uppercase tracking-wider font-black disabled:opacity-50"
-                style={{ background: 'linear-gradient(135deg, #4a9eff 0%, #2c6bbd 100%)', color: '#fff', boxShadow: '0 0 16px rgba(74,158,255,0.3)' }}>
+                style={{ background: 'linear-gradient(135deg, #5B8DEF 0%, #2c6bbd 100%)', color: '#fff', boxShadow: '0 0 16px rgba(91,141,239,0.3)' }}>
                 {keyCreating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Plus className="w-3 h-3" />}
                 Create key
               </button>
@@ -463,26 +463,26 @@ function DashboardInner() {
           {apiKeys.length === 0 ? (
             <div className="text-[11px] text-[rgba(255,255,255,0.45)] text-center py-8 rounded-lg"
               style={{ background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(255,255,255,0.08)' }}>
-              No API keys yet. Create one above to start hitting <code className="text-[#4a9eff]">/api/v1/*</code> programmatically.
+              No API keys yet. Create one above to start hitting <code className="text-[#5B8DEF]">/api/v1/*</code> programmatically.
             </div>
           ) : (
             <div className="space-y-2">
               {apiKeys.map(k => (
                 <div key={k.id} className="rounded-lg p-3 flex items-center gap-3"
-                  style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(74,158,255,0.15)' }}>
-                  <Key className="w-3.5 h-3.5 text-[#4a9eff] shrink-0" />
+                  style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(91,141,239,0.15)' }}>
+                  <Key className="w-3.5 h-3.5 text-[#5B8DEF] shrink-0" />
                   <div className="flex-1 min-w-0">
                     <div className="text-[12px] font-bold text-white truncate">{k.name}</div>
                     <div className="text-[10px] text-[rgba(255,255,255,0.45)] flex items-center gap-3 mt-0.5 flex-wrap">
-                      <code className="font-mono text-[#4a9eff]">{k.prefix}</code>
+                      <code className="font-mono text-[#5B8DEF]">{k.prefix}</code>
                       <span>{k.rateLimit.toLocaleString()}/hr</span>
                       <span>Created {new Date(k.createdAt).toLocaleDateString()}</span>
                       {k.lastUsedAt && <span>· Last used {new Date(k.lastUsedAt).toLocaleDateString()}</span>}
                     </div>
                   </div>
                   <button onClick={() => revokeApiKey(k.id)}
-                    className="p-2 rounded hover:bg-[rgba(255,51,102,0.08)]"
-                    style={{ color: 'rgba(255,51,102,0.5)' }} title="Revoke">
+                    className="p-2 rounded hover:bg-[rgba(242,86,110,0.08)]"
+                    style={{ color: 'rgba(242,86,110,0.5)' }} title="Revoke">
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -497,14 +497,14 @@ function DashboardInner() {
             <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
               <div>
                 <h2 className="text-base font-black uppercase tracking-[0.15em] text-white flex items-center gap-2">
-                  <Bell className="w-4 h-4 text-[#ffaa00]" /> Alerts & Daily Briefing
+                  <Bell className="w-4 h-4 text-[#F5A524]" /> Alerts & Daily Briefing
                 </h2>
                 <p className="text-[11px] text-[rgba(255,255,255,0.45)] mt-1">
                   Get pinged when OFAC adds a match · Wake up to an AI-curated regulatory summary
                 </p>
               </div>
               <a href="/intelligence" className="flex items-center gap-1.5 px-3 py-2 rounded text-[10px] uppercase tracking-wider font-bold"
-                style={{ background: 'rgba(155,109,255,0.08)', border: '1px solid rgba(155,109,255,0.35)', color: '#9b6dff' }}>
+                style={{ background: 'rgba(91,141,239,0.08)', border: '1px solid rgba(91,141,239,0.35)', color: '#5B8DEF' }}>
                 <Newspaper className="w-3 h-3" /> Open Intelligence Feed
               </a>
             </div>
@@ -521,7 +521,7 @@ function DashboardInner() {
                   className="w-full bg-[rgba(255,255,255,0.04)] rounded px-3 py-2 text-[12px] text-white font-mono placeholder:text-[rgba(255,255,255,0.25)] focus:outline-none"
                   style={{ border: '1px solid rgba(255,255,255,0.1)' }} />
                 <p className="text-[10px] text-[rgba(255,255,255,0.4)] mt-1">
-                  Get real-time alerts in your team Slack. <a href="https://api.slack.com/messaging/webhooks" target="_blank" rel="noopener" className="text-[#9b6dff] hover:underline">How to create</a>
+                  Get real-time alerts in your team Slack. <a href="https://api.slack.com/messaging/webhooks" target="_blank" rel="noopener" className="text-[#5B8DEF] hover:underline">How to create</a>
                 </p>
               </div>
 
@@ -536,14 +536,14 @@ function DashboardInner() {
                   return (
                     <label key={key} className="flex items-center gap-3 p-3 rounded cursor-pointer transition-all"
                       style={{
-                        background: enabled ? 'rgba(0,255,136,0.04)' : 'rgba(255,255,255,0.02)',
-                        border: `1px solid ${enabled ? 'rgba(0,255,136,0.25)' : 'rgba(255,255,255,0.08)'}`,
+                        background: enabled ? 'rgba(16,217,130,0.04)' : 'rgba(255,255,255,0.02)',
+                        border: `1px solid ${enabled ? 'rgba(16,217,130,0.25)' : 'rgba(255,255,255,0.08)'}`,
                       }}>
-                      <Icon className="w-3.5 h-3.5 shrink-0" style={{ color: enabled ? '#00ff88' : 'rgba(255,255,255,0.4)' }} />
+                      <Icon className="w-3.5 h-3.5 shrink-0" style={{ color: enabled ? '#10D982' : 'rgba(255,255,255,0.4)' }} />
                       <div className="flex-1 text-[11px] text-white">{label}</div>
                       <input type="checkbox" checked={enabled}
                         onChange={e => setPrefs(p => p ? { ...p, [key]: e.target.checked } as AlertPreferences : p)}
-                        className="accent-[#00ff88]" />
+                        className="accent-[#10D982]" />
                     </label>
                   )
                 })}
@@ -553,16 +553,16 @@ function DashboardInner() {
                 <button onClick={savePrefs} disabled={prefsSaving}
                   className="flex items-center justify-center gap-1.5 px-4 py-2 rounded text-[10px] uppercase tracking-wider font-black"
                   style={{
-                    background: prefsSaved ? 'rgba(0,255,136,0.15)' : 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
-                    color: prefsSaved ? '#00ff88' : '#000',
-                    boxShadow: '0 0 16px rgba(0,255,136,0.3)',
+                    background: prefsSaved ? 'rgba(16,217,130,0.15)' : 'linear-gradient(135deg, #10D982 0%, #0B9E63 100%)',
+                    color: prefsSaved ? '#10D982' : '#000',
+                    boxShadow: '0 0 16px rgba(16,217,130,0.3)',
                   }}>
                   {prefsSaving ? <Loader2 className="w-3 h-3 animate-spin" /> : prefsSaved ? <CheckCircle2 className="w-3 h-3" /> : <Save className="w-3 h-3" />}
                   {prefsSaving ? 'Saving…' : prefsSaved ? 'Saved' : 'Save preferences'}
                 </button>
                 <button onClick={testBriefing}
                   className="flex items-center justify-center gap-1.5 px-4 py-2 rounded text-[10px] uppercase tracking-wider font-bold"
-                  style={{ background: 'rgba(155,109,255,0.08)', border: '1px solid rgba(155,109,255,0.35)', color: '#9b6dff' }}>
+                  style={{ background: 'rgba(91,141,239,0.08)', border: '1px solid rgba(91,141,239,0.35)', color: '#5B8DEF' }}>
                   <Send className="w-3 h-3" /> Send Test Briefing Now
                 </button>
               </div>
@@ -576,25 +576,25 @@ function DashboardInner() {
             <h2 className="text-base font-black uppercase tracking-[0.15em] text-white mb-4">Upgrade your plan</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               {[
-                { tier: 'starter', name: 'Starter', price: 'Free', features: ['1 fund', '11 bots, 8s polling', 'Email support'], featured: false },
-                { tier: 'pro', name: 'Pro', price: '€499/mo', features: ['Up to 25 funds', '340ms real-time', 'Slack alerts', 'API + webhook', 'XAI console'], featured: true },
-                { tier: 'enterprise', name: 'Enterprise', price: 'Custom', features: ['Unlimited funds', 'On-premise option', 'Dedicated CSM', 'SLA 99.99%'], featured: false },
+                { tier: 'starter', name: 'Starter', price: 'Free', features: ['1 fund', 'Save & monitor scans', 'Email support'], featured: false },
+                { tier: 'pro', name: 'Pro', price: '€499/mo', features: ['Up to 25 funds', 'Continuous monitoring', 'Slack alerts', 'API + webhook', 'Full provenance'], featured: true },
+                { tier: 'enterprise', name: 'Enterprise', price: 'Custom', features: ['Unlimited funds', 'On-premise option', 'Dedicated CSM', 'Custom SLA'], featured: false },
               ].map(t => (
                 <div key={t.tier} className="rounded-xl p-5"
                   style={{
-                    background: t.featured ? 'linear-gradient(180deg, rgba(0,255,136,0.05) 0%, rgba(0,255,136,0.01) 100%)' : 'rgba(255,255,255,0.02)',
-                    border: t.featured ? '1px solid rgba(0,255,136,0.4)' : '1px solid rgba(255,255,255,0.08)',
-                    boxShadow: t.featured ? '0 0 28px rgba(0,255,136,0.08)' : 'none',
+                    background: t.featured ? 'linear-gradient(180deg, rgba(16,217,130,0.05) 0%, rgba(16,217,130,0.01) 100%)' : 'rgba(255,255,255,0.02)',
+                    border: t.featured ? '1px solid rgba(16,217,130,0.4)' : '1px solid rgba(255,255,255,0.08)',
+                    boxShadow: t.featured ? '0 0 28px rgba(16,217,130,0.08)' : 'none',
                   }}>
                   <div className="text-[10px] uppercase tracking-[0.18em] font-black mb-1"
-                    style={{ color: t.featured ? '#00ff88' : 'rgba(255,255,255,0.55)' }}>
+                    style={{ color: t.featured ? '#10D982' : 'rgba(255,255,255,0.55)' }}>
                     {t.name}
                   </div>
                   <div className="text-2xl font-black text-white mb-2">{t.price}</div>
                   <ul className="space-y-1 mb-4">
                     {t.features.map(f => (
                       <li key={f} className="text-[11px] text-[rgba(255,255,255,0.65)] flex items-start gap-1.5">
-                        <CheckCircle2 className="w-3 h-3 mt-0.5 shrink-0" style={{ color: t.featured ? '#00ff88' : 'rgba(255,255,255,0.4)' }} />
+                        <CheckCircle2 className="w-3 h-3 mt-0.5 shrink-0" style={{ color: t.featured ? '#10D982' : 'rgba(255,255,255,0.4)' }} />
                         {f}
                       </li>
                     ))}
@@ -610,9 +610,9 @@ function DashboardInner() {
                     <button onClick={() => upgrade(t.tier)} disabled={upgradeBusy === t.tier}
                       className="w-full py-2 rounded text-[10px] uppercase tracking-wider font-black disabled:opacity-60"
                       style={{
-                        background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
+                        background: 'linear-gradient(135deg, #10D982 0%, #0B9E63 100%)',
                         color: '#000',
-                        boxShadow: '0 0 14px rgba(0,255,136,0.3)',
+                        boxShadow: '0 0 14px rgba(16,217,130,0.3)',
                       }}>
                       {upgradeBusy === t.tier ? 'Redirecting…' : 'Start 14-day trial →'}
                     </button>

@@ -12,7 +12,7 @@ export default function ConsensusPage() {
     <div
       style={{
         fontFamily: 'JetBrains Mono, monospace',
-        color: '#00ff88',
+        color: '#10D982',
         background: '#010208',
         minHeight: '100vh',
         display: 'flex',

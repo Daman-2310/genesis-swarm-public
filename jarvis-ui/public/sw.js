@@ -2,7 +2,7 @@
 // Currently: cache shell + offline fallback for static pages.
 // Future: web push for vindication alerts.
 
-const CACHE = 'genesis-v1';
+const CACHE = 'genesis-v2';
 const SHELL = [
   '/',
   '/manifest.json',
@@ -34,16 +34,18 @@ self.addEventListener('fetch', (event) => {
   // Never cache API or auth routes
   if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/embed/')) return;
 
-  // Stale-while-revalidate for shell-y static assets
+  // Network-first for shell pages: a returning visitor always gets the latest
+  // deploy. Fall back to cache only when the network is unavailable (offline).
   if (SHELL.includes(url.pathname)) {
     event.respondWith(
       caches.open(CACHE).then(async (c) => {
-        const cached = await c.match(req);
-        const fetchPromise = fetch(req).then((res) => {
+        try {
+          const res = await fetch(req);
           if (res.ok) c.put(req, res.clone());
           return res;
-        }).catch(() => cached);
-        return cached || fetchPromise;
+        } catch {
+          return (await c.match(req)) || fetch(req);
+        }
       })
     );
   }

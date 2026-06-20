@@ -40,9 +40,9 @@ export default function MirrorList({ mirrors }: { mirrors: SlimMirror[] }) {
     <div className="space-y-4">
       {/* Controls */}
       <div className="rounded-2xl p-3 flex items-center gap-3 flex-wrap"
-        style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(0,216,255,0.25)', backdropFilter: 'blur(10px)' }}>
+        style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(91,141,239,0.25)', backdropFilter: 'blur(10px)' }}>
         <div className="flex items-center gap-2 flex-1 min-w-[200px]">
-          <Search className="w-4 h-4 text-[#00d8ff] shrink-0" />
+          <Search className="w-4 h-4 text-[#5B8DEF] shrink-0" />
           <input type="text" value={query} onChange={e => setQuery(e.target.value)}
             placeholder="Search entity name or jurisdiction code…"
             className="flex-1 bg-transparent outline-none text-white text-[13px] placeholder-[rgba(255,255,255,0.35)] font-mono" />
@@ -52,9 +52,9 @@ export default function MirrorList({ mirrors }: { mirrors: SlimMirror[] }) {
             <button key={f} onClick={() => setFilter(f)}
               className="text-[10px] uppercase tracking-wider font-bold px-3 py-1.5 rounded transition-all"
               style={{
-                background: filter === f ? 'rgba(0,216,255,0.2)' : 'transparent',
-                border: `1px solid ${filter === f ? 'rgba(0,216,255,0.5)' : 'rgba(255,255,255,0.08)'}`,
-                color: filter === f ? '#00d8ff' : 'rgba(255,255,255,0.5)',
+                background: filter === f ? 'rgba(91,141,239,0.2)' : 'transparent',
+                border: `1px solid ${filter === f ? 'rgba(91,141,239,0.5)' : 'rgba(255,255,255,0.08)'}`,
+                color: filter === f ? '#5B8DEF' : 'rgba(255,255,255,0.5)',
               }}>
               {f}
             </button>
@@ -64,7 +64,7 @@ export default function MirrorList({ mirrors }: { mirrors: SlimMirror[] }) {
 
       {/* List */}
       <div className="rounded-2xl overflow-hidden"
-        style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(0,216,255,0.2)', backdropFilter: 'blur(10px)' }}>
+        style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(91,141,239,0.2)', backdropFilter: 'blur(10px)' }}>
         {filtered.length === 0 ? (
           <div className="p-10 text-center text-[12px] text-[rgba(255,255,255,0.5)]">
             No entities match.
@@ -78,12 +78,12 @@ export default function MirrorList({ mirrors }: { mirrors: SlimMirror[] }) {
 }
 
 function Row({ m }: { m: SlimMirror }) {
-  const statusColor = m.breach_count > 0 ? '#ff3366' : m.watch_count > 0 ? '#ffaa00' : '#00ff88'
+  const statusColor = m.breach_count > 0 ? '#F2566E' : m.watch_count > 0 ? '#F5A524' : '#10D982'
   const StatusIcon = m.breach_count > 0 ? AlertTriangle : m.watch_count > 0 ? AlertCircle : CheckCircle2
 
   return (
     <Link href={`/mirror/${m.prophecy_id}`}
-      className="block px-4 py-3 transition-all hover:bg-[rgba(0,216,255,0.04)]"
+      className="block px-4 py-3 transition-all hover:bg-[rgba(91,141,239,0.04)]"
       style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
       <div className="flex items-center gap-4">
         <StatusIcon className="w-4 h-4 shrink-0" style={{ color: statusColor }} />
@@ -104,19 +104,19 @@ function Row({ m }: { m: SlimMirror }) {
         <div className="flex items-center gap-2 shrink-0">
           {m.breach_count > 0 && (
             <span className="text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded"
-              style={{ background: 'rgba(255,51,102,0.15)', border: '1px solid rgba(255,51,102,0.4)', color: '#ff3366' }}>
+              style={{ background: 'rgba(242,86,110,0.15)', border: '1px solid rgba(242,86,110,0.4)', color: '#F2566E' }}>
               {m.breach_count} breach{m.breach_count === 1 ? '' : 'es'}
             </span>
           )}
           {m.watch_count > 0 && (
             <span className="text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded"
-              style={{ background: 'rgba(255,170,0,0.15)', border: '1px solid rgba(255,170,0,0.4)', color: '#ffaa00' }}>
+              style={{ background: 'rgba(245,165,36,0.15)', border: '1px solid rgba(245,165,36,0.4)', color: '#F5A524' }}>
               {m.watch_count} watch
             </span>
           )}
           {m.ok_count > 0 && (
             <span className="text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded"
-              style={{ background: 'rgba(0,255,136,0.10)', border: '1px solid rgba(0,255,136,0.25)', color: '#00ff88' }}>
+              style={{ background: 'rgba(16,217,130,0.10)', border: '1px solid rgba(16,217,130,0.25)', color: '#10D982' }}>
               {m.ok_count} ok
             </span>
           )}

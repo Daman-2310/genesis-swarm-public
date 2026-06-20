@@ -53,14 +53,14 @@ interface ScanResult {
 }
 
 const CRIT_COLORS: Record<string, string> = {
-  low: '#00ff88', medium: '#ffaa00', high: '#ff8800', critical: '#ff3366'
+  low: '#10D982', medium: '#F5A524', high: '#ff8800', critical: '#F2566E'
 }
 const CRIT_OPTS: Vendor['criticality'][] = ['low', 'medium', 'high', 'critical']
 
 const ASSESS_COLOR: Record<string, string> = {
-  COMPLIANT: '#00ff88',
-  PARTIALLY_COMPLIANT: '#ffaa00',
-  NON_COMPLIANT: '#ff3366',
+  COMPLIANT: '#10D982',
+  PARTIALLY_COMPLIANT: '#F5A524',
+  NON_COMPLIANT: '#F2566E',
 }
 
 export default function DORAPage() {
@@ -161,24 +161,24 @@ export default function DORAPage() {
   const selectedVendor = vendors.find(v => v.name === selected) ?? null
 
   return (
-    <div className="min-h-screen bg-[#050508] text-[#00ff88] font-mono select-none">
+    <div className="min-h-screen bg-[#050508] text-[#10D982] font-mono select-none">
       <div className="scanline pointer-events-none fixed inset-0 z-50" />
 
       {/* Header */}
-      <div className="sticky top-0 z-40 flex items-center justify-between px-6 py-3 border-b border-[rgba(0,255,136,0.12)]"
+      <div className="sticky top-0 z-40 flex items-center justify-between px-6 py-3 border-b border-[rgba(16,217,130,0.12)]"
         style={{ background: 'rgba(5,5,8,0.97)', backdropFilter: 'blur(8px)' }}>
         <div className="flex items-center gap-3">
-          <Shield className="w-4 h-4 text-[#00ff88]" />
+          <Shield className="w-4 h-4 text-[#10D982]" />
           <span className="font-bold tracking-[0.2em] text-sm uppercase">DORA ICT Scanner</span>
-          <span className="text-[rgba(0,255,136,0.4)] text-[9px] tracking-widest hidden sm:block">
+          <span className="text-[rgba(16,217,130,0.4)] text-[9px] tracking-widest hidden sm:block">
             // Article 28 Compliance · AI Contract Analysis
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <a href="/dora/register" className="text-[9px] uppercase tracking-wider px-3 py-1.5 border border-[rgba(0,170,255,0.3)] text-[#00aaff] rounded hover:bg-[rgba(0,170,255,0.08)] transition-colors">
+          <a href="/dora/register" className="text-[9px] uppercase tracking-wider px-3 py-1.5 border border-[rgba(91,141,239,0.3)] text-[#5B8DEF] rounded hover:bg-[rgba(91,141,239,0.08)] transition-colors">
             ICT Register Builder →
           </a>
-          <a href="/operator" className="text-[9px] uppercase tracking-wider px-3 py-1.5 border border-[rgba(0,255,136,0.3)] text-[#00ff88] rounded hover:bg-[rgba(0,255,136,0.08)] transition-colors">
+          <a href="/dashboard" className="text-[9px] uppercase tracking-wider px-3 py-1.5 border border-[rgba(16,217,130,0.3)] text-[#10D982] rounded hover:bg-[rgba(16,217,130,0.08)] transition-colors">
             ← Dashboard
           </a>
         </div>
@@ -200,7 +200,7 @@ export default function DORAPage() {
           {/* Left: Input */}
           <div className="space-y-4">
             <div>
-              <label className="text-[8px] uppercase tracking-widest text-[rgba(0,255,136,0.5)] block mb-1">
+              <label className="text-[8px] uppercase tracking-widest text-[rgba(16,217,130,0.5)] block mb-1">
                 Fund Name
               </label>
               <input
@@ -213,18 +213,18 @@ export default function DORAPage() {
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label className="text-[8px] uppercase tracking-widest text-[rgba(0,255,136,0.5)]">
+                <label className="text-[8px] uppercase tracking-widest text-[rgba(16,217,130,0.5)]">
                   ICT Vendors
                 </label>
                 <button onClick={addVendor}
-                  className="flex items-center gap-1 text-[8px] text-[rgba(0,255,136,0.7)] hover:text-[#00ff88] transition-colors uppercase tracking-wider">
+                  className="flex items-center gap-1 text-[8px] text-[rgba(16,217,130,0.7)] hover:text-[#10D982] transition-colors uppercase tracking-wider">
                   <Plus className="w-3 h-3" /> Add vendor
                 </button>
               </div>
 
               {vendors.map((v, i) => (
                 <div key={i} className="rounded p-2.5 space-y-2"
-                  style={{ background: 'rgba(0,255,136,0.03)', border: '1px solid rgba(0,255,136,0.1)' }}>
+                  style={{ background: 'rgba(16,217,130,0.03)', border: '1px solid rgba(16,217,130,0.1)' }}>
 
                   {/* Vendor name + criticality + delete */}
                   <div className="flex items-center gap-2">
@@ -244,7 +244,7 @@ export default function DORAPage() {
                       ))}
                     </select>
                     <button onClick={() => removeVendor(i)}
-                      className="text-[rgba(255,51,102,0.5)] hover:text-[#ff3366] transition-colors shrink-0">
+                      className="text-[rgba(242,86,110,0.5)] hover:text-[#F2566E] transition-colors shrink-0">
                       <Trash2 className="w-3 h-3" />
                     </button>
                   </div>
@@ -265,9 +265,9 @@ export default function DORAPage() {
                       onClick={() => fileRefs.current[i]?.click()}
                       className="flex items-center gap-1.5 text-[8px] uppercase tracking-wider px-2 py-1 rounded border transition-colors"
                       style={{
-                        border: v.contractFile ? '1px solid rgba(0,255,136,0.4)' : '1px solid rgba(255,255,255,0.12)',
-                        color: v.contractFile ? '#00ff88' : 'rgba(255,255,255,0.35)',
-                        background: v.contractFile ? 'rgba(0,255,136,0.05)' : 'transparent',
+                        border: v.contractFile ? '1px solid rgba(16,217,130,0.4)' : '1px solid rgba(255,255,255,0.12)',
+                        color: v.contractFile ? '#10D982' : 'rgba(255,255,255,0.35)',
+                        background: v.contractFile ? 'rgba(16,217,130,0.05)' : 'transparent',
                       }}>
                       <Upload className="w-3 h-3" />
                       {v.contractFile ? v.contractFile.name.slice(0, 20) + (v.contractFile.name.length > 20 ? '…' : '') : 'Upload contract PDF'}
@@ -279,9 +279,9 @@ export default function DORAPage() {
                         disabled={v.analyzing}
                         className="flex items-center gap-1 text-[8px] uppercase tracking-wider px-2 py-1 rounded border transition-colors disabled:opacity-50"
                         style={{
-                          border: '1px solid rgba(0,170,255,0.4)',
-                          color: '#00aaff',
-                          background: 'rgba(0,170,255,0.06)',
+                          border: '1px solid rgba(91,141,239,0.4)',
+                          color: '#5B8DEF',
+                          background: 'rgba(91,141,239,0.06)',
                         }}>
                         {v.analyzing
                           ? <><Cpu className="w-3 h-3" style={{ animation: 'spin 1s linear infinite' }} /> Analyzing…</>
@@ -304,8 +304,8 @@ export default function DORAPage() {
 
                   {/* Key finding from AI */}
                   {v.aiAnalysis?.key_finding && (
-                    <div className="text-[7px] text-[rgba(255,170,0,0.7)] flex items-start gap-1 pl-0.5">
-                      <AlertTriangle className="w-2.5 h-2.5 shrink-0 mt-0.5 text-[#ffaa00]" />
+                    <div className="text-[7px] text-[rgba(245,165,36,0.7)] flex items-start gap-1 pl-0.5">
+                      <AlertTriangle className="w-2.5 h-2.5 shrink-0 mt-0.5 text-[#F5A524]" />
                       {v.aiAnalysis.key_finding}
                     </div>
                   )}
@@ -318,9 +318,9 @@ export default function DORAPage() {
               disabled={scanning || !vendors.some(v => v.name.trim())}
               className="w-full flex items-center justify-center gap-2 py-3 rounded font-bold text-sm uppercase tracking-wider transition-all duration-300 disabled:opacity-50 disabled:cursor-wait"
               style={{
-                background: scanning ? 'rgba(255,170,0,0.1)' : 'rgba(0,255,136,0.1)',
-                border: `2px solid ${scanning ? '#ffaa00' : '#00ff88'}`,
-                color: scanning ? '#ffaa00' : '#00ff88',
+                background: scanning ? 'rgba(245,165,36,0.1)' : 'rgba(16,217,130,0.1)',
+                border: `2px solid ${scanning ? '#F5A524' : '#10D982'}`,
+                color: scanning ? '#F5A524' : '#10D982',
               }}>
               {scanning
                 ? <><Zap className="w-4 h-4" style={{ animation: 'pulse 0.6s ease-in-out infinite' }} /> Scanning…</>
@@ -328,8 +328,8 @@ export default function DORAPage() {
             </button>
 
             {error && (
-              <div className="text-[9px] text-[#ff3366] px-3 py-2 rounded"
-                style={{ background: 'rgba(255,51,102,0.08)', border: '1px solid rgba(255,51,102,0.3)' }}>
+              <div className="text-[9px] text-[#F2566E] px-3 py-2 rounded"
+                style={{ background: 'rgba(242,86,110,0.08)', border: '1px solid rgba(242,86,110,0.3)' }}>
                 {error}
               </div>
             )}
@@ -341,15 +341,15 @@ export default function DORAPage() {
               <div className="grid grid-cols-2 gap-2">
                 {[
                   { label: 'Total Risk Score', value: `${result.total_risk_score}/100`,
-                    color: result.total_risk_score >= 60 ? '#ff3366' : result.total_risk_score >= 30 ? '#ffaa00' : '#00ff88' },
+                    color: result.total_risk_score >= 60 ? '#F2566E' : result.total_risk_score >= 30 ? '#F5A524' : '#10D982' },
                   { label: 'DORA Ready', value: result.dora_ready ? 'YES' : 'NO',
-                    color: result.dora_ready ? '#00ff88' : '#ff3366' },
-                  { label: 'Vendors Scanned', value: result.vendors_scanned, color: '#00ff88' },
+                    color: result.dora_ready ? '#10D982' : '#F2566E' },
+                  { label: 'Vendors Scanned', value: result.vendors_scanned, color: '#10D982' },
                   { label: 'CSSF Filing Required', value: result.cssf_filing_required ? 'YES' : 'NO',
-                    color: result.cssf_filing_required ? '#ff3366' : '#00ff88' },
+                    color: result.cssf_filing_required ? '#F2566E' : '#10D982' },
                 ].map(m => (
                   <div key={m.label} className="rounded p-2"
-                    style={{ background: 'rgba(0,255,136,0.03)', border: '1px solid rgba(0,255,136,0.1)' }}>
+                    style={{ background: 'rgba(16,217,130,0.03)', border: '1px solid rgba(16,217,130,0.1)' }}>
                     <div className="text-[7px] text-[rgba(255,255,255,0.35)] uppercase tracking-wider">{m.label}</div>
                     <div className="text-sm font-bold mt-0.5" style={{ color: m.color }}>{m.value}</div>
                   </div>
@@ -358,8 +358,8 @@ export default function DORAPage() {
 
               {result.cssf_filing_required && (
                 <div className="flex items-center gap-2 p-2 rounded"
-                  style={{ background: 'rgba(255,51,102,0.08)', border: '1px solid rgba(255,51,102,0.4)' }}>
-                  <AlertTriangle className="w-3.5 h-3.5 text-[#ff3366] shrink-0" />
+                  style={{ background: 'rgba(242,86,110,0.08)', border: '1px solid rgba(242,86,110,0.4)' }}>
+                  <AlertTriangle className="w-3.5 h-3.5 text-[#F2566E] shrink-0" />
                   <span className="text-[8px] text-[rgba(255,255,255,0.6)] leading-relaxed">
                     CSSF notification required within 4 hours (DORA Art.19).
                   </span>
@@ -367,24 +367,24 @@ export default function DORAPage() {
               )}
 
               <div className="space-y-1">
-                <div className="text-[7px] uppercase tracking-widest text-[rgba(0,255,136,0.4)] mb-2">
+                <div className="text-[7px] uppercase tracking-widest text-[rgba(16,217,130,0.4)] mb-2">
                   Vendor results — click to inspect
                 </div>
                 {result.results.map(r => {
-                  const riskColor = r.risk_score >= 60 ? '#ff3366' : r.risk_score >= 30 ? '#ffaa00' : '#00ff88'
+                  const riskColor = r.risk_score >= 60 ? '#F2566E' : r.risk_score >= 30 ? '#F5A524' : '#10D982'
                   const isSelected = selected === r.vendor
                   return (
                     <button key={r.vendor} onClick={() => setSelected(isSelected ? null : r.vendor)}
                       className="w-full text-left rounded p-2.5 transition-all duration-200"
                       style={{
-                        background: isSelected ? 'rgba(0,255,136,0.06)' : 'rgba(0,255,136,0.02)',
-                        border: `1px solid ${isSelected ? 'rgba(0,255,136,0.4)' : 'rgba(0,255,136,0.1)'}`,
+                        background: isSelected ? 'rgba(16,217,130,0.06)' : 'rgba(16,217,130,0.02)',
+                        border: `1px solid ${isSelected ? 'rgba(16,217,130,0.4)' : 'rgba(16,217,130,0.1)'}`,
                       }}>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           {r.action_required
-                            ? <AlertTriangle className="w-3 h-3 text-[#ff3366]" />
-                            : <CheckCircle className="w-3 h-3 text-[#00ff88]" />}
+                            ? <AlertTriangle className="w-3 h-3 text-[#F2566E]" />
+                            : <CheckCircle className="w-3 h-3 text-[#10D982]" />}
                           <span className="text-[10px] font-bold text-[rgba(255,255,255,0.8)]">{r.vendor}</span>
                           <span className="text-[7px] uppercase px-1 py-0.5 rounded"
                             style={{ color: CRIT_COLORS[r.criticality], background: `${CRIT_COLORS[r.criticality]}15`,
@@ -393,7 +393,7 @@ export default function DORAPage() {
                           </span>
                           {r.ai_analyzed && (
                             <span className="text-[6px] uppercase px-1 py-0.5 rounded"
-                              style={{ color: '#00aaff', background: 'rgba(0,170,255,0.1)', border: '1px solid rgba(0,170,255,0.3)' }}>
+                              style={{ color: '#5B8DEF', background: 'rgba(91,141,239,0.1)', border: '1px solid rgba(91,141,239,0.3)' }}>
                               AI
                             </span>
                           )}
@@ -423,13 +423,13 @@ export default function DORAPage() {
         {/* Gap detail panel */}
         {selectedResult && (
           <div className="rounded p-4 space-y-3"
-            style={{ background: 'rgba(0,255,136,0.02)', border: '1px solid rgba(0,255,136,0.2)' }}>
+            style={{ background: 'rgba(16,217,130,0.02)', border: '1px solid rgba(16,217,130,0.2)' }}>
             <div className="flex items-center justify-between flex-wrap gap-2">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-bold text-[#00ff88]">{selectedResult.vendor} — Gap Detail</span>
+                <span className="text-sm font-bold text-[#10D982]">{selectedResult.vendor} — Gap Detail</span>
                 {selectedResult.ai_analyzed && (
                   <span className="text-[7px] px-1.5 py-0.5 rounded font-bold uppercase"
-                    style={{ color: '#00aaff', background: 'rgba(0,170,255,0.1)', border: '1px solid rgba(0,170,255,0.3)' }}>
+                    style={{ color: '#5B8DEF', background: 'rgba(91,141,239,0.1)', border: '1px solid rgba(91,141,239,0.3)' }}>
                     Claude AI Analysis
                   </span>
                 )}
@@ -442,8 +442,8 @@ export default function DORAPage() {
             {/* AI key finding */}
             {selectedVendor?.aiAnalysis?.key_finding && (
               <div className="flex items-start gap-2 p-2 rounded"
-                style={{ background: 'rgba(255,170,0,0.06)', border: '1px solid rgba(255,170,0,0.25)' }}>
-                <FileText className="w-3 h-3 text-[#ffaa00] shrink-0 mt-0.5" />
+                style={{ background: 'rgba(245,165,36,0.06)', border: '1px solid rgba(245,165,36,0.25)' }}>
+                <FileText className="w-3 h-3 text-[#F5A524] shrink-0 mt-0.5" />
                 <span className="text-[8px] text-[rgba(255,255,255,0.6)]">
                   {selectedVendor.aiAnalysis.key_finding}
                 </span>
@@ -453,13 +453,13 @@ export default function DORAPage() {
             {/* Compliant clauses (AI only) */}
             {selectedVendor?.aiAnalysis?.compliant_clauses && selectedVendor.aiAnalysis.compliant_clauses.length > 0 && (
               <div className="space-y-1">
-                <div className="text-[7px] uppercase tracking-widest text-[rgba(0,255,136,0.4)]">
+                <div className="text-[7px] uppercase tracking-widest text-[rgba(16,217,130,0.4)]">
                   {selectedVendor.aiAnalysis.compliant_clauses.length} clauses satisfied
                 </div>
                 <div className="flex flex-wrap gap-1">
                   {selectedVendor.aiAnalysis.compliant_clauses.map(c => (
                     <div key={c.article} className="text-[7px] px-1.5 py-0.5 rounded flex items-center gap-1"
-                      style={{ background: 'rgba(0,255,136,0.06)', border: '1px solid rgba(0,255,136,0.2)', color: '#00ff88' }}>
+                      style={{ background: 'rgba(16,217,130,0.06)', border: '1px solid rgba(16,217,130,0.2)', color: '#10D982' }}>
                       <CheckCircle className="w-2.5 h-2.5" /> Art. {c.article}
                     </div>
                   ))}
@@ -468,7 +468,7 @@ export default function DORAPage() {
             )}
 
             {selectedResult.gaps.length === 0 ? (
-              <div className="flex items-center gap-2 text-[#00ff88] text-[9px]">
+              <div className="flex items-center gap-2 text-[#10D982] text-[9px]">
                 <CheckCircle className="w-4 h-4" />
                 All Article 28 clauses satisfied — no remediation required.
               </div>
@@ -480,20 +480,20 @@ export default function DORAPage() {
                 {selectedResult.gaps.map((g, idx) => (
                   <div key={`${g.article}-${idx}`} className="rounded p-2.5"
                     style={{
-                      background: g.severity === 'HIGH' ? 'rgba(255,51,102,0.05)' : 'rgba(255,170,0,0.05)',
-                      border: `1px solid ${g.severity === 'HIGH' ? 'rgba(255,51,102,0.25)' : 'rgba(255,170,0,0.2)'}`,
+                      background: g.severity === 'HIGH' ? 'rgba(242,86,110,0.05)' : 'rgba(245,165,36,0.05)',
+                      border: `1px solid ${g.severity === 'HIGH' ? 'rgba(242,86,110,0.25)' : 'rgba(245,165,36,0.2)'}`,
                     }}>
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex-1">
                         <div className="flex items-center gap-1.5 mb-0.5">
                           <span className="text-[8px] font-bold"
-                            style={{ color: g.severity === 'HIGH' ? '#ff3366' : '#ffaa00' }}>
+                            style={{ color: g.severity === 'HIGH' ? '#F2566E' : '#F5A524' }}>
                             Art. {g.article}
                           </span>
                           <span className="text-[7px] px-1 py-px rounded font-bold uppercase"
                             style={{
-                              background: g.severity === 'HIGH' ? 'rgba(255,51,102,0.15)' : 'rgba(255,170,0,0.15)',
-                              color: g.severity === 'HIGH' ? '#ff3366' : '#ffaa00',
+                              background: g.severity === 'HIGH' ? 'rgba(242,86,110,0.15)' : 'rgba(245,165,36,0.15)',
+                              color: g.severity === 'HIGH' ? '#F2566E' : '#F5A524',
                             }}>{g.severity}</span>
                         </div>
                         <div className="text-[8px] text-[rgba(255,255,255,0.6)]">{g.clause}</div>
@@ -508,7 +508,7 @@ export default function DORAPage() {
                       </div>
                     </div>
                     <div className="mt-1.5 text-[7px] text-[rgba(255,255,255,0.4)] flex items-start gap-1">
-                      <span className="text-[#00ff88] shrink-0">→</span>
+                      <span className="text-[#10D982] shrink-0">→</span>
                       {g.remediation}
                     </div>
                   </div>

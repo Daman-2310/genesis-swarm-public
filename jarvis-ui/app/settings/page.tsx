@@ -17,9 +17,9 @@ const NOTIF_GROUPS = [
     group: 'Risk & monitoring',
     icon: AlertTriangle,
     items: [
-      { key: 'bot_alert', label: 'Bot alerts (critical only)', desc: 'When any Genesis bot triggers a CRITICAL flag' },
-      { key: 'consensus_failure', label: 'Consensus failures', desc: 'PBFT quorum lost or Byzantine fault detected' },
-      { key: 'fear_index_spike', label: 'Fear index spikes', desc: 'Market fear index crosses 80 threshold' },
+      { key: 'bot_alert', label: 'Critical breach alerts', desc: 'When a scan or monitored fund returns a CRITICAL finding' },
+      { key: 'consensus_failure', label: 'Compliance regression', desc: 'When a monitored fund’s verdict gets worse than its last check' },
+      { key: 'fear_index_spike', label: 'Sanctions list change', desc: 'When the OFAC / EU sanctions list is materially updated' },
       { key: 'sanctions_hit', label: 'Sanctions screening hits', desc: 'Any entity returns HIGH risk on screening' },
     ],
   },
@@ -74,28 +74,28 @@ export default function SettingsPage() {
   const enabledCount = Object.values(prefs).filter(Boolean).length
 
   return (
-    <div className="min-h-screen bg-[#050508] text-[#00ff88] font-mono overflow-x-hidden">
+    <div className="min-h-screen bg-[#050508] text-[#10D982] font-mono overflow-x-hidden">
       <div className="scanline pointer-events-none fixed inset-0 z-50" />
-      <div className="sticky top-0 z-40 flex items-center justify-between px-6 py-3 border-b border-[rgba(0,255,136,0.12)]" style={{ background: 'rgba(5,5,8,0.97)', backdropFilter: 'blur(8px)' }}>
+      <div className="sticky top-0 z-40 flex items-center justify-between px-6 py-3 border-b border-[rgba(16,217,130,0.12)]" style={{ background: 'rgba(5,5,8,0.97)', backdropFilter: 'blur(8px)' }}>
         <div className="flex items-center gap-3">
-          <div className="w-2 h-2 rounded-full bg-[#00ff88] animate-pulse" />
-          <a href="/operator" className="font-bold tracking-[0.2em] text-sm uppercase hover:opacity-80">Genesis Swarm</a>
-          <span className="text-[rgba(0,255,136,0.4)] text-[10px] tracking-widest hidden sm:block">// Notification Settings</span>
+          <div className="w-2 h-2 rounded-full bg-[#10D982] animate-pulse" />
+          <a href="/dashboard" className="font-bold tracking-[0.2em] text-sm uppercase hover:opacity-80">Genesis Swarm</a>
+          <span className="text-[rgba(16,217,130,0.4)] text-[10px] tracking-widest hidden sm:block">// Notification Settings</span>
         </div>
-        <a href="/operator" className="text-[9px] uppercase tracking-wider px-3 py-1.5 border border-[rgba(0,255,136,0.3)] text-[#00ff88] rounded hover:bg-[rgba(0,255,136,0.08)] transition-colors">← Dashboard</a>
+        <a href="/dashboard" className="text-[9px] uppercase tracking-wider px-3 py-1.5 border border-[rgba(16,217,130,0.3)] text-[#10D982] rounded hover:bg-[rgba(16,217,130,0.08)] transition-colors">← Dashboard</a>
       </div>
 
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-10 space-y-8">
         <div>
-          <div className="text-[9px] uppercase tracking-[0.3em] text-[rgba(0,255,136,0.5)] mb-2">Preferences · {enabledCount} active</div>
+          <div className="text-[9px] uppercase tracking-[0.3em] text-[rgba(16,217,130,0.5)] mb-2">Preferences · {enabledCount} active</div>
           <h1 className="text-3xl font-bold tracking-tight">Notification Settings</h1>
           <p className="text-[rgba(255,255,255,0.4)] text-sm mt-2">Control which compliance alerts, risk signals, and reports you receive by email.</p>
         </div>
 
         {/* Email input */}
-        <div className="p-4 rounded" style={{ background: 'rgba(0,255,136,0.02)', border: '1px solid rgba(0,255,136,0.18)' }}>
+        <div className="p-4 rounded" style={{ background: 'rgba(16,217,130,0.02)', border: '1px solid rgba(16,217,130,0.18)' }}>
           <div className="flex items-center gap-2 mb-3">
-            <Mail className="w-4 h-4 text-[#00ff88]" />
+            <Mail className="w-4 h-4 text-[#10D982]" />
             <span className="text-xs font-bold text-white uppercase tracking-wider">Notification email</span>
           </div>
           <input
@@ -103,7 +103,7 @@ export default function SettingsPage() {
             placeholder="you@yourfund.lu"
             value={email}
             onChange={e => { setEmail(e.target.value); setSaved(false) }}
-            className="w-full bg-[rgba(0,255,136,0.03)] border border-[rgba(0,255,136,0.2)] rounded px-3 py-2.5 text-[#00ff88] text-sm font-mono placeholder-[rgba(0,255,136,0.25)] focus:outline-none focus:border-[rgba(0,255,136,0.5)] transition-all"
+            className="w-full bg-[rgba(16,217,130,0.03)] border border-[rgba(16,217,130,0.2)] rounded px-3 py-2.5 text-[#10D982] text-sm font-mono placeholder-[rgba(16,217,130,0.25)] focus:outline-none focus:border-[rgba(16,217,130,0.5)] transition-all"
           />
         </div>
 
@@ -111,20 +111,20 @@ export default function SettingsPage() {
         {NOTIF_GROUPS.map(({ group, icon: Icon, items }) => (
           <div key={group} className="space-y-2">
             <div className="flex items-center gap-2 mb-3">
-              <Icon className="w-4 h-4 text-[rgba(0,255,136,0.6)]" />
-              <span className="text-[9px] uppercase tracking-widest font-bold text-[rgba(0,255,136,0.6)]">{group}</span>
+              <Icon className="w-4 h-4 text-[rgba(16,217,130,0.6)]" />
+              <span className="text-[9px] uppercase tracking-widest font-bold text-[rgba(16,217,130,0.6)]">{group}</span>
             </div>
             {items.map(({ key, label, desc }) => (
               <div key={key} className="flex items-center justify-between p-3.5 rounded cursor-pointer transition-all"
-                style={{ background: prefs[key] ? 'rgba(0,255,136,0.04)' : 'rgba(0,255,136,0.01)', border: `1px solid ${prefs[key] ? 'rgba(0,255,136,0.25)' : 'rgba(0,255,136,0.1)'}` }}
+                style={{ background: prefs[key] ? 'rgba(16,217,130,0.04)' : 'rgba(16,217,130,0.01)', border: `1px solid ${prefs[key] ? 'rgba(16,217,130,0.25)' : 'rgba(16,217,130,0.1)'}` }}
                 onClick={() => toggle(key)}>
                 <div className="flex-1 mr-4">
                   <div className="text-sm text-white font-medium">{label}</div>
                   <div className="text-[9px] text-[rgba(255,255,255,0.35)] mt-0.5">{desc}</div>
                 </div>
                 <div className="relative shrink-0">
-                  <div className="w-10 h-5 rounded-full transition-all duration-200" style={{ background: prefs[key] ? 'rgba(0,255,136,0.4)' : 'rgba(255,255,255,0.1)', border: `1px solid ${prefs[key] ? 'rgba(0,255,136,0.7)' : 'rgba(255,255,255,0.15)'}` }} />
-                  <div className="absolute top-0.5 transition-all duration-200 w-4 h-4 rounded-full" style={{ left: prefs[key] ? '22px' : '2px', background: prefs[key] ? '#00ff88' : 'rgba(255,255,255,0.4)' }} />
+                  <div className="w-10 h-5 rounded-full transition-all duration-200" style={{ background: prefs[key] ? 'rgba(16,217,130,0.4)' : 'rgba(255,255,255,0.1)', border: `1px solid ${prefs[key] ? 'rgba(16,217,130,0.7)' : 'rgba(255,255,255,0.15)'}` }} />
+                  <div className="absolute top-0.5 transition-all duration-200 w-4 h-4 rounded-full" style={{ left: prefs[key] ? '22px' : '2px', background: prefs[key] ? '#10D982' : 'rgba(255,255,255,0.4)' }} />
                 </div>
               </div>
             ))}
@@ -134,10 +134,10 @@ export default function SettingsPage() {
         {/* Save */}
         <div className="flex items-center gap-4 pt-2">
           <button onClick={save} disabled={saving} className="flex items-center gap-2 px-8 py-3.5 rounded font-bold text-sm uppercase tracking-wider transition-all disabled:opacity-50"
-            style={{ background: 'rgba(0,255,136,0.12)', border: '1px solid rgba(0,255,136,0.5)', color: '#00ff88', boxShadow: '0 0 20px rgba(0,255,136,0.12)' }}>
+            style={{ background: 'rgba(16,217,130,0.12)', border: '1px solid rgba(16,217,130,0.5)', color: '#10D982', boxShadow: '0 0 20px rgba(16,217,130,0.12)' }}>
             {saving ? <><Save className="w-4 h-4 animate-pulse" /> Saving…</> : saved ? <><CheckCircle className="w-4 h-4" /> Saved!</> : <><Save className="w-4 h-4" /> Save preferences</>}
           </button>
-          {saved && <span className="text-[9px] text-[#00ff88] uppercase tracking-wider">Preferences saved locally.</span>}
+          {saved && <span className="text-[9px] text-[#10D982] uppercase tracking-wider">Preferences saved locally.</span>}
         </div>
 
         <div className="text-[7px] text-[rgba(255,255,255,0.15)] leading-relaxed p-3 rounded" style={{ border: '1px solid rgba(255,255,255,0.05)' }}>

@@ -251,43 +251,43 @@ export default function ThreatGlobe() {
     <div className="rounded-lg overflow-hidden flex flex-col h-full"
       style={{
         background: 'radial-gradient(circle at center, rgba(0,30,15,0.4) 0%, rgba(5,5,12,0.95) 70%)',
-        border: '1px solid rgba(0,255,136,0.15)',
-        boxShadow: 'inset 0 0 80px rgba(0,255,136,0.04), 0 0 50px rgba(0,255,136,0.08)',
+        border: '1px solid rgba(16,217,130,0.15)',
+        boxShadow: 'inset 0 0 80px rgba(16,217,130,0.04), 0 0 50px rgba(16,217,130,0.08)',
       }}>
 
       <div className="px-4 py-3 flex items-center justify-between shrink-0"
-        style={{ borderBottom: '1px solid rgba(0,255,136,0.1)', background: 'rgba(0,0,0,0.3)' }}>
+        style={{ borderBottom: '1px solid rgba(16,217,130,0.1)', background: 'rgba(0,0,0,0.3)' }}>
         <div className="flex items-center gap-2.5">
-          <div className="w-1 h-5 rounded-full" style={{ background: '#00ff88', boxShadow: '0 0 8px #00ff88' }} />
+          <div className="w-1 h-5 rounded-full" style={{ background: '#10D982', boxShadow: '0 0 8px #10D982' }} />
           <div>
-            <div className="text-[10px] font-black tracking-[0.15em] uppercase text-[#00ff88]">3D Threat Globe</div>
+            <div className="text-[10px] font-black tracking-[0.15em] uppercase text-[#10D982]">3D Threat Globe</div>
             <div className="text-[8px] tracking-wider mt-0.5 uppercase text-[rgba(255,255,255,0.4)]">
               Sanctioned regions · WebGL · Real-time
             </div>
           </div>
         </div>
         <div className="flex items-center gap-1.5">
-          <Globe2 className="w-3 h-3 text-[#00ff88]" style={{ animation: 'pulse 1.5s ease-in-out infinite' }} />
-          <span className="text-[8px] font-black uppercase tracking-wider text-[#00ff88]">SCANNING</span>
+          <Globe2 className="w-3 h-3 text-[#10D982]" style={{ animation: 'pulse 1.5s ease-in-out infinite' }} />
+          <span className="text-[8px] font-black uppercase tracking-wider text-[#10D982]">SCANNING</span>
         </div>
       </div>
 
       <div ref={containerRef} className="flex-1 relative" style={{ minHeight: 320 }}>
         {!mounted && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <Loader2 className="w-6 h-6 text-[#00ff88] animate-spin" />
+            <Loader2 className="w-6 h-6 text-[#10D982] animate-spin" />
           </div>
         )}
       </div>
 
       <div className="px-4 py-2 flex items-center justify-between shrink-0"
-        style={{ borderTop: '1px solid rgba(0,255,136,0.08)', background: 'rgba(0,0,0,0.3)' }}>
+        style={{ borderTop: '1px solid rgba(16,217,130,0.08)', background: 'rgba(0,0,0,0.3)' }}>
         <div className="flex items-center gap-3 text-[8px] uppercase tracking-wider">
-          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#ff3366]" /> <span className="text-[rgba(255,255,255,0.5)]">CRITICAL</span></span>
-          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#ffaa00]" /> <span className="text-[rgba(255,255,255,0.5)]">ELEVATED</span></span>
-          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#00ff88]" /> <span className="text-[rgba(255,255,255,0.5)]">NOMINAL</span></span>
+          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#F2566E]" /> <span className="text-[rgba(255,255,255,0.5)]">CRITICAL</span></span>
+          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#F5A524]" /> <span className="text-[rgba(255,255,255,0.5)]">ELEVATED</span></span>
+          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#10D982]" /> <span className="text-[rgba(255,255,255,0.5)]">NOMINAL</span></span>
         </div>
-        <div className="flex items-center gap-1 text-[8px] uppercase tracking-wider text-[rgba(0,255,136,0.5)]">
+        <div className="flex items-center gap-1 text-[8px] uppercase tracking-wider text-[rgba(16,217,130,0.5)]">
           <Crosshair className="w-2.5 h-2.5" /> <span>{THREAT_PINS.length} regions</span>
         </div>
       </div>

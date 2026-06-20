@@ -12,7 +12,7 @@ import {
   type VaultRecord, type VaultManifest, type VaultMode,
 } from '@/lib/vault'
 
-const ACCENT = '#00ff88'
+const ACCENT = '#10D982'
 
 export default function VaultPage() {
   const [records, setRecords] = useState<VaultRecord[]>([])
@@ -62,7 +62,7 @@ export default function VaultPage() {
 
   const wipe = () => { if (confirm('Clear all evidence records from this browser?')) { clearVault(); refresh(); setIntegrity(null); setSig(null) } }
 
-  const verdictColor = (v: VaultRecord['verdict']) => v === 'compliant' ? '#00ff88' : v === 'warning' ? '#ffaa00' : '#ff3366'
+  const verdictColor = (v: VaultRecord['verdict']) => v === 'compliant' ? '#10D982' : v === 'warning' ? '#F5A524' : '#F2566E'
 
   return (
     <div className="min-h-screen text-white relative">
@@ -78,11 +78,11 @@ export default function VaultPage() {
           <Vault className="w-4 h-4" style={{ color: ACCENT }} />
           <span className="text-sm font-bold tracking-[0.18em]" style={{ color: ACCENT }}>EVIDENCE VAULT</span>
           {mode === 'server' ? (
-            <span className="text-[8px] uppercase tracking-[0.2em] font-bold px-2 py-0.5 rounded" style={{ color: '#00ff88', background: 'rgba(0,255,136,0.1)', border: '1px solid rgba(0,255,136,0.4)' }}>
+            <span className="text-[8px] uppercase tracking-[0.2em] font-bold px-2 py-0.5 rounded" style={{ color: '#10D982', background: 'rgba(16,217,130,0.1)', border: '1px solid rgba(16,217,130,0.4)' }}>
               ● persistent · your account
             </span>
           ) : (
-            <Link href="/login" className="text-[8px] uppercase tracking-[0.2em] font-bold px-2 py-0.5 rounded hover:brightness-125" style={{ color: '#ffaa00', background: 'rgba(255,170,0,0.1)', border: '1px solid rgba(255,170,0,0.4)' }}>
+            <Link href="/login" className="text-[8px] uppercase tracking-[0.2em] font-bold px-2 py-0.5 rounded hover:brightness-125" style={{ color: '#F5A524', background: 'rgba(245,165,36,0.1)', border: '1px solid rgba(245,165,36,0.4)' }}>
               ● local demo · sign in to persist →
             </Link>
           )}
@@ -103,7 +103,7 @@ export default function VaultPage() {
         </div>
 
         {/* Root + actions */}
-        <div className="rounded-2xl p-5 mb-6" style={{ background: 'rgba(0,255,136,0.04)', border: `1px solid ${ACCENT}30` }}>
+        <div className="rounded-2xl p-5 mb-6" style={{ background: 'rgba(16,217,130,0.04)', border: `1px solid ${ACCENT}30` }}>
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <div className="min-w-0">
               <div className="flex items-center gap-2 mb-1">
@@ -120,7 +120,7 @@ export default function VaultPage() {
               </button>
               <button onClick={signRoot} disabled={signing || records.length === 0}
                 className="flex items-center gap-1.5 px-3 py-2 rounded-md text-[10px] uppercase tracking-[0.15em] font-bold transition-all disabled:opacity-40"
-                style={{ background: 'rgba(155,109,255,0.12)', border: '1px solid rgba(155,109,255,0.45)', color: '#b478ff' }}>
+                style={{ background: 'rgba(91,141,239,0.12)', border: '1px solid rgba(91,141,239,0.45)', color: '#5B8DEF' }}>
                 <Fingerprint className={`w-3 h-3 ${signing ? 'animate-pulse' : ''}`} /> sign root (Ed25519)
               </button>
               <button onClick={exportManifest} disabled={records.length === 0}
@@ -131,14 +131,14 @@ export default function VaultPage() {
             </div>
           </div>
           {integrity && (
-            <div className="mt-3 flex items-center gap-1.5 text-[11px] font-bold" style={{ color: integrity.intact ? '#00ff88' : '#ff3366' }}>
+            <div className="mt-3 flex items-center gap-1.5 text-[11px] font-bold" style={{ color: integrity.intact ? '#10D982' : '#F2566E' }}>
               {integrity.intact ? <ShieldCheck className="w-4 h-4" /> : <ShieldAlert className="w-4 h-4" />}
               {integrity.intact ? 'Integrity verified — every record hash recomputes to the stored Merkle root.' : `Tampering detected at record ${integrity.brokenId}.`}
             </div>
           )}
           {sig && (
-            <div className="mt-3 rounded-lg p-3" style={{ background: 'rgba(155,109,255,0.06)', border: '1px solid rgba(155,109,255,0.3)' }}>
-              <div className="flex items-center gap-1.5 mb-1.5" style={{ color: '#b478ff' }}>
+            <div className="mt-3 rounded-lg p-3" style={{ background: 'rgba(91,141,239,0.06)', border: '1px solid rgba(91,141,239,0.3)' }}>
+              <div className="flex items-center gap-1.5 mb-1.5" style={{ color: '#5B8DEF' }}>
                 <Fingerprint className="w-3.5 h-3.5" />
                 <span className="text-[9px] uppercase tracking-[0.2em] font-black">Ed25519 signature over the root — real signature, not just a hash</span>
               </div>
@@ -150,7 +150,7 @@ export default function VaultPage() {
             </div>
           )}
           <div className="text-[9px] text-[rgba(255,255,255,0.4)] mt-2">
-            Anchor this root to Bitcoin via the same path as <Link href="/anchor" className="underline hover:text-white">/anchor</Link> to make the existence date independently provable.
+            This root is a SHA-256 Merkle rollup of every record — change any record and the root changes — and it can be signed with Ed25519 for tamper-evident, independently verifiable proof.
           </div>
         </div>
 
@@ -179,7 +179,7 @@ export default function VaultPage() {
                 </div>
               </div>
             ))}
-            <button onClick={wipe} className="flex items-center gap-1.5 text-[9px] uppercase tracking-wider text-[rgba(255,51,102,0.55)] hover:text-[#ff3366] mt-3">
+            <button onClick={wipe} className="flex items-center gap-1.5 text-[9px] uppercase tracking-wider text-[rgba(242,86,110,0.55)] hover:text-[#F2566E] mt-3">
               <Trash2 className="w-3 h-3" /> clear vault (this browser)
             </button>
           </div>
@@ -189,9 +189,8 @@ export default function VaultPage() {
           <div className="text-[11px] uppercase tracking-[0.2em] font-black mb-3" style={{ color: ACCENT }}>Why this is the product</div>
           <p className="text-[13px] text-[rgba(255,255,255,0.75)] leading-relaxed">
             A compliance officer&apos;s real fear isn&apos;t missing a breach — it&apos;s being unable to prove to CSSF that they did their job.
-            This is the answer: an independent, cryptographically-sealed, Bitcoin-anchorable record of every check, exportable on demand.
+            This is the answer: an independent, cryptographically-sealed (SHA-256) record of every check, computed in your browser and exportable on demand.
             That reframes Genesis from &ldquo;AI that detects&rdquo; to <span className="text-white">audit insurance</span> — a line funds already budget for.
-            This is the client-side reference implementation; the production system of record is the server-persisted per-tenant ledger.
           </p>
         </section>
       </div>

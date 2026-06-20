@@ -17,9 +17,9 @@ import { extractDocument, scanCompliance, SAMPLE_PROSPECTUS, type ScanResult, ty
 import { canonicalScanHash } from '@/lib/perf-benchmark'
 
 const CosmicBackground = dynamic(() => import('@/components/CosmicBackground'), { ssr: false })
-const ACCENT = '#00ff88'
+const ACCENT = '#10D982'
 
-const SEV: Record<Finding['severity'], string> = { critical: '#ff3366', warning: '#ffaa00', ok: '#00ff88' }
+const SEV: Record<Finding['severity'], string> = { critical: '#F2566E', warning: '#F5A524', ok: '#10D982' }
 
 export default function VerifyPage() {
   const [text, setText] = useState(SAMPLE_PROSPECTUS)
@@ -43,13 +43,13 @@ export default function VerifyPage() {
   const compared = exp.length > 0 && hash != null
 
   return (
-    <div className="min-h-screen text-white" style={{ fontFamily: 'system-ui, -apple-system, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+    <div className="min-h-screen text-white" style={{ fontFamily: 'var(--font-geist-sans), system-ui, -apple-system, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
       <CosmicBackground variant="calm" accent={ACCENT} />
 
       <nav className="relative z-10 flex items-center justify-between px-5 md:px-8 py-4 border-b border-[rgba(255,255,255,0.06)]">
         <a href="/" className="flex items-center gap-2.5">
           <div className="w-7 h-7 rounded-md flex items-center justify-center"
-            style={{ background: `linear-gradient(135deg, ${ACCENT}, #00aa55)`, boxShadow: `0 0 18px ${ACCENT}88` }}>
+            style={{ background: `linear-gradient(135deg, ${ACCENT}, #0B9E63)`, boxShadow: `0 0 18px ${ACCENT}88` }}>
             <Sparkles className="w-4 h-4 text-black" />
           </div>
           <span className="text-sm font-black tracking-[0.15em]">GENESIS SWARM</span>
@@ -115,10 +115,10 @@ export default function VerifyPage() {
             {/* Match banner (only when an expected hash was supplied) */}
             {compared && (
               <div className="rounded-2xl px-5 py-4 mb-4 flex items-center gap-3"
-                style={{ background: match ? 'rgba(0,255,136,0.06)' : 'rgba(255,51,102,0.08)', border: `1px solid ${match ? ACCENT + '55' : '#ff336655'}` }}>
-                {match ? <CheckCircle2 className="w-6 h-6" style={{ color: ACCENT }} /> : <XCircle className="w-6 h-6 text-[#ff3366]" />}
+                style={{ background: match ? 'rgba(16,217,130,0.06)' : 'rgba(242,86,110,0.08)', border: `1px solid ${match ? ACCENT + '55' : '#F2566E55'}` }}>
+                {match ? <CheckCircle2 className="w-6 h-6" style={{ color: ACCENT }} /> : <XCircle className="w-6 h-6 text-[#F2566E]" />}
                 <div>
-                  <div className="font-black text-base" style={{ color: match ? ACCENT : '#ff3366' }}>
+                  <div className="font-black text-base" style={{ color: match ? ACCENT : '#F2566E' }}>
                     {match ? 'VERIFIED — hashes match' : 'MISMATCH — hashes differ'}
                   </div>
                   <div className="text-[11px] text-[rgba(255,255,255,0.5)] mt-0.5">
@@ -147,10 +147,10 @@ export default function VerifyPage() {
             </div>
 
             {/* The recomputed verdict */}
-            <div className="rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${result.compliant ? 'rgba(0,255,136,0.3)' : 'rgba(255,51,102,0.3)'}` }}>
+            <div className="rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${result.compliant ? 'rgba(16,217,130,0.3)' : 'rgba(242,86,110,0.3)'}` }}>
               <div className="px-5 py-3 flex items-center justify-between border-b border-[rgba(255,255,255,0.06)]">
                 <span className="text-[11px] uppercase tracking-[0.2em] font-bold text-[rgba(255,255,255,0.5)]">Recomputed verdict</span>
-                <span className="font-black text-sm" style={{ color: result.compliant ? ACCENT : '#ff3366' }}>
+                <span className="font-black text-sm" style={{ color: result.compliant ? ACCENT : '#F2566E' }}>
                   {result.compliant ? 'COMPLIANT' : 'NON-COMPLIANT'} · {result.criticalCount} critical · {result.warningCount} warning
                 </span>
               </div>

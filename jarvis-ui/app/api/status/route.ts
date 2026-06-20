@@ -26,9 +26,9 @@ async function probe(label: string, fn: () => Promise<{ ok: boolean; detail?: st
 }
 
 export async function GET() {
-  const [ofac, gleif, fx, groq] = await Promise.all([
+  const [ofac, gleif, fx] = await Promise.all([
     probe('OFAC', async () => {
-      const r = await fetch('https://genesis-swarm-rgq5.vercel.app/api/real/sanctions?q=ROSNEFT', { cache: 'no-store' })
+      const r = await fetch('https://genesis-swarm.vercel.app/api/real/sanctions?q=ROSNEFT', { cache: 'no-store' })
       return { ok: r.ok, detail: r.ok ? '18,976 entities indexed' : `HTTP ${r.status}` }
     }),
     probe('GLEIF', async () => {
@@ -39,15 +39,6 @@ export async function GET() {
       const r = await fetch('https://api.frankfurter.app/latest?from=EUR&to=USD', { cache: 'no-store' })
       return { ok: r.ok, detail: r.ok ? 'ECB pegged' : `HTTP ${r.status}` }
     }),
-    probe('Groq AI', async () => {
-      // Light probe — just hit the model endpoint with a 1-token request
-      if (!process.env.GROQ_API_KEY) return { ok: false, detail: 'GROQ_API_KEY not configured' }
-      const r = await fetch('https://api.groq.com/openai/v1/models', {
-        headers: { Authorization: `Bearer ${process.env.GROQ_API_KEY}` },
-        cache: 'no-store',
-      })
-      return { ok: r.ok, detail: r.ok ? 'llama-3.3-70b' : `HTTP ${r.status}` }
-    }),
   ])
 
   const checks: Check[] = [
@@ -57,7 +48,7 @@ export async function GET() {
     { id: 'ofac',    label: 'OFAC SDN Screening',     description: '18,976 US Treasury sanctioned entities',               ...ofac },
     { id: 'gleif',   label: 'GLEIF Registry',         description: '2.4M global legal entity identifiers',                 ...gleif },
     { id: 'fx',      label: 'ECB FX Rates',           description: 'Frankfurter / ECB peg',                                ...fx },
-    { id: 'groq',    label: 'Groq AI Engine',         description: 'llama-3.3-70b-versatile streaming',                    ...groq },
+    { id: 'engine',  label: 'Scan Engine',            description: 'Deterministic AIFMD II / UCITS checks (client-side, no LLM)', status: 'up', detail: 'reproducible · SHA-256 sealed' },
     { id: 'stripe',  label: 'Stripe Checkout',        description: 'Subscription billing',                                 status: process.env.STRIPE_SECRET_KEY ? 'up' : 'degraded', detail: process.env.STRIPE_SECRET_KEY ? 'Configured' : 'Awaiting STRIPE_SECRET_KEY' },
   ]
 

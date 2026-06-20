@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import {
   Activity, Sparkles, ShieldCheck, Scale, FileText, Coins, Newspaper,
-  AlertOctagon, MessageSquare, TrendingUp, Code2, Chrome, Bot, Target,
+  AlertOctagon, Code2, Chrome, Target,
   Mail, Lock, BarChart3, Play, Key, Crown, Search, Globe2,
   Gavel, Eye as EyeIcon, BookOpen, Rewind, ScrollText,
   Tv2, Crosshair, Feather, Users, BookMarked, Network, Anchor, Cpu, Brain, Award, Landmark, Boxes,
@@ -36,13 +36,12 @@ const ITEMS: Item[] = [
   { href: '/watchlist',       label: 'The Watch List 2026-27',       description: '5 named EU entities · cryptographically committed · Bitcoin-anchored',  group: 'Mythological', Icon: Crosshair,   keywords: ['watch list','watchlist','prediction','5 entities','bitcoin anchored','press','reuters','ft'] },
   { href: '/deck',            label: 'Pitch Deck',                   description: '12-slide pre-seed deck · scroll, screenshot, share · €1M-€2M at €10M-€15M',     group: 'Company',      Icon: Sparkles,    keywords: ['deck','pitch','investor','seed','round','valuation','slides','presentation'] },
   { href: '/independence',    label: 'Independence Pledge',          description: 'Six pledges · we never accept payment from any entity we score',         group: 'Company',      Icon: Scale,       keywords: ['independence','pledge','conflict','interest','norm ai','sp','moodys','structural','vs'] },
-  { href: '/research',        label: 'Foresight Lab',                description: 'Open methodology · academic research · cited findings · CC-BY 4.0',     group: 'Developers',   Icon: FileText,    keywords: ['research','foresight','paper','methodology','academic','lab','citation','cryptographic'] },
+  { href: '/research',        label: 'Research Notes',               description: 'Field notes on building a deterministic AIFMD II checker · cited · CC-BY 4.0', group: 'Developers',   Icon: FileText,    keywords: ['research','note','paper','methodology','deterministic','aifmd','citation'] },
   { href: '/architecture',    label: 'The Genesis Engine · 7 Pillars', description: 'Law as software · code-to-law, ZK vaults, red-team, precedent, topology, twins, kinetic', group: 'Developers', Icon: Cpu,    keywords: ['architecture','engine','pillars','code-to-law','zero knowledge','red team','topology','kinetic','compliance kernel','loop'] },
   { href: '/lux',             label: 'Luxembourg RegTech · 5 Engines', description: 'Live CSSF 24/856 substance, reconciliation, AIFMD II, e-ID, 18/698 delegation', group: 'Developers', Icon: Landmark, keywords: ['luxembourg','cssf','aifmd','substance','24/856','18/698','e-identification','delegation','reconciliation','regtech','engines'] },
   { href: '/clearing',        label: 'Clearing Matrix · live crypto',  description: 'Escrow breaker + proof-of-substance ring + real Paillier homomorphic compute', group: 'Developers', Icon: Boxes,    keywords: ['clearing','escrow','paillier','homomorphic','encryption','zero knowledge','bls','dark pool','crypto','solidity'] },
   { href: '/lookup',          label: 'Search Your Exposure',         description: 'Type any counterparty name · instant exposure check across the Book',  group: 'Live',         Icon: Target,      keywords: ['lookup','search','counterparty','exposure','my fund','find','my bank'] },
   { href: '/predictions',     label: 'Pre-Registered Predictions',   description: '10 named, dated, falsifiable forecasts · 18-month verdict window',  group: 'Mythological', Icon: Crown,       keywords: ['predictions','live','forecasts','dated','pre-registered','top 10'] },
-  { href: '/mcp',             label: 'Genesis MCP Server',           description: 'Call Genesis from ChatGPT, Claude, Cursor — JSON-RPC over HTTP',     group: 'Developers',   Icon: Bot,         keywords: ['mcp','model context protocol','ai','llm','chatgpt','claude','cursor','tool'] },
   { href: '/timemachine',     label: 'The Time Machine',             description: 'Backtest: Genesis would have caught every major EU collapse',        group: 'Mythological', Icon: Rewind,      keywords: ['time machine','backtest','accuracy','wirecard','foresight','proof'] },
   { href: '/warroom',         label: 'The War Room',                 description: '24/7 ambient surveillance feed · live globe',                        group: 'Mythological', Icon: Tv2,         keywords: ['war room','livestream','feed','ambient','tv','globe'] },
   { href: '/replay',          label: 'The Replay Engine',            description: 'Time-travel through Wirecard, FTX, Greensill, Archegos, Madoff',     group: 'Mythological', Icon: Rewind,      keywords: ['replay','wirecard','ftx','greensill','archegos','madoff','timeline','historical'] },
@@ -63,27 +62,19 @@ const ITEMS: Item[] = [
   { href: '/legal',           label: 'Legal &amp; Terms',                description: 'Terms of use · GDPR · right-to-erasure',                            group: 'Company',      Icon: ScrollText,  keywords: ['legal','terms','gdpr','erasure','privacy','rights'] },
 
   // Live tools
-  { href: '/operator',        label: 'Live Operator Dashboard',     description: '11 bots, 3D threat globe, live event stream, AI console',           group: 'Live',       Icon: Activity,    keywords: ['dashboard','live','bots','globe','jarvis'] },
-  { href: '/intelligence',    label: 'Regulatory Intelligence Feed', description: 'CSSF + EBA + ESMA news, AI-tagged by framework',                    group: 'Live',       Icon: Newspaper,   keywords: ['news','cssf','eba','esma','rss','feed'] },
-  { href: '/status',          label: 'System Status',                description: 'Live health probes across OFAC, GLEIF, ECB, Groq',                  group: 'Live',       Icon: BarChart3,   keywords: ['status','health','uptime'] },
-  { href: '/chat',            label: 'Compliance Chat',              description: 'Voice + text AI assistant',                                          group: 'Live',       Icon: MessageSquare, keywords: ['chat','jarvis','voice','ai'] },
+  { href: '/scan',            label: 'Run a Compliance Scan',        description: 'Deterministic AIFMD II / UCITS check · client-side · no LLM',        group: 'Live',       Icon: Activity,    keywords: ['scan','compliance','aifmd','ucits','prospectus','check'] },
+  { href: '/intelligence',    label: 'Regulatory Intelligence Feed', description: 'CSSF + EBA + ESMA news, tagged by framework',                       group: 'Live',       Icon: Newspaper,   keywords: ['news','cssf','eba','esma','rss','feed'] },
+  { href: '/status',          label: 'System Status',                description: 'Live health probes across OFAC, GLEIF, ECB',                        group: 'Live',       Icon: BarChart3,   keywords: ['status','health','uptime'] },
 
   // Tools
-  { href: '/audit',           label: '60-Minute Audit Pack',         description: 'Regulator question → signed PDF in 60 seconds',                     group: 'Tools',      Icon: ShieldCheck, keywords: ['audit','pdf','dora','aifmd','cssf','regulator'] },
-  { href: '/opinion',         label: 'AI Legal Opinion',             description: '€3K Arendt opinion → €99 AI memo',                                  group: 'Tools',      Icon: Scale,       keywords: ['legal','opinion','memo','arendt','counsel'] },
-  { href: '/analyze',         label: 'PDF Prospectus Analyzer',      description: 'Drop a fund prospectus → AI compliance gap analysis',               group: 'Tools',      Icon: FileText,    keywords: ['pdf','prospectus','analyze','fund','gap'] },
-  { href: '/fund-score',      label: 'Fund Health Score',            description: 'Instant compliance score for any fund name',                        group: 'Tools',      Icon: TrendingUp,  keywords: ['fund','score','health','rating'] },
   { href: '/token-screen',    label: 'RWA Token Compliance',         description: 'Screen any ERC-20 or ERC-3643 contract',                            group: 'Tools',      Icon: Coins,       keywords: ['rwa','token','erc20','erc3643','crypto','tokenized'] },
-  { href: '/case-studies',    label: 'Forensic Case Studies',        description: 'Wirecard, Greensill, Madoff, Archegos timelines',                   group: 'Tools',      Icon: AlertOctagon, keywords: ['wirecard','greensill','madoff','archegos','fraud'] },
-  { href: '/demo',            label: 'Wirecard Replay',              description: '5-stage live fraud detection pipeline demo',                        group: 'Tools',      Icon: Play,        keywords: ['demo','wirecard','replay','pipeline'] },
 
   // Developers
   { href: '/docs',            label: 'API Documentation',            description: 'REST endpoints, curl/Python/TS examples, auth & rate limits',       group: 'Developers', Icon: Code2,       keywords: ['api','docs','rest','curl','python','typescript'] },
   { href: '/extension',       label: 'Chrome Extension',             description: 'Hover any company → instant OFAC screen popup',                      group: 'Developers', Icon: Chrome,      keywords: ['chrome','extension','browser','plugin'] },
-  { href: '/gpt',             label: 'ChatGPT Integration',          description: 'Publish a Custom GPT calling Genesis Swarm actions',                group: 'Developers', Icon: Bot,         keywords: ['chatgpt','gpt','openai','custom gpt','assistant'] },
 
   // Company
-  { href: '/about',           label: 'About · Founder Story',        description: 'Daman Sharma, 16, Luxembourg, €50M target',                         group: 'Company',    Icon: Globe2,      keywords: ['about','founder','story','daman'] },
+  { href: '/about',           label: 'About · Why Deterministic',    description: 'Who built Genesis Swarm and why it has no AI in the decision path', group: 'Company',    Icon: Globe2,      keywords: ['about','founder','story','daman','deterministic','why'] },
   { href: '/investors',       label: 'Investor Data Room',           description: 'Thesis, traction, moat, the ask',                                   group: 'Company',    Icon: Target,      keywords: ['investors','seed','funding','pitch','data room'] },
   { href: '/press',           label: 'Press Kit',                    description: 'Logos, one-liners, boilerplate, screenshots',                       group: 'Company',    Icon: Mail,        keywords: ['press','media','kit','logo','boilerplate'] },
   { href: '/onepager',        label: 'One-Pager',                    description: 'Single-page product overview',                                      group: 'Company',    Icon: FileText,    keywords: ['one pager','overview','summary'] },
@@ -94,6 +85,13 @@ const ITEMS: Item[] = [
   { href: '/login',           label: 'Sign In',                      description: 'Magic-link passwordless auth',                                       group: 'Account',    Icon: Key,         keywords: ['login','sign in','auth','magic link'] },
   { href: '/trial',           label: 'Start Free Trial',             description: '14-day Pro tier trial, no card required',                           group: 'Account',    Icon: Crown,       keywords: ['trial','signup','register','start'] },
 ]
+
+// Retired redirect-stubs + off-brand surfaces — hidden from Cmd+K search.
+// (Mythological-group items are already excluded separately.)
+const EXCLUDE_FROM_SEARCH = new Set<string>([
+  '/oracle', '/codex', '/claim', '/deck', '/independence', '/lookup',
+  '/investors', '/press', '/onepager', '/architecture', '/clearing',
+])
 
 function fuzzyMatch(item: Item, q: string): number {
   if (!q.trim()) return 1
@@ -146,7 +144,12 @@ export default function CommandPalette() {
 
   // Filter + sort
   const scored = ITEMS.map(it => ({ item: it, score: fuzzyMatch(it, q) }))
-    .filter(s => s.score > 0)
+    // De-listed 2026-06-12: the "Mythological" theater (prophecies / pre-crime /
+    // named-entity scores) is hidden from discovery — product collapsed to the
+    // deterministic core. Pages still exist; this only removes them from search.
+    // EXCLUDE_FROM_SEARCH additionally hides retired redirect-stub routes and any
+    // non-deterministic / fundraising surfaces so Cmd+K only reaches real product.
+    .filter(s => s.score > 0 && s.item.group !== 'Mythological' && !EXCLUDE_FROM_SEARCH.has(s.item.href))
     .sort((a, b) => b.score - a.score)
 
   const grouped: Record<string, typeof scored> = {}
@@ -175,8 +178,8 @@ export default function CommandPalette() {
         className="w-full max-w-2xl rounded-2xl overflow-hidden"
         style={{
           background: 'rgba(8,8,16,0.97)',
-          border: '1px solid rgba(0,255,136,0.25)',
-          boxShadow: '0 32px 80px rgba(0,0,0,0.8), 0 0 60px rgba(0,255,136,0.1)',
+          border: '1px solid rgba(16,217,130,0.25)',
+          boxShadow: '0 32px 80px rgba(0,0,0,0.8), 0 0 60px rgba(16,217,130,0.1)',
         }}>
 
         {/* Search */}
@@ -198,11 +201,11 @@ export default function CommandPalette() {
         <div className="max-h-[60vh] overflow-y-auto py-2">
           {flat.length === 0 ? (
             <div className="px-5 py-8 text-center text-[12px] text-[rgba(255,255,255,0.4)]">
-              No matches. Try &quot;audit&quot;, &quot;api&quot;, &quot;dashboard&quot;, or browse <a href="/everything" className="text-[#00ff88] hover:underline">all features →</a>
+              No matches. Try &quot;audit&quot;, &quot;api&quot;, &quot;dashboard&quot;, or <a href="/scan" className="text-[#10D982] hover:underline">run a scan →</a>
             </div>
           ) : Object.entries(grouped).map(([group, items]) => (
             <div key={group}>
-              <div className="px-5 pt-3 pb-1 text-[9px] uppercase tracking-[0.25em] font-black text-[rgba(0,255,136,0.5)]">{group}</div>
+              <div className="px-5 pt-3 pb-1 text-[9px] uppercase tracking-[0.25em] font-black text-[rgba(16,217,130,0.5)]">{group}</div>
               {items.map(({ item }) => {
                 const myIdx = idx++
                 const isActive = myIdx === selected
@@ -210,13 +213,13 @@ export default function CommandPalette() {
                   <a key={item.href} href={item.href}
                     onMouseEnter={() => setSelected(myIdx)}
                     className="flex items-center gap-3 px-5 py-2.5 cursor-pointer transition-colors"
-                    style={{ background: isActive ? 'rgba(0,255,136,0.06)' : 'transparent' }}>
+                    style={{ background: isActive ? 'rgba(16,217,130,0.06)' : 'transparent' }}>
                     <div className="w-8 h-8 rounded flex items-center justify-center shrink-0"
                       style={{
-                        background: isActive ? 'rgba(0,255,136,0.12)' : 'rgba(255,255,255,0.03)',
-                        border: `1px solid ${isActive ? 'rgba(0,255,136,0.4)' : 'rgba(255,255,255,0.08)'}`,
+                        background: isActive ? 'rgba(16,217,130,0.12)' : 'rgba(255,255,255,0.03)',
+                        border: `1px solid ${isActive ? 'rgba(16,217,130,0.4)' : 'rgba(255,255,255,0.08)'}`,
                       }}>
-                      <item.Icon className="w-4 h-4" style={{ color: isActive ? '#00ff88' : 'rgba(255,255,255,0.6)' }} />
+                      <item.Icon className="w-4 h-4" style={{ color: isActive ? '#10D982' : 'rgba(255,255,255,0.6)' }} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className={`text-[13px] font-bold truncate ${isActive ? 'text-white' : 'text-[rgba(255,255,255,0.85)]'}`}>{item.label}</div>
@@ -238,7 +241,7 @@ export default function CommandPalette() {
             <span><kbd className="font-mono">↵</kbd> open</span>
             <span><kbd className="font-mono">esc</kbd> close</span>
           </div>
-          <div className="text-[9px] uppercase tracking-widest text-[rgba(0,255,136,0.5)] font-bold">
+          <div className="text-[9px] uppercase tracking-widest text-[rgba(16,217,130,0.5)] font-bold">
             Genesis Swarm · {ITEMS.length} pages
           </div>
         </div>

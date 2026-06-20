@@ -1,19 +1,13 @@
-import { NextRequest } from 'next/server'
-import { kv } from '@/lib/kv'
-import { type BookEntry } from '@/lib/book'
-import { BOOK_SNAPSHOT_ENTRIES } from '@/lib/book-snapshot'
-import { getVindicationForEntry } from '@/lib/vindicate'
+// RETIRED 2026-06-13. This endpoint served or generated speculative / LLM /
+// fabricated assessments (risk verdicts, prophecies, scores, "agent findings")
+// about NAMED real entities — or exposed an AI-plugin surface. That has no place
+// in a deterministic, no-LLM compliance product and carries defamation + GDPR
+// (Art. 5/6) exposure. Use the client-side scanner at /scan (nothing is uploaded).
 
-export const runtime = 'nodejs'
-
-export async function GET(req: NextRequest) {
-  const id = new URL(req.url).searchParams.get('id')?.trim()
-  if (!id) return Response.json({ error: 'id required' }, { status: 400 })
-  let e = await kv.get<BookEntry>(`book:entry:${id}`)
-  if (!e) {
-    e = BOOK_SNAPSHOT_ENTRIES.find(x => x.prophecy_id === id) ?? null
-  }
-  if (!e) return Response.json({ error: 'not found' }, { status: 404 })
-  const vindication = await getVindicationForEntry(id)
-  return Response.json({ entry: e, vindication })
+const GONE = {
+  error: 'gone',
+  message: 'Retired — this surface produced or served fabricated/LLM assessments about named entities. Use the deterministic client-side scanner at /scan.',
 }
+
+export async function GET() { return Response.json(GONE, { status: 410 }) }
+export async function POST() { return Response.json(GONE, { status: 410 }) }

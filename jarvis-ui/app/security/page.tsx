@@ -7,7 +7,7 @@ export const metadata = {
   description: 'How Genesis Swarm handles data, what cryptography it uses, what is production vs reference implementation, and how to report a vulnerability.',
 }
 
-const ACCENT = '#00d8ff'
+const ACCENT = '#5B8DEF'
 
 function Section({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode }) {
   return (
@@ -55,14 +55,15 @@ export default function SecurityPage() {
         <Section icon={<Fingerprint className="w-4 h-4" />} title="Cryptography">
           <p>• <b className="text-white">Integrity:</b> records are hashed with SHA-256 and chained; a vault rolls up into a binary <b className="text-white">Merkle root</b>, so any change to any record changes the root.</p>
           <p>• <b className="text-white">Authorship:</b> the root can be signed with a real <b className="text-white">Ed25519</b> signature. The public key is served at <span className="font-mono text-[rgba(255,255,255,0.6)]">/api/sign</span> (GET) and any signature verifies with standard Ed25519 — no Genesis code required.</p>
-          <p>• <b className="text-white">Timestamping:</b> a root is anchorable to Bitcoin via OpenTimestamps (<Link href="/anchor" className="underline hover:text-white">/anchor</Link>), making its existence date independently provable.</p>
+          <p>• <b className="text-white">Provenance:</b> every verdict is stamped with the dated ruleset version (and a UTC timestamp) that produced it, so a result stays re-verifiable against a named body of rules even after the law changes.</p>
         </Section>
 
-        <Section icon={<ShieldCheck className="w-4 h-4" />} title="Determinism (no LLM in the verdict path)">
-          <p>The compliance engines (<Link href="/scan" className="underline hover:text-white">/scan</Link>, <Link href="/lux" className="underline hover:text-white">/lux</Link>) are pure arithmetic and regex — <b className="text-white">no large language model decides a verdict</b>, so every result is reproducible and auditable. The conversational assistant (/codex) and the qualitative PDF reader (/analyze) are clearly AI-assisted and labelled as such; they never produce the deterministic verdicts.</p>
+        <Section icon={<ShieldCheck className="w-4 h-4" />} title="No LLM. Anywhere.">
+          <p>The compliance engines (<Link href="/scan" className="underline hover:text-white">/scan</Link>, <Link href="/lux" className="underline hover:text-white">/lux</Link>) are pure arithmetic and regex — <b className="text-white">no large language model decides a verdict</b>, so every result is reproducible and auditable.</p>
+          <p>This goes further than the verdict path. <b className="text-white">There is no LLM anywhere in this product</b> — no chat, no document reader, no background AI. We removed every third-party model integration (Groq, Anthropic, and others). Nothing you submit is ever sent to an AI provider, because there is no code path to one.</p>
         </Section>
 
-        <Section icon={<GitBranch className="w-4 h-4" />} title="Open source">
+        <Section icon={<GitBranch className="w-4 h-4" />} title="Source available">
           <p>The engine code is public for inspection — no NDA required for technical review:{' '}
             <a href="https://github.com/Daman-2310/genesis-swarm-public" target="_blank" rel="noopener noreferrer" className="underline hover:text-white" style={{ color: ACCENT }}>github.com/Daman-2310/genesis-swarm-public</a>. The test suite verifies the engines against worked examples.</p>
         </Section>

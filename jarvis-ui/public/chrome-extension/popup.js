@@ -1,4 +1,4 @@
-const API_BASE = 'https://genesis-swarm-rgq5.vercel.app'
+const API_BASE = 'https://genesis-swarm.vercel.app'
 
 const qInput = document.getElementById('q')
 const goBtn = document.getElementById('go')

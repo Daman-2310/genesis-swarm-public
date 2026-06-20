@@ -1,13 +1,13 @@
 {
-  "name": "Genesis Swarm — Sovereign Command Center",
+  "name": "Genesis Swarm",
   "short_name": "Genesis Swarm",
-  "description": "AI compliance & operational-risk intelligence for European funds. The Book of Genesis, anchored on Bitcoin.",
+  "description": "Deterministic AIFMD II / UCITS prospectus compliance — in the browser, no LLM in the decision path.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#050508",
-  "theme_color": "#9b6dff",
+  "theme_color": "#10D982",
   "icons": [
     {
       "src": "/icon-192.svg",
@@ -25,24 +25,17 @@
   "categories": ["finance", "business", "productivity"],
   "shortcuts": [
     {
-      "name": "The Book of Genesis",
-      "short_name": "Book",
-      "description": "100 sealed prophecies",
-      "url": "/book",
+      "name": "Scan a prospectus",
+      "short_name": "Scan",
+      "description": "Run a live AIFMD II / UCITS compliance check",
+      "url": "/scan",
       "icons": [{ "src": "/icon-192.svg", "sizes": "192x192" }]
     },
     {
-      "name": "Operator Dashboard",
-      "short_name": "Operator",
-      "description": "Live bot feed",
-      "url": "/operator",
-      "icons": [{ "src": "/icon-192.svg", "sizes": "192x192" }]
-    },
-    {
-      "name": "Constitutional Court",
-      "short_name": "Court",
-      "description": "3 AI judges deliberate",
-      "url": "/court",
+      "name": "AIFMD II Readiness Report",
+      "short_name": "Report",
+      "description": "The 2027 AIFMD II prospectus readiness report",
+      "url": "/research/report-01-aifmd2-readiness",
       "icons": [{ "src": "/icon-192.svg", "sizes": "192x192" }]
     }
   ]

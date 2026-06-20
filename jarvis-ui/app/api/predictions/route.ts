@@ -1,22 +1,13 @@
-import { listPredictions } from '@/lib/predictions'
+// RETIRED 2026-06-13. This endpoint served or generated speculative / LLM /
+// fabricated assessments (risk verdicts, prophecies, scores, "agent findings")
+// about NAMED real entities — or exposed an AI-plugin surface. That has no place
+// in a deterministic, no-LLM compliance product and carries defamation + GDPR
+// (Art. 5/6) exposure. Use the client-side scanner at /scan (nothing is uploaded).
 
-export const runtime = 'edge'
-
-export async function GET() {
-  const predictions = listPredictions()
-  const now = Date.now()
-  const computed = predictions.map(p => {
-    const sealedMs = new Date(p.sealed_at).getTime()
-    const revealMs = new Date(p.reveal_window_end).getTime()
-    const elapsedDays = Math.max(0, Math.floor((now - sealedMs) / 86400_000))
-    const remainingDays = Math.max(0, Math.floor((revealMs - now) / 86400_000))
-    return { ...p, elapsed_days: elapsedDays, remaining_days: remainingDays }
-  })
-  return Response.json({
-    count: computed.length,
-    issued_at: predictions[0]?.sealed_at,
-    book_merkle_root: predictions[0]?.book_merkle_root,
-    bitcoin_anchor_status: predictions[0]?.bitcoin_anchor_status,
-    predictions: computed,
-  })
+const GONE = {
+  error: 'gone',
+  message: 'Retired — this surface produced or served fabricated/LLM assessments about named entities. Use the deterministic client-side scanner at /scan.',
 }
+
+export async function GET() { return Response.json(GONE, { status: 410 }) }
+export async function POST() { return Response.json(GONE, { status: 410 }) }

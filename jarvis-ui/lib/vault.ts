@@ -54,9 +54,16 @@ async function buildRecord(input: Omit<VaultRecord, 'id' | 'leafHash' | 'recorde
 // Dual-mode: when a Supabase session exists, the record is persisted server-side
 // (per-tenant, RLS-isolated, durable). Otherwise it falls back to the anonymous
 // localStorage vault so the demo always works.
+
+// Only hit the server vault when actually signed in — avoids a 401/501 console
+// error on the anonymous (localStorage) path, which is the default for visitors.
+function isSignedIn(): boolean {
+  return typeof window !== 'undefined' && !!window.localStorage.getItem('gs_token')
+}
+
 export async function addRecord(input: Omit<VaultRecord, 'id' | 'leafHash' | 'recordedAt'>): Promise<{ record: VaultRecord; mode: VaultMode }> {
   const record = await buildRecord(input)
-  if (typeof window !== 'undefined') {
+  if (isSignedIn()) {
     try {
       const r = await fetch('/api/vault', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(record) })
       if (r.ok) return { record, mode: 'server' }
@@ -70,7 +77,7 @@ export async function addRecord(input: Omit<VaultRecord, 'id' | 'leafHash' | 're
 
 // Load the vault: server records if signed in, else the local fallback.
 export async function loadRecords(): Promise<{ records: VaultRecord[]; mode: VaultMode }> {
-  if (typeof window !== 'undefined') {
+  if (isSignedIn()) {
     try {
       const r = await fetch('/api/vault', { headers: { accept: 'application/json' } })
       if (r.ok) {

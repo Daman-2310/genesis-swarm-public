@@ -95,9 +95,9 @@ export default function LoginClient({ supabaseConfigured }: { supabaseConfigured
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5"
-            style={{ background: 'rgba(155,109,255,0.08)', border: '1px solid rgba(155,109,255,0.3)' }}>
-            <Sparkles className="w-3 h-3 text-[#9b6dff]" />
-            <span className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#9b6dff]">Sign in to Genesis</span>
+            style={{ background: 'rgba(91,141,239,0.08)', border: '1px solid rgba(91,141,239,0.3)' }}>
+            <Sparkles className="w-3 h-3 text-[#5B8DEF]" />
+            <span className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#5B8DEF]">Sign in to Genesis</span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight">
             Welcome back.
@@ -112,9 +112,9 @@ export default function LoginClient({ supabaseConfigured }: { supabaseConfigured
         {!sent ? (
           <div className="space-y-4">
             <form onSubmit={submit} className="rounded-2xl p-2"
-              style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(155,109,255,0.3)' }}>
+              style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(91,141,239,0.3)' }}>
               <div className="flex items-center gap-3 px-3 py-2">
-                <Mail className="w-4 h-4 text-[#9b6dff] shrink-0" />
+                <Mail className="w-4 h-4 text-[#5B8DEF] shrink-0" />
                 <input
                   autoFocus
                   type="email"
@@ -124,7 +124,7 @@ export default function LoginClient({ supabaseConfigured }: { supabaseConfigured
                   className="flex-1 bg-transparent outline-none text-white placeholder-[rgba(255,255,255,0.3)]" />
                 <button type="submit" disabled={loading || !email.includes('@')}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded text-[11px] uppercase tracking-wider font-bold transition-all disabled:opacity-50"
-                  style={{ background: 'rgba(155,109,255,0.15)', border: '1px solid rgba(155,109,255,0.5)', color: '#9b6dff' }}>
+                  style={{ background: 'rgba(91,141,239,0.15)', border: '1px solid rgba(91,141,239,0.5)', color: '#5B8DEF' }}>
                   {loading ? '…' : <>Send link <ArrowRight className="w-3 h-3" /></>}
                 </button>
               </div>
@@ -155,8 +155,8 @@ export default function LoginClient({ supabaseConfigured }: { supabaseConfigured
             )}
 
             {error && (
-              <div className="flex items-start gap-2 p-3 rounded-lg text-[11px] text-[#ff3366]"
-                style={{ background: 'rgba(255,51,102,0.06)', border: '1px solid rgba(255,51,102,0.25)' }}>
+              <div className="flex items-start gap-2 p-3 rounded-lg text-[11px] text-[#F2566E]"
+                style={{ background: 'rgba(242,86,110,0.06)', border: '1px solid rgba(242,86,110,0.25)' }}>
                 <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5" />
                 <span>{error}</span>
               </div>
@@ -164,8 +164,8 @@ export default function LoginClient({ supabaseConfigured }: { supabaseConfigured
           </div>
         ) : (
           <div className="rounded-2xl p-6 text-center"
-            style={{ background: 'rgba(0,255,136,0.04)', border: '1px solid rgba(0,255,136,0.3)' }}>
-            <CheckCircle2 className="w-8 h-8 text-[#00ff88] mx-auto mb-3" />
+            style={{ background: 'rgba(16,217,130,0.04)', border: '1px solid rgba(16,217,130,0.3)' }}>
+            <CheckCircle2 className="w-8 h-8 text-[#10D982] mx-auto mb-3" />
             <div className="text-[14px] font-bold text-white mb-1">Check your inbox.</div>
             <div className="text-[12px] text-[rgba(255,255,255,0.65)] leading-relaxed">
               We sent a one-tap sign-in link to <strong className="text-white">{email}</strong>.
@@ -173,17 +173,17 @@ export default function LoginClient({ supabaseConfigured }: { supabaseConfigured
             </div>
             {devLink && (
               <div className="mt-4 p-3 rounded text-left"
-                style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,170,0,0.3)' }}>
-                <div className="text-[9px] uppercase tracking-wider text-[#ffaa00] font-bold mb-1">Dev link (no email configured)</div>
-                <a href={devLink} className="text-[10px] font-mono text-[#9b6dff] break-all hover:underline">{devLink}</a>
+                style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(245,165,36,0.3)' }}>
+                <div className="text-[9px] uppercase tracking-wider text-[#F5A524] font-bold mb-1">Dev link (no email configured)</div>
+                <a href={devLink} className="text-[10px] font-mono text-[#5B8DEF] break-all hover:underline">{devLink}</a>
               </div>
             )}
           </div>
         )}
 
         <div className="text-center mt-6 text-[10px] text-[rgba(255,255,255,0.4)]">
-          By signing in you accept the <a href="/terms" className="text-[#9b6dff] hover:underline">Terms</a>{' '}
-          and <a href="/privacy" className="text-[#9b6dff] hover:underline">Privacy Policy</a>.
+          By signing in you accept the <a href="/terms" className="text-[#5B8DEF] hover:underline">Terms</a>{' '}
+          and <a href="/privacy" className="text-[#5B8DEF] hover:underline">Privacy Policy</a>.
         </div>
       </div>
     </div>

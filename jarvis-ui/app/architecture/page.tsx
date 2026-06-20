@@ -9,25 +9,25 @@ export const metadata = {
 }
 
 const PILLARS = [
-  { n: 1, icon: Lock,    name: 'Zero-Knowledge Privacy Vault', color: '#00ff88',
+  { n: 1, icon: Lock,    name: 'Zero-Knowledge Privacy Vault', color: '#10D982',
     real: 'Hash-commitment predicate proofs (Web Crypto)',
     body: 'Prove a compliance predicate holds over private state without revealing the numbers. Commit C = H(value‖salt); publish commitments + boolean + binding hash; verifier confirms consistency, learns only the boolean. The full zk-SNARK tier runs in the Rust zk-worker; this is the edge-runnable commitment tier.' },
-  { n: 2, icon: Swords,  name: 'Autonomous Red-Teaming', color: '#ff3366',
+  { n: 2, icon: Swords,  name: 'Autonomous Red-Teaming', color: '#F2566E',
     real: 'Bounded adversarial binary-search over rule thresholds',
     body: 'Continuously attacks the rulebook: binary-searches the minimal perturbation of each field that flips the verdict, reporting how close the institution is to breach and via which field. Outputs ranked attack vectors + auto-generated buffer-band hardening.' },
-  { n: 3, icon: Code2,   name: 'Code-to-Law Synthesis', color: '#9b6dff',
+  { n: 3, icon: Code2,   name: 'Code-to-Law Synthesis', color: '#5B8DEF',
     real: 'Deterministic obligation-DSL → pure predicate compiler',
     body: 'A typed rule DSL compiles to pure boolean predicates over a company state vector. No LLM in the hot path — same (rule, state) → same verdict, every time, with a machine-checkable evaluation trace and citations. This is "law as software," literally.' },
-  { n: 4, icon: Scale,   name: 'Synthetic Precedent Engine', color: '#ffaa00',
+  { n: 4, icon: Scale,   name: 'Synthetic Precedent Engine', color: '#F5A524',
     real: 'Monte Carlo over published enforcement base rates',
     body: 'Rolls 10,000 synthetic enforcement trajectories per obligation under a jurisdiction\'s posture parameters → probability distribution over outcomes (no action → fine → licence action), expected cost, P95 worst case, median lag. A calibrated prior, not an oracle.' },
-  { n: 5, icon: NetIcon, name: 'Topological Law Mapping', color: '#4a9eff',
+  { n: 5, icon: NetIcon, name: 'Topological Law Mapping', color: '#5B8DEF',
     real: 'Brandes betweenness + Tarjan bridges + structural holes',
     body: 'Treats regulation as a graph and computes real topology: betweenness centrality (load-bearing obligations), articulation points + bridges (removable links between regimes = loopholes), Betti-1 (circular dependency count), and Burt structural holes (under-cross-checked gaps).' },
-  { n: 6, icon: Brain,   name: 'Regulatory Twin (Institutional)', color: '#00d8ff',
+  { n: 6, icon: Brain,   name: 'Regulatory Twin (Institutional)', color: '#5B8DEF',
     real: 'Enforcement-posture model of INSTITUTIONS — never individuals',
     body: 'Models the published enforcement posture of supervisors (CSSF, BaFin, FCA, AMF, AFM) — aggression, speed, transparency, fine propensity, thematic priorities — to read enforcement risk + likely instrument for a breach profile. By hard design it models institutions, not identifiable humans (GDPR Art. 9/22).' },
-  { n: 7, icon: Zap,     name: 'Kinetic Compliance', color: '#ff7a00',
+  { n: 7, icon: Zap,     name: 'Kinetic Compliance', color: '#F5A524',
     real: 'Event-driven, signed, human-gated remediation intents',
     body: 'Turns a verdict + red-team report into a queue of HMAC-signed remediation intents (raise capital buffer, trim exposure, freeze counterparty, file disclosure, escalate to board). Autonomy is in detection + proposal; every intent carries a required-approval gate. Never auto-moves money.' },
 ]
@@ -35,7 +35,7 @@ const PILLARS = [
 export default function ArchitecturePage() {
   return (
     <div className="min-h-screen text-white relative">
-      <CosmicBackground variant="void" accent="#9b6dff" />
+      <CosmicBackground variant="void" accent="#5B8DEF" />
 
       <header className="sticky top-0 z-30 border-b border-[rgba(255,255,255,0.06)] px-6 py-3"
         style={{ background: 'rgba(5,5,12,0.78)', backdropFilter: 'blur(20px) saturate(140%)' }}>
@@ -44,8 +44,8 @@ export default function ArchitecturePage() {
             <ArrowLeft className="w-3 h-3" /> Home
           </Link>
           <div className="w-px h-4 bg-[rgba(255,255,255,0.1)]" />
-          <Cpu className="w-4 h-4 text-[#9b6dff]" />
-          <span className="text-sm font-bold tracking-[0.18em] text-[#9b6dff]">THE GENESIS ENGINE</span>
+          <Cpu className="w-4 h-4 text-[#5B8DEF]" />
+          <span className="text-sm font-bold tracking-[0.18em] text-[#5B8DEF]">THE GENESIS ENGINE</span>
           <span className="ml-auto text-[9px] uppercase tracking-wider text-[rgba(255,255,255,0.35)]">
             7 pillars · one verifier-gated loop
           </span>
@@ -55,13 +55,13 @@ export default function ArchitecturePage() {
       <div className="relative max-w-6xl mx-auto px-6 py-14">
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5"
-            style={{ background: 'rgba(155,109,255,0.08)', border: '1px solid rgba(155,109,255,0.3)' }}>
-            <GitBranch className="w-3 h-3 text-[#9b6dff]" />
-            <span className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#9b6dff]">Law as deterministic software infrastructure</span>
+            style={{ background: 'rgba(91,141,239,0.08)', border: '1px solid rgba(91,141,239,0.3)' }}>
+            <GitBranch className="w-3 h-3 text-[#5B8DEF]" />
+            <span className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#5B8DEF]">Law as deterministic software infrastructure</span>
           </div>
           <h1 className="font-black tracking-tight mb-5" style={{ fontSize: 'clamp(2.2rem, 6vw, 4.5rem)', lineHeight: 0.95 }}>
             <span className="text-white">Not an LLM wrapper.</span><br />
-            <span style={{ background: 'linear-gradient(90deg, #9b6dff 0%, #4a9eff 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', filter: 'drop-shadow(0 0 24px rgba(155,109,255,0.3))' }}>
+            <span style={{ background: 'linear-gradient(90deg, #5B8DEF 0%, #5B8DEF 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', filter: 'drop-shadow(0 0 24px rgba(91,141,239,0.3))' }}>
               A compliance kernel.
             </span>
           </h1>
@@ -76,13 +76,13 @@ export default function ArchitecturePage() {
 
         {/* LIVE LOOP CONSOLE */}
         <section className="mb-14">
-          <div className="text-[11px] uppercase tracking-[0.2em] text-[#9b6dff] font-black mb-4">Run the loop · live</div>
+          <div className="text-[11px] uppercase tracking-[0.2em] text-[#5B8DEF] font-black mb-4">Run the loop · live</div>
           <LoopConsole />
         </section>
 
         {/* PILLARS */}
         <section className="mb-12">
-          <div className="text-[11px] uppercase tracking-[0.2em] text-[#9b6dff] font-black mb-4">The seven pillars</div>
+          <div className="text-[11px] uppercase tracking-[0.2em] text-[#5B8DEF] font-black mb-4">The seven pillars</div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {PILLARS.map(p => (
               <div key={p.n} className="rounded-2xl p-5" style={{ background: 'rgba(0,0,0,0.45)', border: `1px solid ${p.color}30`, backdropFilter: 'blur(10px)' }}>
@@ -103,8 +103,8 @@ export default function ArchitecturePage() {
         </section>
 
         {/* THE LOOP DIAGRAM */}
-        <section className="rounded-2xl p-6 mb-12" style={{ background: 'rgba(0,0,0,0.45)', border: '1px solid rgba(155,109,255,0.25)', backdropFilter: 'blur(10px)' }}>
-          <div className="text-[11px] uppercase tracking-[0.2em] text-[#9b6dff] font-black mb-4">The foundational loop</div>
+        <section className="rounded-2xl p-6 mb-12" style={{ background: 'rgba(0,0,0,0.45)', border: '1px solid rgba(91,141,239,0.25)', backdropFilter: 'blur(10px)' }}>
+          <div className="text-[11px] uppercase tracking-[0.2em] text-[#5B8DEF] font-black mb-4">The foundational loop</div>
           <pre className="text-[10px] sm:text-[11px] font-mono text-[rgba(255,255,255,0.75)] overflow-x-auto leading-relaxed">{`state + rulebook
    │
    ├─[3] compile obligation DSL → pure predicates → VERDICT (deterministic, traced)
@@ -122,16 +122,16 @@ export default function ArchitecturePage() {
    [5] topology over the rulebook graph → BRIDGES · STRUCTURAL HOLES · LOOPHOLES
             │
             ▼
-   AUDIT LEDGER (append-only · Bitcoin-anchored)`}</pre>
+   AUDIT LEDGER (append-only · SHA-256 hash-chained)`}</pre>
         </section>
 
         {/* INVARIANTS */}
-        <section className="rounded-2xl p-6" style={{ background: 'rgba(155,109,255,0.04)', border: '1px solid rgba(155,109,255,0.25)', backdropFilter: 'blur(10px)' }}>
-          <div className="text-[11px] uppercase tracking-[0.2em] text-[#9b6dff] font-black mb-3">Three invariants that make it verifier-gated, not hallucination-prone</div>
+        <section className="rounded-2xl p-6" style={{ background: 'rgba(91,141,239,0.04)', border: '1px solid rgba(91,141,239,0.25)', backdropFilter: 'blur(10px)' }}>
+          <div className="text-[11px] uppercase tracking-[0.2em] text-[#5B8DEF] font-black mb-3">Three invariants that make it verifier-gated, not hallucination-prone</div>
           <ol className="space-y-2 text-[13px] text-[rgba(255,255,255,0.78)] leading-relaxed list-decimal pl-5">
             <li>Every obligation carries a machine-checkable predicate. LLMs may <em>propose</em> predicates; a solver or human <em>ratifies</em> before activation. The model never directly decides compliance.</li>
             <li>Every verdict is a pure function of (state_hash, rulebook_hash). Same inputs → same output, always. No model call in the hot path.</li>
-            <li>Every state transition is signed and Bitcoin-anchored, so the red-team and the auditor evaluate the exact artifact the kernel did.</li>
+            <li>Every state transition is signed and hash-chained, so the red-team and the auditor evaluate the exact artifact the kernel did.</li>
           </ol>
           <p className="text-[11px] text-[rgba(255,255,255,0.5)] mt-4 leading-relaxed">
             Honest scope: &ldquo;zero hallucination&rdquo; is not a property any LLM has. What this architecture

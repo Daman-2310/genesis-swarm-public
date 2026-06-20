@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   extractDocument, scanCompliance, sealVerdict, SAMPLE_PROSPECTUS, STATUTORY,
-  RULESET, rulesetHash, type ScanResult,
+  RULESET, rulesetHash, fromManualEntry, type ScanResult,
 } from '@/lib/scan-engine'
 
 describe('scan-engine extraction', () => {
@@ -125,7 +125,28 @@ describe('scan-engine — applicability gating (NO false positives)', () => {
     const res = scanCompliance(d)
     expect(res.findings.find(f => f.code === 'PROSPECTUS_LEVERAGE_EXCEEDS_STATUTE')).toBeUndefined()
     expect(res.findings.find(f => f.code === 'LEVERAGE_DISCLOSED_NO_STATUTORY_CAP')?.severity).toBe('ok')
-    expect(res.compliant).toBe(true)
+    // The real guarantee here is NO false-positive breach. (A one-line doc with only a
+    // leverage figure is intentionally too thin to read as a full clean bill — the
+    // honesty gate flags INSUFFICIENT_DATA rather than asserting "compliant".)
+    expect(res.criticalCount).toBe(0)
+  })
+
+  it('does NOT read as a clean bill when extraction is too thin (no false CLEAN)', () => {
+    // Mirrors what real prospectus PDFs do: one stray value extracted, holdings in
+    // tables the text layer drops. Must NOT return compliant.
+    const d = extractDocument('Some Global SICAV\nNo more than 20% in any single issuer.')
+    const res = scanCompliance(d)
+    expect(res.criticalCount).toBe(0)
+    expect(res.compliant).toBe(false)
+    expect(res.findings.some(f => f.code === 'INSUFFICIENT_DATA')).toBe(true)
+  })
+
+  it('manual entry flows through the same engine (loan-orig + 200% leverage → breach, provenance tagged)', () => {
+    const doc = fromManualEntry({ structure: 'open_ended', isUCITS: false, loanOriginating: true, declaredLeverageCapPct: 200, holdings: [] })
+    const res = scanCompliance(doc)
+    expect(res.findings.some(f => f.code === 'PROSPECTUS_LEVERAGE_EXCEEDS_STATUTE')).toBe(true)
+    expect(res.compliant).toBe(false)
+    expect(doc.provenance.some(p => p.includes('entered by user'))).toBe(true)
   })
 
   it('does NOT flag a concentrated position on a non-loan-originating PE fund', () => {

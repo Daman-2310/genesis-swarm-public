@@ -118,15 +118,15 @@ function SignForm({ prophecies }: { prophecies: Prophecy[] }) {
   if (result) {
     return (
       <div className="rounded-2xl p-5 space-y-4"
-        style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(0,255,136,0.3)', backdropFilter: 'blur(10px)' }}>
+        style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(16,217,130,0.3)', backdropFilter: 'blur(10px)' }}>
         <div className="flex items-center gap-2">
-          <CheckCircle2 className="w-5 h-5 text-[#00ff88]" />
+          <CheckCircle2 className="w-5 h-5 text-[#10D982]" />
           <div>
-            <div className="text-[11px] uppercase tracking-[0.2em] font-black text-[#00ff88]">Attestation sealed</div>
+            <div className="text-[11px] uppercase tracking-[0.2em] font-black text-[#10D982]">Attestation sealed</div>
             <div className="text-[10px] text-[rgba(255,255,255,0.55)]">Public timestamped record now in the ledger. Verifiable forever.</div>
           </div>
         </div>
-        <div className="rounded p-3" style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(0,255,136,0.2)' }}>
+        <div className="rounded p-3" style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(16,217,130,0.2)' }}>
           <div className="text-[10px] uppercase tracking-wider text-[#ffd86b] font-bold mb-1">Attestation ID</div>
           <div className="font-mono text-[10px] text-white break-all">{result.attestation_id}</div>
         </div>
@@ -220,7 +220,7 @@ function SignForm({ prophecies }: { prophecies: Prophecy[] }) {
 
       {error && (
         <div className="rounded p-2.5 flex items-start gap-2 text-[11px]"
-          style={{ background: 'rgba(255,51,102,0.08)', border: '1px solid rgba(255,51,102,0.3)', color: '#ff3366' }}>
+          style={{ background: 'rgba(242,86,110,0.08)', border: '1px solid rgba(242,86,110,0.3)', color: '#F2566E' }}>
           <AlertCircle className="w-3.5 h-3.5 shrink-0 mt-0.5" /> {error}
         </div>
       )}

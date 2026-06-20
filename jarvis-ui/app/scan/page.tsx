@@ -3,33 +3,24 @@
 import { useState, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import {
-  ArrowLeft, ScanLine, ShieldAlert, ShieldCheck, AlertTriangle, FileText,
-  Loader2, Lock, Landmark, Building2, Vault, Check, BarChart3, Upload, Bell,
+  ArrowLeft, ScanLine, Loader2, Lock, Vault, Check, BarChart3, Upload, Bell,
+  Share2, Download, Mail, ArrowRight, Keyboard, Plus, X,
 } from 'lucide-react'
-import { extractPdfText } from '@/lib/pdf-extract'
+import { extractFileText } from '@/lib/doc-extract'
 import CosmicBackground from '@/components/CosmicBackground'
 import LeiVerify from '@/components/LeiVerify'
 import ComplianceDisclaimer from '@/components/ComplianceDisclaimer'
+import ScanVerdict from '@/components/ScanVerdict'
 import {
-  extractDocument, scanCompliance, sealVerdict, SAMPLE_PROSPECTUS,
-  type ScanResult,
+  extractDocument, scanCompliance, sealVerdict, SAMPLE_PROSPECTUS, fromManualEntry,
+  type ScanResult, type ManualEntry, type ExtractedDoc,
 } from '@/lib/scan-engine'
 import { addRecord } from '@/lib/vault'
 import { benchmark, recordSample, type BenchmarkResult } from '@/lib/benchmark'
+import { buildShareUrl } from '@/lib/verdict-share'
+import { buildAuditPack } from '@/lib/audit-pack'
 
-const ACCENT = '#ff5630'
-
-function BasisBadge({ basis }: { basis: 'own-prospectus' | 'eu-statutory' }) {
-  const isStat = basis === 'eu-statutory'
-  const c = isStat ? '#ff3366' : '#ffaa00'
-  const Icon = isStat ? Landmark : FileText
-  return (
-    <span className="inline-flex items-center gap-1 text-[8px] uppercase tracking-[0.15em] font-bold px-1.5 py-0.5 rounded"
-      style={{ color: c, background: `${c}14`, border: `1px solid ${c}55` }}>
-      <Icon className="w-2.5 h-2.5" /> {isStat ? 'EU statute' : 'own prospectus'}
-    </span>
-  )
-}
+const ACCENT = '#10D982'
 
 export default function ScanPage() {
   const [text, setText] = useState('')
@@ -38,13 +29,16 @@ export default function ScanPage() {
   const [hash, setHash] = useState<string>('')
   const [bench, setBench] = useState<BenchmarkResult | null>(null)
   const [saved, setSaved] = useState(false)
+  const [shareUrl, setShareUrl] = useState<string | null>(null)
+  const [copied, setCopied] = useState(false)
+  const [packBusy, setPackBusy] = useState(false)
 
-  const runScan = useCallback(async (input: string) => {
-    if (!input.trim()) return
-    setBusy(true); setResult(null); setHash(''); setBench(null); setSaved(false)
+  // Shared scan core — runs the deterministic engine on an already-built doc
+  // (from pasted/extracted text OR from manual entry) and seals the verdict.
+  const scanDoc = useCallback(async (doc: ExtractedDoc) => {
+    setBusy(true); setResult(null); setHash(''); setBench(null); setSaved(false); setShareUrl(null)
     // Tiny delay so the scan reads as "working" rather than instant-suspicious.
     await new Promise(r => setTimeout(r, 280))
-    const doc = extractDocument(input)
     const scan = scanCompliance(doc)
     const full: ScanResult = { doc, ...scan }
     const sealed = await sealVerdict(full)
@@ -59,6 +53,10 @@ export default function ScanPage() {
     recordSample(metrics)
     setResult(full); setHash(sealed); setBusy(false)
   }, [])
+  const runScan = useCallback(async (input: string) => {
+    if (!input.trim()) return
+    await scanDoc(extractDocument(input))
+  }, [scanDoc])
 
   const saveToVault = useCallback(async () => {
     if (!result) return
@@ -73,7 +71,41 @@ export default function ScanPage() {
     setSaved(true)
   }, [result, hash])
 
-  const loadSample = () => { setText(SAMPLE_PROSPECTUS); setResult(null); setHash(''); setBench(null); setSaved(false) }
+  // Council #1 — make the verdict travel. Forwardable link encodes ONLY the
+  // verdict + findings (never the raw prospectus), so a CO can share it safely.
+  const shareVerdict = useCallback(async () => {
+    if (!result) return
+    const url = await buildShareUrl(window.location.origin, result)
+    setShareUrl(url)
+    try {
+      await navigator.clipboard.writeText(url)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2500)
+    } catch { /* clipboard blocked — link is shown below to copy manually */ }
+  }, [result])
+
+  // Board-ready audit pack (PDF) — generated client-side, nothing uploaded.
+  const downloadPack = useCallback(async () => {
+    if (!result) return
+    setPackBusy(true)
+    try {
+      const pack = await buildAuditPack(result)
+      const { auditPackToPdf } = await import('@/lib/audit-pdf') // lazy: pdf-lib only on click
+      const bytes = await auditPackToPdf(pack)
+      const blob = new Blob([bytes], { type: 'application/pdf' })
+      const u = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = u
+      const slug = (result.doc.fundName ?? 'audit-pack').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').slice(0, 48).toLowerCase()
+      a.download = `genesis-audit-pack-${slug || 'fund'}.pdf`
+      document.body.appendChild(a); a.click(); a.remove()
+      URL.revokeObjectURL(u)
+    } finally { setPackBusy(false) }
+  }, [result])
+
+  // One-click demo: drop in the sample AND run it, so a first-time visitor sees a
+  // full sealed verdict in ~0.3s with zero typing.
+  const loadSample = () => { setText(SAMPLE_PROSPECTUS); runScan(SAMPLE_PROSPECTUS) }
 
   const [monitorState, setMonitorState] = useState<'idle' | 'busy' | 'on' | 'signin'>('idle')
   const enableMonitor = useCallback(async () => {
@@ -97,26 +129,63 @@ export default function ScanPage() {
 
   const fileRef = useRef<HTMLInputElement>(null)
   const [pdfBusy, setPdfBusy] = useState(false)
-  const onPdf = useCallback(async (file: File) => {
+  const [extractMsg, setExtractMsg] = useState<string | null>(null)
+  // Extract text from a dropped PDF/Word/txt file — entirely in the browser —
+  // then put it in the box for the user to REVIEW and edit before scanning. We
+  // deliberately do NOT auto-scan: the human confirms exactly what the engine
+  // will read, so there's no hidden extraction layer between document and verdict.
+  const onFile = useCallback(async (file: File) => {
     if (!file) return
     if (file.size > 15 * 1024 * 1024) {
-      setText('That PDF is over 15 MB — please upload a smaller prospectus, or paste the relevant text.')
+      setExtractMsg('That file is over 15 MB — please use a smaller document, or paste the relevant text.')
       return
     }
-    setPdfBusy(true)
+    setPdfBusy(true); setExtractMsg(null)
     try {
-      const buf = await file.arrayBuffer()
-      const txt = await extractPdfText(buf)
-      setText(txt)
-      if (txt.trim()) await runScan(txt)
+      const { text: txt, kind } = await extractFileText(file)
+      const clean = txt.trim()
+      if (!clean) {
+        setExtractMsg(`Couldn't extract readable text from "${file.name}". If it's a scanned/image PDF that's expected — paste the relevant text instead.`)
+      } else {
+        setText(txt)
+        setExtractMsg(`Extracted ${clean.length.toLocaleString()} characters from "${file.name}" (${kind.toUpperCase()}). Review it below, edit if needed, then run the scan.`)
+      }
     } catch {
-      setText('Could not read that PDF — try a text-based (non-scanned) prospectus, or paste the text.')
+      setExtractMsg(`Couldn't read "${file.name}". Try a text-based (non-scanned) PDF or Word doc, or paste the text.`)
     } finally { setPdfBusy(false) }
-  }, [runScan])
+  }, [])
+
+  // ── Manual-entry fallback: for table-heavy PDFs the parser can't read, the user
+  //    keys the few figures the engine needs; it runs the SAME deterministic engine.
+  const [showManual, setShowManual] = useState(false)
+  const [mName, setMName] = useState('')
+  const [mStructure, setMStructure] = useState<ExtractedDoc['structure']>('unknown')
+  const [mUCITS, setMUCITS] = useState(false)
+  const [mLoanOrig, setMLoanOrig] = useState(false)
+  const [mLev, setMLev] = useState('')
+  const [mConc, setMConc] = useState('')
+  const [mRet, setMRet] = useState('')
+  const [mHoldings, setMHoldings] = useState<{ name: string; weightPct: string }[]>([{ name: '', weightPct: '' }])
+  const runManual = useCallback(async () => {
+    const entry: ManualEntry = {
+      fundName: mName || undefined,
+      structure: mStructure,
+      isUCITS: mUCITS,
+      loanOriginating: mLoanOrig,
+      declaredLeverageCapPct: mLev.trim() ? parseFloat(mLev) : null,
+      declaredConcentrationCapPct: mConc.trim() ? parseFloat(mConc) : null,
+      declaredRetentionPct: mRet.trim() ? parseFloat(mRet) : null,
+      holdings: mHoldings
+        .filter(h => h.name.trim() && h.weightPct.trim())
+        .map(h => ({ name: h.name.trim(), weightPct: parseFloat(h.weightPct) })),
+    }
+    await scanDoc(fromManualEntry(entry))
+  }, [mName, mStructure, mUCITS, mLoanOrig, mLev, mConc, mRet, mHoldings, scanDoc])
+  const inputCls = 'bg-[rgba(255,255,255,0.04)] rounded px-3 py-2 text-[12px] text-white outline-none border border-[rgba(255,255,255,0.1)] placeholder:text-[rgba(255,255,255,0.3)]'
 
   return (
-    <div className="min-h-screen text-white relative" style={{ fontFamily: 'system-ui, -apple-system, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
-      <CosmicBackground variant="intense" accent={ACCENT} />
+    <div className="min-h-screen text-white relative" style={{ fontFamily: 'var(--font-geist-sans), system-ui, -apple-system, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+      <CosmicBackground variant="void" accent={ACCENT} />
 
       <header className="sticky top-0 z-30 border-b border-[rgba(255,255,255,0.06)] px-6 py-3"
         style={{ background: 'rgba(5,5,12,0.78)', backdropFilter: 'blur(20px) saturate(140%)' }}>
@@ -135,7 +204,7 @@ export default function ScanPage() {
         <div className="text-center mb-8">
           <h1 className="font-black tracking-tight mb-4" style={{ fontSize: 'clamp(2rem, 5.5vw, 4rem)', lineHeight: 0.96 }}>
             <span className="text-white">Paste a prospectus.</span><br />
-            <span style={{ background: `linear-gradient(90deg, ${ACCENT} 0%, #ff3366 100%)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            <span style={{ background: 'linear-gradient(90deg, #10D982 0%, #5B8DEF 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Watch it get judged against EU law.
             </span>
           </h1>
@@ -144,6 +213,9 @@ export default function ScanPage() {
             them against the document&apos;s caps <span className="text-white">and</span> the AIFMD II statutory caps —
             deterministically, in your browser. It will catch a prospectus that permits more than the law allows.
           </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 mt-4 text-[10px] uppercase tracking-[0.15em] text-[rgba(16,217,130,0.7)]">
+            <span>🔒 Runs in your browser</span><span>· Nothing uploaded</span><span>· No LLM</span><span>· Reproducible &amp; cited to the rule</span>
+          </div>
         </div>
 
         {/* Input */}
@@ -158,117 +230,102 @@ export default function ScanPage() {
           <div className="flex flex-wrap items-center gap-2 mt-3 pt-3 border-t border-[rgba(255,255,255,0.06)]">
             <button onClick={() => runScan(text)} disabled={busy || !text.trim()}
               className="flex items-center gap-1.5 px-4 py-2 rounded-md text-[11px] uppercase tracking-[0.15em] font-black transition-all disabled:opacity-40"
-              style={{ background: `linear-gradient(135deg, ${ACCENT} 0%, #ff3366 100%)`, color: '#fff', boxShadow: `0 0 22px ${ACCENT}55` }}>
+              style={{ background: 'linear-gradient(135deg, #10D982 0%, #0B9E63 100%)', color: '#04130b', boxShadow: '0 1px 0 rgba(255,255,255,0.18) inset, 0 6px 18px rgba(16,217,130,0.16)' }}>
               {busy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ScanLine className="w-3.5 h-3.5" />}
               {busy ? 'scanning…' : 'run compliance scan'}
             </button>
-            <input ref={fileRef} type="file" accept="application/pdf,.pdf" className="hidden"
-              onChange={e => { const f = e.target.files?.[0]; if (f) onPdf(f); e.target.value = '' }} />
+            <input ref={fileRef} type="file"
+              accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"
+              className="hidden"
+              onChange={e => { const f = e.target.files?.[0]; if (f) onFile(f); e.target.value = '' }} />
             <button onClick={() => fileRef.current?.click()} disabled={pdfBusy}
               className="flex items-center gap-1.5 px-3 py-2 rounded-md text-[10px] uppercase tracking-[0.15em] font-bold transition-all disabled:opacity-40"
-              style={{ background: 'rgba(0,216,255,0.08)', border: '1px solid rgba(0,216,255,0.4)', color: '#00d8ff' }}>
+              style={{ background: 'rgba(91,141,239,0.08)', border: '1px solid rgba(91,141,239,0.4)', color: '#5B8DEF' }}>
               {pdfBusy ? <Loader2 className="w-3 h-3 animate-spin" /> : <Upload className="w-3 h-3" />}
-              {pdfBusy ? 'reading pdf…' : 'upload pdf prospectus'}
+              {pdfBusy ? 'reading…' : 'upload PDF · Word · txt'}
             </button>
-            <button onClick={loadSample}
-              className="px-3 py-2 rounded-md text-[10px] uppercase tracking-[0.15em] font-bold transition-all"
-              style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.7)' }}>
-              load sample prospectus
+            <button onClick={() => setShowManual(s => !s)}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-md text-[10px] uppercase tracking-[0.15em] font-bold transition-all"
+              style={{ background: 'rgba(91,141,239,0.08)', border: '1px solid rgba(91,141,239,0.4)', color: '#5B8DEF' }}>
+              <Keyboard className="w-3 h-3" /> {showManual ? 'hide manual entry' : 'enter figures manually'}
+            </button>
+            <button onClick={loadSample} disabled={busy}
+              className="px-3 py-2 rounded-md text-[10px] uppercase tracking-[0.15em] font-bold transition-all disabled:opacity-50"
+              style={{ background: 'rgba(16,217,130,0.1)', border: '1px solid rgba(16,217,130,0.45)', color: ACCENT }}>
+              ▶ try a live sample
             </button>
             {text && (
-              <button onClick={() => { setText(''); setResult(null); setHash(''); setBench(null); setSaved(false) }}
+              <button onClick={() => { setText(''); setResult(null); setHash(''); setBench(null); setSaved(false); setExtractMsg(null) }}
                 className="px-3 py-2 rounded-md text-[10px] uppercase tracking-[0.15em] font-bold text-[rgba(255,255,255,0.4)] hover:text-white">
                 clear
               </button>
             )}
             <span className="ml-auto text-[9px] uppercase tracking-wider text-[rgba(255,255,255,0.3)]">runs entirely client-side · nothing leaves your browser</span>
           </div>
+          {extractMsg && (
+            <div className="mt-3 text-[11px] leading-relaxed text-[#9db8f5]">{extractMsg}</div>
+          )}
+          <div className="mt-2 text-[9px] leading-relaxed text-[rgba(255,255,255,0.32)]">
+            Selectable-text PDFs &amp; Word docs are extracted in-browser; scanned/image PDFs aren&apos;t supported (no OCR) — paste the text instead. You always review the extracted text before scanning.
+          </div>
+
+          {showManual && (
+            <div className="mt-4 pt-4 border-t border-[rgba(255,255,255,0.08)] space-y-3">
+              <div className="text-[10px] uppercase tracking-[0.18em] font-bold text-[#5B8DEF]">
+                Manual entry — for table-heavy PDFs the parser can&apos;t read
+              </div>
+              <input value={mName} onChange={e => setMName(e.target.value)} placeholder="Fund name (optional)" className={`w-full ${inputCls}`} />
+              <div className="flex flex-wrap items-center gap-4 text-[11px] text-[rgba(255,255,255,0.8)]">
+                <label className="flex items-center gap-1.5">structure:
+                  <select value={mStructure} onChange={e => setMStructure(e.target.value as ExtractedDoc['structure'])}
+                    className="bg-[rgba(255,255,255,0.06)] rounded px-2 py-1 text-white outline-none border border-[rgba(255,255,255,0.1)]">
+                    <option value="unknown">unknown</option>
+                    <option value="open_ended">open-ended</option>
+                    <option value="closed_ended">closed-ended</option>
+                  </select>
+                </label>
+                <label className="flex items-center gap-1.5"><input type="checkbox" checked={mUCITS} onChange={e => setMUCITS(e.target.checked)} /> UCITS</label>
+                <label className="flex items-center gap-1.5"><input type="checkbox" checked={mLoanOrig} onChange={e => setMLoanOrig(e.target.checked)} /> loan-originating</label>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <input value={mLev} onChange={e => setMLev(e.target.value)} inputMode="decimal" placeholder="leverage cap %" className={`flex-1 min-w-[130px] ${inputCls}`} />
+                <input value={mConc} onChange={e => setMConc(e.target.value)} inputMode="decimal" placeholder="single-issuer / borrower %" className={`flex-1 min-w-[130px] ${inputCls}`} />
+                <input value={mRet} onChange={e => setMRet(e.target.value)} inputMode="decimal" placeholder="risk retention %" className={`flex-1 min-w-[130px] ${inputCls}`} />
+              </div>
+              <div className="space-y-2">
+                <div className="text-[10px] uppercase tracking-wider text-[rgba(255,255,255,0.4)]">Holdings (optional)</div>
+                {mHoldings.map((h, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <input value={h.name} onChange={e => setMHoldings(hs => hs.map((x, j) => j === i ? { ...x, name: e.target.value } : x))} placeholder="issuer / position" className={`flex-1 ${inputCls}`} />
+                    <input value={h.weightPct} onChange={e => setMHoldings(hs => hs.map((x, j) => j === i ? { ...x, weightPct: e.target.value } : x))} inputMode="decimal" placeholder="% NAV" className={`w-24 ${inputCls}`} />
+                    <button onClick={() => setMHoldings(hs => hs.filter((_, j) => j !== i))} className="p-2 text-[rgba(255,255,255,0.4)] hover:text-white" aria-label="remove holding"><X className="w-3.5 h-3.5" /></button>
+                  </div>
+                ))}
+                <button onClick={() => setMHoldings(hs => [...hs, { name: '', weightPct: '' }])}
+                  className="flex items-center gap-1 text-[10px] uppercase tracking-wider font-bold text-[#5B8DEF] hover:text-white">
+                  <Plus className="w-3 h-3" /> add holding
+                </button>
+              </div>
+              <div className="flex items-center gap-3 flex-wrap">
+                <button onClick={runManual} disabled={busy}
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-md text-[11px] uppercase tracking-[0.15em] font-black transition-all disabled:opacity-40"
+                  style={{ background: 'linear-gradient(135deg, #10D982 0%, #0B9E63 100%)', color: '#04130b' }}>
+                  {busy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ScanLine className="w-3.5 h-3.5" />} scan these figures
+                </button>
+                <span className="text-[9px] text-[rgba(255,255,255,0.35)]">Entered values are tagged &quot;entered by user&quot; in the sealed verdict.</span>
+              </div>
+            </div>
+          )}
         </div>
 
         {result && (
           <div className="space-y-5">
-            {/* Verdict banner */}
-            <div className="rounded-2xl p-5 flex items-center gap-4"
-              style={{
-                background: result.compliant ? 'rgba(0,255,136,0.06)' : 'rgba(255,51,102,0.07)',
-                border: `1px solid ${result.compliant ? 'rgba(0,255,136,0.4)' : 'rgba(255,51,102,0.5)'}`,
-                boxShadow: `0 0 40px ${result.compliant ? 'rgba(0,255,136,0.1)' : 'rgba(255,51,102,0.12)'}`,
-              }}>
-              {result.compliant
-                ? <ShieldCheck className="w-9 h-9 shrink-0 text-[#00ff88]" />
-                : <ShieldAlert className="w-9 h-9 shrink-0 text-[#ff3366]" />}
-              <div className="min-w-0">
-                <div className="text-lg font-black tracking-tight" style={{ color: result.compliant ? '#00ff88' : '#ff3366' }}>
-                  {result.compliant ? 'NO CRITICAL BREACHES DETECTED' : `${result.criticalCount} CRITICAL ${result.criticalCount === 1 ? 'BREACH' : 'BREACHES'} DETECTED`}
-                </div>
-                <div className="text-[11px] text-[rgba(255,255,255,0.55)]">
-                  {result.doc.fundName ?? 'Unnamed fund'} · {result.doc.structure.replace('_', '-')} · {result.warningCount} warning{result.warningCount === 1 ? '' : 's'} · scanned {new Date(result.checkedAt).toLocaleTimeString()}
-                </div>
-              </div>
-            </div>
-
-            {/* Extracted facts */}
-            <div className="rounded-2xl p-4" style={{ background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.08)' }}>
-              <div className="text-[10px] uppercase tracking-[0.2em] font-black mb-3" style={{ color: ACCENT }}>What the scanner read from the document</div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-[11px]">
-                {[
-                  ['Structure', result.doc.structure.replace('_', '-')],
-                  ['Declared leverage cap', result.doc.declaredLeverageCapPct != null ? `${result.doc.declaredLeverageCapPct}%` : 'not stated'],
-                  ['Declared retention', result.doc.declaredRetentionPct != null ? `${result.doc.declaredRetentionPct}%` : 'not stated'],
-                  ['Declared concentration cap', result.doc.declaredConcentrationCapPct != null ? `${result.doc.declaredConcentrationCapPct}%` : 'not stated'],
-                ].map(([k, v]) => (
-                  <div key={k}>
-                    <div className="text-[8px] uppercase tracking-wider text-[rgba(255,255,255,0.35)]">{k}</div>
-                    <div className="font-mono font-bold text-white">{v}</div>
-                  </div>
-                ))}
-              </div>
-              {result.doc.holdings.length > 0 && (
-                <div className="mt-3 pt-3 border-t border-[rgba(255,255,255,0.06)]">
-                  <div className="text-[8px] uppercase tracking-wider text-[rgba(255,255,255,0.35)] mb-1.5 flex items-center gap-1"><Building2 className="w-2.5 h-2.5" /> {result.doc.holdings.length} holdings extracted</div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {result.doc.holdings.map((h, i) => (
-                      <span key={i} className="text-[10px] font-mono px-2 py-0.5 rounded"
-                        style={{ background: h.weightPct > 20 ? 'rgba(255,51,102,0.12)' : 'rgba(255,255,255,0.04)', border: `1px solid ${h.weightPct > 20 ? 'rgba(255,51,102,0.4)' : 'rgba(255,255,255,0.1)'}`, color: h.weightPct > 20 ? '#ff6b8a' : 'rgba(255,255,255,0.6)' }}>
-                        {h.name} {h.weightPct}%
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Findings */}
-            <div className="space-y-2">
-              <div className="text-[10px] uppercase tracking-[0.2em] font-black" style={{ color: ACCENT }}>Findings</div>
-              {result.findings.length === 0 && (
-                <div className="text-[11px] text-[rgba(255,255,255,0.5)]">No checkable limits were found in the text. Paste a document that states leverage / retention / concentration limits, or load the sample.</div>
-              )}
-              {result.findings.map((f, i) => {
-                const col = f.severity === 'critical' ? '#ff3366' : f.severity === 'warning' ? '#ffaa00' : '#00ff88'
-                const Icon = f.severity === 'critical' ? ShieldAlert : f.severity === 'warning' ? AlertTriangle : ShieldCheck
-                return (
-                  <div key={i} className="rounded-xl p-3.5" style={{ background: `${col}0a`, border: `1px solid ${col}33` }}>
-                    <div className="flex items-start gap-2.5">
-                      <Icon className="w-4 h-4 shrink-0 mt-0.5" style={{ color: col }} />
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-2 flex-wrap mb-1">
-                          <span className="text-[12px] font-bold" style={{ color: col }}>{f.title}</span>
-                          <BasisBadge basis={f.basis} />
-                        </div>
-                        <div className="text-[11px] text-[rgba(255,255,255,0.65)] leading-snug">{f.detail}</div>
-                        <div className="text-[9px] font-mono text-[rgba(255,255,255,0.4)] mt-1">observed {f.observed}% · limit {f.limit}% · {f.code}</div>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
+            <ScanVerdict result={result} />
 
             {/* Peer benchmark — the data flywheel */}
             {bench && (bench.leverage || bench.concentration || bench.retention) && (
-              <div className="rounded-2xl p-4" style={{ background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(74,158,255,0.25)' }}>
-                <div className="flex items-center gap-1.5 mb-1" style={{ color: '#4a9eff' }}>
+              <div className="rounded-2xl p-4" style={{ background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(91,141,239,0.25)' }}>
+                <div className="flex items-center gap-1.5 mb-1" style={{ color: '#5B8DEF' }}>
                   <BarChart3 className="w-3.5 h-3.5" />
                   <span className="text-[10px] uppercase tracking-[0.2em] font-black">Peer benchmark · {bench.sampleSize} Luxembourg loan-fund samples</span>
                 </div>
@@ -278,10 +335,10 @@ export default function ScanPage() {
                     <div key={label}>
                       <div className="flex justify-between text-[10px] mb-0.5">
                         <span className="text-[rgba(255,255,255,0.6)]">{label}: <span className="text-white font-bold">{m.value}{unit}</span></span>
-                        <span style={{ color: '#4a9eff' }} className="font-bold">{m.percentile}th percentile</span>
+                        <span style={{ color: '#5B8DEF' }} className="font-bold">{m.percentile}th percentile</span>
                       </div>
                       <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
-                        <div className="h-full rounded-full" style={{ width: `${m.percentile}%`, background: 'linear-gradient(90deg,#4a9eff,#9b6dff)' }} />
+                        <div className="h-full rounded-full" style={{ width: `${m.percentile}%`, background: 'linear-gradient(90deg,#5B8DEF,#86C5FF)' }} />
                       </div>
                     </div>
                   ))}
@@ -290,38 +347,67 @@ export default function ScanPage() {
             )}
 
             {/* Sealed verdict */}
-            <div className="rounded-2xl p-4" style={{ background: 'rgba(0,255,136,0.04)', border: '1px solid rgba(0,255,136,0.25)' }}>
+            <div className="rounded-2xl p-4" style={{ background: 'rgba(16,217,130,0.04)', border: '1px solid rgba(16,217,130,0.25)' }}>
               <div className="flex items-center gap-2 mb-2">
-                <Lock className="w-3.5 h-3.5 text-[#00ff88]" />
-                <span className="text-[10px] uppercase tracking-[0.2em] font-black text-[#00ff88]">Tamper-evident verdict seal</span>
+                <Lock className="w-3.5 h-3.5 text-[#10D982]" />
+                <span className="text-[10px] uppercase tracking-[0.2em] font-black text-[#10D982]">Tamper-evident verdict seal</span>
               </div>
               <div className="text-[11px] font-mono break-all text-[rgba(255,255,255,0.75)]">SHA-256: {hash}</div>
+              <div className="flex items-center gap-2 mt-2 text-[9px] uppercase tracking-[0.15em] font-bold">
+                <span className="px-2 py-0.5 rounded" style={{ background: 'rgba(91,141,239,0.12)', color: '#9db8f5', border: '1px solid rgba(91,141,239,0.3)' }}>
+                  ruleset v{result.rulesetVersion}
+                </span>
+                <span className="text-[rgba(255,255,255,0.4)]">effective {result.rulesetEffective} · AIFMD&nbsp;II + UCITS</span>
+              </div>
               <div className="text-[9px] text-[rgba(255,255,255,0.45)] mt-1.5">
-                Hash of the full scan (document + findings + verdict). Re-running an unchanged document reproduces this exact hash; any altered input or result yields a different one. This seal is anchorable to Bitcoin via the same OpenTimestamps path as <Link href="/anchor" className="underline hover:text-white">/anchor</Link>.
+                Hash of the full scan — document, findings, verdict, <strong>and the ruleset version that produced it</strong>. Re-running an unchanged document under the same ruleset reproduces this exact hash; any altered input, result, or rule change yields a different one. The bound version means this verdict stays re-verifiable against a named, dated body of rules even after the law moves on.
               </div>
             </div>
 
-            {/* Save into the Evidence Vault */}
+            {/* Actions — council #1: make the verdict travel (board-ready + forwardable) */}
             <div className="flex items-center gap-3 flex-wrap">
-              <button onClick={saveToVault} disabled={saved}
+              <button onClick={downloadPack} disabled={packBusy}
                 className="flex items-center gap-1.5 px-4 py-2.5 rounded-md text-[11px] uppercase tracking-[0.15em] font-black transition-all disabled:opacity-60"
-                style={{ background: saved ? 'rgba(0,255,136,0.12)' : '#00ff88', color: saved ? '#00ff88' : '#04130b', border: saved ? '1px solid rgba(0,255,136,0.4)' : 'none' }}>
+                style={{ background: '#10D982', color: '#04130b' }}>
+                {packBusy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
+                {packBusy ? 'sealing pdf…' : 'download audit pack'}
+              </button>
+              <button onClick={shareVerdict}
+                className="flex items-center gap-1.5 px-4 py-2.5 rounded-md text-[11px] uppercase tracking-[0.15em] font-black transition-all"
+                style={{ background: copied ? 'rgba(91,141,239,0.16)' : 'rgba(91,141,239,0.1)', color: '#5B8DEF', border: '1px solid rgba(91,141,239,0.4)' }}>
+                {copied ? <Check className="w-3.5 h-3.5" /> : <Share2 className="w-3.5 h-3.5" />}
+                {copied ? 'link copied' : 'share verdict'}
+              </button>
+              <button onClick={saveToVault} disabled={saved}
+                className="flex items-center gap-1.5 px-4 py-2.5 rounded-md text-[11px] uppercase tracking-[0.15em] font-bold transition-all disabled:opacity-60"
+                style={{ background: 'rgba(16,217,130,0.08)', color: '#10D982', border: '1px solid rgba(16,217,130,0.3)' }}>
                 {saved ? <Check className="w-3.5 h-3.5" /> : <Vault className="w-3.5 h-3.5" />}
-                {saved ? 'sealed into evidence vault' : 'save to evidence vault'}
+                {saved ? 'in vault' : 'save to vault'}
               </button>
               <button onClick={enableMonitor} disabled={monitorState === 'busy' || monitorState === 'on'}
-                className="flex items-center gap-1.5 px-4 py-2.5 rounded-md text-[11px] uppercase tracking-[0.15em] font-black transition-all disabled:opacity-60"
-                style={{ background: monitorState === 'on' ? 'rgba(0,216,255,0.12)' : 'rgba(0,216,255,0.1)', color: '#00d8ff', border: '1px solid rgba(0,216,255,0.4)' }}>
+                className="flex items-center gap-1.5 px-4 py-2.5 rounded-md text-[11px] uppercase tracking-[0.15em] font-bold transition-all disabled:opacity-60"
+                style={{ background: monitorState === 'on' ? 'rgba(91,141,239,0.12)' : 'rgba(255,255,255,0.04)', color: monitorState === 'on' ? '#5B8DEF' : 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.15)' }}>
                 {monitorState === 'busy' ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : monitorState === 'on' ? <Check className="w-3.5 h-3.5" /> : <Bell className="w-3.5 h-3.5" />}
-                {monitorState === 'on' ? 'monitoring on — you’ll be alerted' : 'monitor this fund'}
+                {monitorState === 'on' ? 'monitoring on' : 'monitor fund'}
               </button>
-              <Link href="/vault" className="text-[10px] uppercase tracking-[0.15em] font-bold text-[rgba(255,255,255,0.5)] hover:text-white">
-                open evidence vault →
+              <Link href="/vault" className="text-[10px] uppercase tracking-[0.15em] font-bold text-[#93A1AD] hover:text-white">
+                evidence vault →
               </Link>
             </div>
+
+            {shareUrl && (
+              <div className="rounded-xl p-3" style={{ background: 'rgba(91,141,239,0.06)', border: '1px solid rgba(91,141,239,0.25)' }}>
+                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                  <Share2 className="w-3 h-3" style={{ color: '#5B8DEF' }} />
+                  <span className="text-[9px] uppercase tracking-[0.2em] font-black" style={{ color: '#5B8DEF' }}>Forwardable verdict link</span>
+                  <span className="ml-auto text-[9px]" style={{ color: '#93A1AD' }}>verdict + citations only · the prospectus is not in this link</span>
+                </div>
+                <div className="text-[10px] font-mono break-all" style={{ color: '#C7CDD2' }}>{shareUrl}</div>
+              </div>
+            )}
             {monitorState === 'signin' && (
               <div className="text-[10px] text-[rgba(255,255,255,0.55)]">
-                <Link href="/login" className="underline hover:text-white" style={{ color: '#00d8ff' }}>Sign in</Link> to enable continuous monitoring — we’ll re-check this fund against EU rules and email you if it ever falls out of compliance.
+                <Link href="/login" className="underline hover:text-white" style={{ color: '#5B8DEF' }}>Sign in</Link> to enable continuous monitoring — we’ll re-check this fund against EU rules and email you if it ever falls out of compliance.
               </div>
             )}
 
@@ -330,6 +416,27 @@ export default function ScanPage() {
                 provenance — {result.doc.provenance.join('  ·  ')}
               </div>
             )}
+
+            {/* Conversion: a real next step for a compliance pro who just saw value */}
+            <div className="rounded-2xl p-5" style={{ background: 'rgba(16,217,130,0.05)', border: '1px solid rgba(16,217,130,0.25)' }}>
+              <div className="text-[11px] uppercase tracking-[0.2em] font-black mb-2" style={{ color: '#10D982' }}>Was this useful?</div>
+              <p className="text-[13px] leading-relaxed" style={{ color: '#C7CDD2' }}>
+                A free, deterministic check — <span className="text-white">information only, not legal advice</span>. I&apos;m Daman, 16, building Genesis Swarm solo.
+                If you run compliance, risk, or legal at a Luxembourg fund, I&apos;d genuinely value your blunt feedback — where does it fall short? — or I&apos;ll run it on your own funds with you, free.
+              </p>
+              <div className="flex items-center gap-3 flex-wrap mt-4">
+                <a href="mailto:daman.sharma.2310@gmail.com?subject=Genesis%20Swarm%20feedback%20%2F%20pilot&body=Hi%20Daman%2C%0A%0AI%20ran%20a%20prospectus%20through%20the%20scanner.%0A%0A"
+                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-md text-[11px] uppercase tracking-[0.15em] font-black"
+                  style={{ background: '#10D982', color: '#04130b' }}>
+                  <Mail className="w-3.5 h-3.5" /> Email me your take
+                </a>
+                <Link href="/trial"
+                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-md text-[11px] uppercase tracking-[0.15em] font-bold"
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.18)', color: 'rgba(255,255,255,0.85)' }}>
+                  Run it on your fund <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
           </div>
         )}
 

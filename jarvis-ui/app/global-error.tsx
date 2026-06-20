@@ -19,7 +19,7 @@ export default function GlobalError({
         minHeight: '100vh',
         background: 'radial-gradient(ellipse at top, #0a0a1a 0%, #050508 50%, #000 100%)',
         color: 'white',
-        fontFamily: 'system-ui, -apple-system, sans-serif',
+        fontFamily: 'var(--font-geist-sans), system-ui, -apple-system, sans-serif',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -30,9 +30,9 @@ export default function GlobalError({
             display: 'inline-block',
             padding: '6px 12px',
             borderRadius: '999px',
-            background: 'rgba(255,51,102,0.08)',
-            border: '1px solid rgba(255,51,102,0.3)',
-            color: '#ff3366',
+            background: 'rgba(242,86,110,0.08)',
+            border: '1px solid rgba(242,86,110,0.3)',
+            color: '#F2566E',
             fontSize: 10,
             letterSpacing: '0.25em',
             textTransform: 'uppercase',
@@ -80,13 +80,13 @@ export default function GlobalError({
             <pre style={{
               fontFamily: 'ui-monospace, monospace',
               fontSize: 11,
-              color: '#ff7a00',
+              color: '#F5A524',
               textAlign: 'left',
               maxHeight: 240,
               overflow: 'auto',
               padding: 12,
               background: 'rgba(0,0,0,0.4)',
-              border: '1px solid rgba(255,170,0,0.2)',
+              border: '1px solid rgba(245,165,36,0.2)',
               borderRadius: 8,
               margin: '0 0 24px',
               whiteSpace: 'pre-wrap',
@@ -101,9 +101,9 @@ export default function GlobalError({
               style={{
                 padding: '12px 24px',
                 borderRadius: 8,
-                background: 'rgba(155,109,255,0.15)',
-                border: '1px solid rgba(155,109,255,0.5)',
-                color: '#9b6dff',
+                background: 'rgba(91,141,239,0.15)',
+                border: '1px solid rgba(91,141,239,0.5)',
+                color: '#5B8DEF',
                 fontWeight: 700,
                 fontSize: 12,
                 letterSpacing: '0.15em',
@@ -133,7 +133,7 @@ export default function GlobalError({
             fontSize: 11,
             marginTop: 28,
           }}>
-            Persistent issue? Email <a href="mailto:daman.sharma.2310@gmail.com" style={{ color: '#9b6dff' }}>daman.sharma.2310@gmail.com</a>
+            Persistent issue? Email <a href="mailto:daman.sharma.2310@gmail.com" style={{ color: '#5B8DEF' }}>daman.sharma.2310@gmail.com</a>
           </p>
         </div>
       </body>

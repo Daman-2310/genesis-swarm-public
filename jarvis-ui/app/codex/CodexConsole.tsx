@@ -67,12 +67,12 @@ export default function CodexConsole() {
 
   return (
     <div className="rounded-2xl overflow-hidden"
-      style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(0,216,255,0.3)', backdropFilter: 'blur(10px)' }}>
+      style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(91,141,239,0.3)', backdropFilter: 'blur(10px)' }}>
 
-      <div className="px-4 py-3" style={{ background: 'rgba(0,216,255,0.06)', borderBottom: '1px solid rgba(0,216,255,0.15)' }}>
+      <div className="px-4 py-3" style={{ background: 'rgba(91,141,239,0.06)', borderBottom: '1px solid rgba(91,141,239,0.15)' }}>
         <div className="flex items-center gap-2 flex-wrap">
-          <Sparkles className="w-3.5 h-3.5 text-[#00d8ff]" />
-          <span className="text-[10px] uppercase tracking-wider font-bold text-[#00d8ff]">Genesis Codex · live model</span>
+          <Sparkles className="w-3.5 h-3.5 text-[#5B8DEF]" />
+          <span className="text-[10px] uppercase tracking-wider font-bold text-[#5B8DEF]">Genesis Codex · live model</span>
           <span className="ml-auto text-[9px] text-[rgba(255,255,255,0.4)] font-mono">streaming · Server-Sent Events</span>
         </div>
       </div>
@@ -88,14 +88,14 @@ export default function CodexConsole() {
           </div>
         )}
         {loading && (
-          <div className="flex items-center gap-2 mt-2 text-[11px] text-[#00d8ff]">
+          <div className="flex items-center gap-2 mt-2 text-[11px] text-[#5B8DEF]">
             <Loader2 className="w-3 h-3 animate-spin" />
             <span>thinking…</span>
           </div>
         )}
         {error && (
           <div className="mt-3 rounded p-2 text-[11px]"
-            style={{ background: 'rgba(255,51,102,0.08)', border: '1px solid rgba(255,51,102,0.3)', color: '#ff3366' }}>
+            style={{ background: 'rgba(242,86,110,0.08)', border: '1px solid rgba(242,86,110,0.3)', color: '#F2566E' }}>
             {error}
           </div>
         )}
@@ -104,11 +104,11 @@ export default function CodexConsole() {
       {/* Sample chips */}
       {!response && !loading && (
         <div className="px-4 py-2 flex items-center gap-2 flex-wrap text-[9px]"
-          style={{ background: 'rgba(0,0,0,0.4)', borderTop: '1px solid rgba(0,216,255,0.08)' }}>
+          style={{ background: 'rgba(0,0,0,0.4)', borderTop: '1px solid rgba(91,141,239,0.08)' }}>
           <span className="uppercase tracking-wider text-[rgba(255,255,255,0.35)]">try</span>
           {SAMPLE_QUESTIONS.map(q => (
             <button key={q} onClick={() => setQuestion(q)}
-              className="px-2 py-0.5 rounded text-[#00d8ff] hover:bg-[rgba(0,216,255,0.08)] transition-all">
+              className="px-2 py-0.5 rounded text-[#5B8DEF] hover:bg-[rgba(91,141,239,0.08)] transition-all">
               {q}
             </button>
           ))}
@@ -116,15 +116,15 @@ export default function CodexConsole() {
       )}
 
       {/* Input */}
-      <div className="px-4 py-3 flex items-center gap-3" style={{ background: 'rgba(0,0,0,0.4)', borderTop: '1px solid rgba(0,216,255,0.15)' }}>
+      <div className="px-4 py-3 flex items-center gap-3" style={{ background: 'rgba(0,0,0,0.4)', borderTop: '1px solid rgba(91,141,239,0.15)' }}>
         <textarea value={question} onChange={e => setQuestion(e.target.value)}
           onKeyDown={e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); ask() } }}
           placeholder="Ask Genesis Codex about EU compliance, AIFMD/UCITS/SFDR/Solvency II, historical EU collapses…"
           rows={2}
-          className="flex-1 bg-black/40 outline-none text-white text-[13px] px-3 py-2 rounded border border-[rgba(0,216,255,0.2)] focus:border-[rgba(0,216,255,0.6)] resize-y" />
+          className="flex-1 bg-black/40 outline-none text-white text-[13px] px-3 py-2 rounded border border-[rgba(91,141,239,0.2)] focus:border-[rgba(91,141,239,0.6)] resize-y" />
         <button onClick={ask} disabled={loading || !question.trim()}
           className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider font-bold px-4 py-2 rounded transition-all disabled:opacity-50"
-          style={{ background: 'rgba(0,216,255,0.15)', border: '1px solid rgba(0,216,255,0.5)', color: '#00d8ff' }}>
+          style={{ background: 'rgba(91,141,239,0.15)', border: '1px solid rgba(91,141,239,0.5)', color: '#5B8DEF' }}>
           {loading ? <><Loader2 className="w-3 h-3 animate-spin" /> Streaming</> : <><Send className="w-3 h-3" /> Send</>}
         </button>
       </div>

@@ -35,7 +35,7 @@ export function SkipToContent() {
   return (
     <a
       href="#main-content"
-      className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-[#00ff88] focus:text-black focus:px-4 focus:py-2 focus:rounded focus:font-bold"
+      className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-[#10D982] focus:text-black focus:px-4 focus:py-2 focus:rounded focus:font-bold"
       tabIndex={0}
     >
       Skip to main content

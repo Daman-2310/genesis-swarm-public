@@ -17,7 +17,7 @@ import dynamic from 'next/dynamic'
 import {
   ShieldAlert, ScanLine, GitCompareArrows, FileCheck2, Brain, ShieldCheck,
   ArrowRight, ChevronRight, Lock, CheckCircle2, XCircle, AlertTriangle,
-  Eye, EyeOff, Printer, RefreshCcw, Sparkles,
+  Eye, EyeOff, Download, RefreshCcw, Sparkles,
 } from 'lucide-react'
 import { extractDocument, scanCompliance, type ScanResult } from '@/lib/scan-engine'
 import { buildDivergence, SHADOW_SAMPLE, type DivergenceReport } from '@/lib/shadow'
@@ -27,7 +27,7 @@ import { runResilienceScorecard } from '@/lib/resilience'
 
 const CosmicBackground = dynamic(() => import('@/components/CosmicBackground'), { ssr: false })
 
-const ACCENT = '#7c83ff' // indigo — "silent, parallel" shadow mode
+const ACCENT = '#5B8DEF' // cool secondary — the "silent, parallel" shadow mode
 
 function analyze(text: string): ScanResult {
   const doc = extractDocument(text)
@@ -35,9 +35,9 @@ function analyze(text: string): ScanResult {
 }
 
 const SEV = {
-  critical: '#ff3366',
-  warning: '#ffaa00',
-  ok: '#00ff88',
+  critical: '#F2566E',
+  warning: '#F5A524',
+  ok: '#10D982',
 } as const
 
 export default function ShadowModePage() {
@@ -77,17 +77,33 @@ export default function ShadowModePage() {
     setPackIntact(intact)
   }, [pack])
 
+  const downloadPdf = useCallback(async () => {
+    if (!pack) return
+    const { auditPackToPdf } = await import('@/lib/audit-pdf') // lazy: pdf-lib only loads on click
+    const bytes = await auditPackToPdf(pack)
+    const blob = new Blob([bytes], { type: 'application/pdf' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    const slug = (pack.fundName ?? 'audit-pack').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').slice(0, 48).toLowerCase()
+    a.download = `genesis-audit-pack-${slug || 'fund'}.pdf`
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    URL.revokeObjectURL(url)
+  }, [pack])
+
   const traceFor = (code: string, idx: number) => traces[idx]
 
   return (
-    <div className="min-h-screen text-white" style={{ fontFamily: 'system-ui, -apple-system, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+    <div className="min-h-screen text-white" style={{ fontFamily: 'var(--font-geist-sans), system-ui, -apple-system, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
       <CosmicBackground variant="calm" accent={ACCENT} />
 
       {/* Top bar */}
       <nav className="relative z-10 flex items-center justify-between px-5 md:px-8 py-4 border-b border-[rgba(255,255,255,0.06)]">
         <a href="/" className="flex items-center gap-2.5">
           <div className="w-7 h-7 rounded-md flex items-center justify-center"
-            style={{ background: `linear-gradient(135deg, ${ACCENT}, #4a52d6)`, boxShadow: `0 0 18px ${ACCENT}88` }}>
+            style={{ background: 'linear-gradient(135deg, #10D982, #0B9E63)', boxShadow: '0 0 18px rgba(16,217,130,0.45)' }}>
             <Sparkles className="w-4 h-4 text-black" />
           </div>
           <span className="text-sm font-black tracking-[0.15em]">GENESIS SWARM</span>
@@ -119,7 +135,7 @@ export default function ShadowModePage() {
 
         {/* Document input */}
         <section className="rounded-2xl p-5 md:p-6 mb-8"
-          style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)' }}>
+          style={{ background: 'rgba(14,16,20,0.7)', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)' }}>
           <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
             <span className="text-[11px] uppercase tracking-[0.2em] font-bold text-[rgba(255,255,255,0.5)]">Document under shadow review</span>
             <div className="flex gap-2">
@@ -173,7 +189,7 @@ export default function ShadowModePage() {
                     const open = expanded.has(f.code + idx)
                     return (
                       <div key={f.code + idx} className="rounded-lg overflow-hidden"
-                        style={{ background: 'rgba(255,51,102,0.06)', border: '1px solid rgba(255,51,102,0.25)' }}>
+                        style={{ background: 'rgba(242,86,110,0.06)', border: '1px solid rgba(242,86,110,0.25)' }}>
                         <button onClick={() => setExpanded(s => { const n = new Set(s); const k = f.code + idx; n.has(k) ? n.delete(k) : n.add(k); return n })}
                           className="w-full flex items-start gap-3 px-3 py-2.5 text-left">
                           <XCircle className="w-4 h-4 mt-0.5 shrink-0" style={{ color: SEV.critical }} />
@@ -252,16 +268,16 @@ export default function ShadowModePage() {
                     style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.85)' }}>
                     <ShieldCheck className="w-3.5 h-3.5" /> Verify integrity
                   </button>
-                  <button onClick={() => window.print()} className="text-[11px] uppercase tracking-wider font-bold px-3 py-1.5 rounded-md flex items-center gap-1.5"
-                    style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.85)' }}>
-                    <Printer className="w-3.5 h-3.5" /> Save PDF
+                  <button onClick={downloadPdf} className="text-[11px] uppercase tracking-wider font-black px-3 py-1.5 rounded-md flex items-center gap-1.5"
+                    style={{ background: ACCENT, color: '#000', boxShadow: `0 0 18px ${ACCENT}55` }}>
+                    <Download className="w-3.5 h-3.5" /> Download PDF
                   </button>
                 </div>
               </div>
 
               {packIntact !== null && (
                 <div className="px-4 py-2 text-[12px] font-bold flex items-center gap-2"
-                  style={{ background: packIntact ? 'rgba(0,255,136,0.08)' : 'rgba(255,51,102,0.08)', color: packIntact ? '#00ff88' : '#ff3366' }}>
+                  style={{ background: packIntact ? 'rgba(16,217,130,0.08)' : 'rgba(242,86,110,0.08)', color: packIntact ? '#10D982' : '#F2566E' }}>
                   {packIntact ? <CheckCircle2 className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
                   {packIntact ? 'Chain intact — every entry re-verified against the sealed root.' : 'Chain broken — an entry was altered.'}
                 </div>
@@ -311,10 +327,10 @@ export default function ShadowModePage() {
           ) : (
             <div>
               <div className="flex items-center gap-3 mb-4 flex-wrap">
-                <span className="text-2xl font-black tabular-nums" style={{ color: scorecard.allSafe ? '#00ff88' : '#ff3366' }}>
+                <span className="text-2xl font-black tabular-nums" style={{ color: scorecard.allSafe ? '#10D982' : '#F2566E' }}>
                   {scorecard.passed}/{scorecard.total}
                 </span>
-                <span className="text-sm font-bold" style={{ color: scorecard.allSafe ? '#00ff88' : '#ff3366' }}>
+                <span className="text-sm font-bold" style={{ color: scorecard.allSafe ? '#10D982' : '#F2566E' }}>
                   {scorecard.allSafe ? 'ALL SAFE-STATE' : 'FAILURE DETECTED'}
                 </span>
                 <span className="text-[11px] text-[rgba(255,255,255,0.4)]">worst case {scorecard.maxMs}ms · ledger never corrupted</span>
@@ -322,8 +338,8 @@ export default function ShadowModePage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {scorecard.results.map(r => (
                   <div key={r.id} className="rounded-lg px-3 py-2.5 flex items-start gap-2.5"
-                    style={{ background: r.passed ? 'rgba(0,255,136,0.05)' : 'rgba(255,51,102,0.08)', border: `1px solid ${r.passed ? 'rgba(0,255,136,0.2)' : 'rgba(255,51,102,0.4)'}` }}>
-                    {r.passed ? <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0 text-[#00ff88]" /> : <XCircle className="w-4 h-4 mt-0.5 shrink-0 text-[#ff3366]" />}
+                    style={{ background: r.passed ? 'rgba(16,217,130,0.05)' : 'rgba(242,86,110,0.08)', border: `1px solid ${r.passed ? 'rgba(16,217,130,0.2)' : 'rgba(242,86,110,0.4)'}` }}>
+                    {r.passed ? <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0 text-[#10D982]" /> : <XCircle className="w-4 h-4 mt-0.5 shrink-0 text-[#F2566E]" />}
                     <div className="min-w-0">
                       <div className="text-[12px] font-bold text-white">{r.label}</div>
                       <div className="text-[10px] text-[rgba(255,255,255,0.45)] font-mono">{r.note} · {r.ms}ms</div>
@@ -337,7 +353,7 @@ export default function ShadowModePage() {
 
         {/* CTA */}
         <div className="mt-12 rounded-2xl p-6 md:p-8 text-center"
-          style={{ background: `linear-gradient(135deg, ${ACCENT}1a, rgba(74,82,214,0.1))`, border: `1px solid ${ACCENT}44` }}>
+          style={{ background: `linear-gradient(135deg, ${ACCENT}1a, rgba(91,141,239,0.08))`, border: `1px solid ${ACCENT}44` }}>
           <h3 className="text-xl md:text-2xl font-black mb-2">Run a 30-day shadow pilot on your own funds.</h3>
           <p className="text-[rgba(255,255,255,0.55)] text-sm mb-5 max-w-xl mx-auto">
             Zero risk. Genesis touches nothing — it just shows you, document by document, what your current process is letting through.
@@ -378,23 +394,24 @@ function VerdictCard({ title, subtitle, verdict, count, muted }: {
   title: string; subtitle: string; verdict: 'compliant' | 'non-compliant'; count: number; muted?: boolean
 }) {
   const ok = verdict === 'compliant'
-  const color = ok ? '#00ff88' : '#ff3366'
+  const color = ok ? '#10D982' : '#F2566E'
   return (
-    <div className="rounded-xl p-4" style={{
-      background: muted ? 'rgba(255,255,255,0.02)' : `${color}0d`,
+    <div className="relative rounded-xl p-4 pl-5 overflow-hidden" style={{
+      background: muted ? 'rgba(14,16,20,0.7)' : `${color}10`,
       border: `1px solid ${muted ? 'rgba(255,255,255,0.1)' : color + '44'}`,
     }}>
+      <span aria-hidden className="absolute left-0 top-0 bottom-0 w-1" style={{ background: muted ? 'rgba(255,255,255,0.18)' : color }} />
       <div className="flex items-center justify-between mb-2">
         <div>
           <div className="text-[13px] font-bold text-white">{title}</div>
-          <div className="text-[10px] text-[rgba(255,255,255,0.4)]">{subtitle}</div>
+          <div className="text-[10px]" style={{ color: '#93A1AD' }}>{subtitle}</div>
         </div>
         {ok ? <CheckCircle2 className="w-6 h-6" style={{ color }} /> : <ShieldAlert className="w-6 h-6" style={{ color }} />}
       </div>
       <div className="font-black tracking-tight" style={{ fontSize: '1.4rem', color }}>
         {ok ? 'PASSED' : 'NON-COMPLIANT'}
       </div>
-      <div className="text-[11px] text-[rgba(255,255,255,0.45)] mt-0.5">{count} critical finding{count === 1 ? '' : 's'}</div>
+      <div className="text-[11px] mt-0.5" style={{ color: '#93A1AD' }}>{count} critical finding{count === 1 ? '' : 's'}</div>
     </div>
   )
 }
@@ -415,7 +432,7 @@ function TraceSteps({ trace }: { trace: ReasoningTrace }) {
 
 function TracePanel({ trace }: { trace: ReasoningTrace }) {
   return (
-    <div className="border-t border-[rgba(255,51,102,0.2)]" style={{ background: 'rgba(0,0,0,0.25)' }}>
+    <div className="border-t border-[rgba(242,86,110,0.2)]" style={{ background: 'rgba(0,0,0,0.25)' }}>
       <TraceSteps trace={trace} />
     </div>
   )

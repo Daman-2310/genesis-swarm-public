@@ -18,10 +18,10 @@ function ProofMetric({
   value: string
   tone?: 'green' | 'red' | 'blue' | 'gold'
 }) {
-  const color = tone === 'red' ? '#ff3366' : tone === 'blue' ? '#4a9eff' : tone === 'gold' ? '#ffaa00' : '#00ff88'
+  const color = tone === 'red' ? '#F2566E' : tone === 'blue' ? '#5B8DEF' : tone === 'gold' ? '#F5A524' : '#10D982'
   return (
-    <div className="border border-[rgba(0,255,136,0.14)] bg-[rgba(0,255,136,0.035)] rounded p-3 min-h-[74px]">
-      <div className="text-[9px] uppercase tracking-wider text-[rgba(0,255,136,0.42)]">{label}</div>
+    <div className="border border-[rgba(16,217,130,0.14)] bg-[rgba(16,217,130,0.035)] rounded p-3 min-h-[74px]">
+      <div className="text-[9px] uppercase tracking-wider text-[rgba(16,217,130,0.42)]">{label}</div>
       <div className="mt-1 text-xl font-bold" style={{ color }}>{value}</div>
     </div>
   )
@@ -60,18 +60,18 @@ export default function InvestorProofPanel({ brief }: { brief: InvestorBrief | n
 
   return (
     <section className="terminal-border bg-genesis-surface overflow-hidden">
-      <div className="px-4 py-3 border-b border-[rgba(0,255,136,0.12)] flex flex-wrap items-center justify-between gap-3">
+      <div className="px-4 py-3 border-b border-[rgba(16,217,130,0.12)] flex flex-wrap items-center justify-between gap-3">
         <div>
-          <div className="text-[10px] font-bold text-[#00ff88] uppercase tracking-[0.16em] flex items-center gap-2">
+          <div className="text-[10px] font-bold text-[#10D982] uppercase tracking-[0.16em] flex items-center gap-2">
             <Sparkles className="w-3.5 h-3.5" />
             Investor Proof Pack
           </div>
-          <div className="text-xs text-[rgba(0,255,136,0.52)] mt-1">{data.headline}</div>
+          <div className="text-xs text-[rgba(16,217,130,0.52)] mt-1">{data.headline}</div>
         </div>
         <div className="flex items-end gap-2">
-          <span className="text-[9px] uppercase tracking-wider text-[rgba(0,255,136,0.42)] mb-1">Readiness</span>
-          <span className="text-3xl font-bold text-[#00ff88]">{Math.round(data.readiness_score)}</span>
-          <span className="text-sm text-[rgba(0,255,136,0.45)] mb-1">/100</span>
+          <span className="text-[9px] uppercase tracking-wider text-[rgba(16,217,130,0.42)] mb-1">Readiness</span>
+          <span className="text-3xl font-bold text-[#10D982]">{Math.round(data.readiness_score)}</span>
+          <span className="text-sm text-[rgba(16,217,130,0.45)] mb-1">/100</span>
         </div>
       </div>
 
@@ -89,37 +89,37 @@ export default function InvestorProofPanel({ brief }: { brief: InvestorBrief | n
 
         <div className="xl:col-span-5 grid grid-cols-2 gap-2 content-start">
           {evidence.map(({ icon: Icon, label, value, ok }) => (
-            <div key={label} className="flex items-center gap-2 border border-[rgba(0,255,136,0.12)] bg-[#050508] rounded px-3 py-2 min-h-[48px]">
-              <Icon className="w-4 h-4 shrink-0" style={{ color: ok ? '#00ff88' : '#ffaa00' }} />
+            <div key={label} className="flex items-center gap-2 border border-[rgba(16,217,130,0.12)] bg-[#050508] rounded px-3 py-2 min-h-[48px]">
+              <Icon className="w-4 h-4 shrink-0" style={{ color: ok ? '#10D982' : '#F5A524' }} />
               <div className="min-w-0">
-                <div className="text-[8px] uppercase tracking-wider text-[rgba(0,255,136,0.38)]">{label}</div>
-                <div className="text-[11px] text-[#00ff88] truncate">{value}</div>
+                <div className="text-[8px] uppercase tracking-wider text-[rgba(16,217,130,0.38)]">{label}</div>
+                <div className="text-[11px] text-[#10D982] truncate">{value}</div>
               </div>
             </div>
           ))}
         </div>
 
         <div className="xl:col-span-12 grid grid-cols-1 lg:grid-cols-2 gap-4 pt-1">
-          <div className="border border-[rgba(74,158,255,0.18)] bg-[rgba(74,158,255,0.045)] rounded p-3">
-            <div className="flex items-center gap-2 text-[9px] uppercase tracking-wider text-[#4a9eff] font-bold mb-2">
+          <div className="border border-[rgba(91,141,239,0.18)] bg-[rgba(91,141,239,0.045)] rounded p-3">
+            <div className="flex items-center gap-2 text-[9px] uppercase tracking-wider text-[#5B8DEF] font-bold mb-2">
               <TrendingUp className="w-3.5 h-3.5" />
               Why This Is Hard To Copy
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1">
               {data.moat.map((item) => (
-                <div key={item} className="text-[10px] leading-5 text-[rgba(0,255,136,0.66)] flex gap-2">
-                  <span className="text-[#00ff88]">+</span>
+                <div key={item} className="text-[10px] leading-5 text-[rgba(16,217,130,0.66)] flex gap-2">
+                  <span className="text-[#10D982]">+</span>
                   <span>{item}</span>
                 </div>
               ))}
             </div>
           </div>
-          <div className="border border-[rgba(0,255,136,0.18)] bg-[rgba(0,255,136,0.05)] rounded p-3 flex items-center gap-3">
-            <Banknote className="w-8 h-8 text-[#00ff88] shrink-0" />
+          <div className="border border-[rgba(16,217,130,0.18)] bg-[rgba(16,217,130,0.05)] rounded p-3 flex items-center gap-3">
+            <Banknote className="w-8 h-8 text-[#10D982] shrink-0" />
             <div>
-              <div className="text-[9px] uppercase tracking-wider text-[rgba(0,255,136,0.42)]">Boardroom Takeaway</div>
-              <div className="text-sm leading-6 text-[#00ff88]">{data.investor_takeaway}</div>
-              <div className="mt-1 flex items-center gap-2 text-[9px] text-[rgba(0,255,136,0.46)]">
+              <div className="text-[9px] uppercase tracking-wider text-[rgba(16,217,130,0.42)]">Boardroom Takeaway</div>
+              <div className="text-sm leading-6 text-[#10D982]">{data.investor_takeaway}</div>
+              <div className="mt-1 flex items-center gap-2 text-[9px] text-[rgba(16,217,130,0.46)]">
                 <Clock3 className="w-3 h-3" />
                 Evidence refreshes from live backend state.
               </div>

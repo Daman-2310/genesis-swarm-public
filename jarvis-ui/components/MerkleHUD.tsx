@@ -17,12 +17,12 @@ interface MerkleData {
 }
 
 const EVENT_COLORS: Record<string, string> = {
-  CONSENSUS_ROUND:  '#00ff88',
-  ANOMALY_DETECTED: '#ff3366',
-  HEALING_EVENT:    '#00aaff',
-  GATEWAY_BLOCK:    '#ff3366',
-  THREAT_DETECTED:  '#ffaa00',
-  AUDIT_ENTRY:      'rgba(0,255,136,0.5)',
+  CONSENSUS_ROUND:  '#10D982',
+  ANOMALY_DETECTED: '#F2566E',
+  HEALING_EVENT:    '#5B8DEF',
+  GATEWAY_BLOCK:    '#F2566E',
+  THREAT_DETECTED:  '#F5A524',
+  AUDIT_ENTRY:      'rgba(16,217,130,0.5)',
 }
 
 function hashColor(hash: string): string {
@@ -64,21 +64,21 @@ export default function MerkleHUD() {
   const root   = merkle?.root ?? null
 
   return (
-    <div className="bg-[#0d0d1a] border border-[rgba(0,255,136,0.15)] rounded p-3 flex flex-col gap-2">
+    <div className="bg-[#0d0d1a] border border-[rgba(16,217,130,0.15)] rounded p-3 flex flex-col gap-2">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#00ff88] animate-pulse" />
-          <span className="text-[10px] uppercase tracking-widest text-[rgba(0,255,136,0.6)]">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#10D982] animate-pulse" />
+          <span className="text-[10px] uppercase tracking-widest text-[rgba(16,217,130,0.6)]">
             Merkle HUD // Live SHA-256 Verification
           </span>
         </div>
         <div className="flex gap-2 text-[9px] font-mono">
-          <span className="text-[rgba(0,255,136,0.4)]">
-            DEPTH: <span className="text-[#00ff88]">{merkle?.depth ?? 0}</span>
+          <span className="text-[rgba(16,217,130,0.4)]">
+            DEPTH: <span className="text-[#10D982]">{merkle?.depth ?? 0}</span>
           </span>
-          <span className="text-[rgba(0,255,136,0.4)]">
-            LEAVES: <span className="text-[#00ff88]">{leaves.length}</span>
+          <span className="text-[rgba(16,217,130,0.4)]">
+            LEAVES: <span className="text-[#10D982]">{leaves.length}</span>
           </span>
         </div>
       </div>
@@ -89,12 +89,12 @@ export default function MerkleHUD() {
         transition={{ duration: 0.5 }}
         className={`rounded border px-3 py-2 font-mono text-[10px] transition-colors duration-300
           ${rootChanged
-            ? 'border-[rgba(0,255,136,0.6)] bg-[rgba(0,255,136,0.08)]'
-            : 'border-[rgba(0,255,136,0.2)] bg-[rgba(0,255,136,0.02)]'
+            ? 'border-[rgba(16,217,130,0.6)] bg-[rgba(16,217,130,0.08)]'
+            : 'border-[rgba(16,217,130,0.2)] bg-[rgba(16,217,130,0.02)]'
           }`}
       >
         <div className="flex items-center justify-between gap-2">
-          <span className="text-[rgba(0,255,136,0.4)] uppercase tracking-wider text-[9px]">
+          <span className="text-[rgba(16,217,130,0.4)] uppercase tracking-wider text-[9px]">
             Merkle Root
           </span>
           {rootChanged && (
@@ -102,26 +102,26 @@ export default function MerkleHUD() {
               initial={{ opacity: 0, x: 8 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0 }}
-              className="text-[#00ff88] text-[8px] uppercase tracking-wider"
+              className="text-[#10D982] text-[8px] uppercase tracking-wider"
             >
               ↑ UPDATED
             </motion.span>
           )}
         </div>
-        <div className="mt-0.5 text-[#00ff88] text-[11px] tracking-wide break-all leading-tight">
+        <div className="mt-0.5 text-[#10D982] text-[11px] tracking-wide break-all leading-tight">
           {root ? (
             <>
-              <span className="text-[rgba(0,255,136,0.5)]">{root.slice(0, 16)}</span>
-              <span className="text-[#00ff88]">{root.slice(16, 32)}</span>
-              <span className="text-[rgba(0,255,136,0.5)]">{root.slice(32, 48)}</span>
-              <span className="text-[rgba(0,255,136,0.3)]">{root.slice(48)}</span>
+              <span className="text-[rgba(16,217,130,0.5)]">{root.slice(0, 16)}</span>
+              <span className="text-[#10D982]">{root.slice(16, 32)}</span>
+              <span className="text-[rgba(16,217,130,0.5)]">{root.slice(32, 48)}</span>
+              <span className="text-[rgba(16,217,130,0.3)]">{root.slice(48)}</span>
             </>
           ) : (
-            <span className="text-[rgba(0,255,136,0.3)] animate-pulse">PENDING…</span>
+            <span className="text-[rgba(16,217,130,0.3)] animate-pulse">PENDING…</span>
           )}
         </div>
         {prevRoot && rootChanged && (
-          <div className="mt-1 text-[8px] text-[rgba(255,51,102,0.5)] tracking-wide break-all line-through">
+          <div className="mt-1 text-[8px] text-[rgba(242,86,110,0.5)] tracking-wide break-all line-through">
             {prevRoot.slice(0, 32)}…
           </div>
         )}
@@ -129,7 +129,7 @@ export default function MerkleHUD() {
 
       {/* Rolling leaf ticker */}
       <div className="overflow-hidden" style={{ height: 120 }}>
-        <div className="text-[8px] uppercase text-[rgba(0,255,136,0.3)] tracking-wider mb-1">
+        <div className="text-[8px] uppercase text-[rgba(16,217,130,0.3)] tracking-wider mb-1">
           Live audit stream
         </div>
         <div className="space-y-0.5 overflow-y-hidden">
@@ -149,18 +149,18 @@ export default function MerkleHUD() {
                   style={{ background: leaf.event_type ? EVENT_COLORS[leaf.event_type] ?? hashColor(leaf.hash) : hashColor(leaf.hash) }}
                 />
                 {/* Hash */}
-                <span className="text-[rgba(0,255,136,0.6)] shrink-0 w-28 overflow-hidden text-ellipsis whitespace-nowrap">
+                <span className="text-[rgba(16,217,130,0.6)] shrink-0 w-28 overflow-hidden text-ellipsis whitespace-nowrap">
                   {(leaf.hash ?? '').slice(0, 14)}…
                 </span>
                 {/* Event type */}
                 <span
                   className="uppercase tracking-wider shrink-0 text-[7px]"
-                  style={{ color: leaf.event_type ? EVENT_COLORS[leaf.event_type] ?? 'rgba(0,255,136,0.5)' : 'rgba(0,255,136,0.3)' }}
+                  style={{ color: leaf.event_type ? EVENT_COLORS[leaf.event_type] ?? 'rgba(16,217,130,0.5)' : 'rgba(16,217,130,0.3)' }}
                 >
                   {leaf.event_type ?? 'ENTRY'}
                 </span>
                 {/* Timestamp */}
-                <span className="text-[rgba(0,255,136,0.25)] ml-auto shrink-0">
+                <span className="text-[rgba(16,217,130,0.25)] ml-auto shrink-0">
                   {new Date(leaf.ts * 1000).toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                 </span>
               </motion.div>
@@ -191,12 +191,12 @@ export default function MerkleHUD() {
               {(leaf.hash ?? '').slice(0, 3)}
             </div>
             {i < leaves.slice(-12).length - 1 && (
-              <span className="text-[rgba(0,255,136,0.2)] text-[8px]">→</span>
+              <span className="text-[rgba(16,217,130,0.2)] text-[8px]">→</span>
             )}
           </motion.div>
         ))}
         {leaves.length === 0 && (
-          <span className="text-[8px] text-[rgba(0,255,136,0.2)] animate-pulse uppercase tracking-wider">
+          <span className="text-[8px] text-[rgba(16,217,130,0.2)] animate-pulse uppercase tracking-wider">
             Building chain…
           </span>
         )}

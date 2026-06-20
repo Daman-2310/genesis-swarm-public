@@ -2,7 +2,7 @@
 // Right-click any selected text → "Screen with Genesis Swarm" → shows OFAC + AI screen result overlay
 // Also injects an inline screen badge next to any text that matches known sanctioned entity prefixes
 
-const API_BASE = 'https://genesis-swarm-rgq5.vercel.app'
+const API_BASE = 'https://genesis-swarm.vercel.app'
 
 let overlay = null
 

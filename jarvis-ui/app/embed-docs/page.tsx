@@ -12,7 +12,7 @@ const SAMPLE_LEI = '529900VBK42Y5HHRMD23'
 export default function EmbedDocsPage() {
   return (
     <div className="min-h-screen text-white relative">
-      <CosmicBackground variant="calm" accent="#4a9eff" />
+      <CosmicBackground variant="calm" accent="#5B8DEF" />
 
       <header className="sticky top-0 z-30 border-b border-[rgba(255,255,255,0.06)] px-6 py-3"
         style={{ background: 'rgba(5,5,12,0.78)', backdropFilter: 'blur(20px) saturate(140%)' }}>
@@ -21,8 +21,8 @@ export default function EmbedDocsPage() {
             <ArrowLeft className="w-3 h-3" /> Home
           </Link>
           <div className="w-px h-4 bg-[rgba(255,255,255,0.1)]" />
-          <Code2 className="w-4 h-4 text-[#4a9eff]" />
-          <span className="text-sm font-bold tracking-[0.18em] text-[#4a9eff]">EMBED THE SCORE</span>
+          <Code2 className="w-4 h-4 text-[#5B8DEF]" />
+          <span className="text-sm font-bold tracking-[0.18em] text-[#5B8DEF]">EMBED THE SCORE</span>
           <span className="ml-auto text-[9px] uppercase tracking-wider text-[rgba(255,255,255,0.35)]">one iframe · works anywhere</span>
         </div>
       </header>
@@ -34,7 +34,7 @@ export default function EmbedDocsPage() {
             <span className="text-white">"Verified by Genesis"</span>
             <br />
             <span style={{
-              background: 'linear-gradient(90deg, #4a9eff 0%, #00ff88 100%)',
+              background: 'linear-gradient(90deg, #5B8DEF 0%, #10D982 100%)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
             }}>
               on every fund page.
@@ -48,7 +48,7 @@ export default function EmbedDocsPage() {
 
         {/* LIVE PREVIEW */}
         <section className="mb-12">
-          <div className="text-[11px] uppercase tracking-[0.2em] text-[#4a9eff] font-black mb-4">Live preview</div>
+          <div className="text-[11px] uppercase tracking-[0.2em] text-[#5B8DEF] font-black mb-4">Live preview</div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <PreviewCard label="Dark theme · medium" lei={SAMPLE_LEI} theme="dark" size="md" />
             <PreviewCard label="Light theme · medium" lei={SAMPLE_LEI} theme="light" size="md" />
@@ -59,11 +59,11 @@ export default function EmbedDocsPage() {
 
         {/* CODE */}
         <section className="mb-12">
-          <div className="text-[11px] uppercase tracking-[0.2em] text-[#4a9eff] font-black mb-4">Copy the snippet</div>
+          <div className="text-[11px] uppercase tracking-[0.2em] text-[#5B8DEF] font-black mb-4">Copy the snippet</div>
           <CodeBlock
             language="html"
             code={`<iframe
-  src="https://genesis-swarm-rgq5.vercel.app/embed/${SAMPLE_LEI}"
+  src="https://genesis-swarm.vercel.app/embed/${SAMPLE_LEI}"
   width="320" height="120"
   style="border:0; background:transparent;"
   loading="lazy"
@@ -73,11 +73,11 @@ export default function EmbedDocsPage() {
 
         {/* PARAMS */}
         <section className="mb-12">
-          <div className="text-[11px] uppercase tracking-[0.2em] text-[#4a9eff] font-black mb-4">Parameters</div>
+          <div className="text-[11px] uppercase tracking-[0.2em] text-[#5B8DEF] font-black mb-4">Parameters</div>
           <div className="rounded-2xl overflow-hidden"
             style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.06)', backdropFilter: 'blur(10px)' }}>
             <div className="grid grid-cols-[120px_100px_1fr] gap-4 px-4 py-3 text-[9px] uppercase tracking-[0.18em] font-black text-[rgba(255,255,255,0.4)]"
-              style={{ background: 'rgba(74,158,255,0.04)', borderBottom: '1px solid rgba(74,158,255,0.15)' }}>
+              style={{ background: 'rgba(91,141,239,0.04)', borderBottom: '1px solid rgba(91,141,239,0.15)' }}>
               <span>Param</span><span>Default</span><span>Values</span>
             </div>
             <Row p="path" d={SAMPLE_LEI}>20-character GLEIF LEI of the entity to display</Row>
@@ -89,26 +89,26 @@ export default function EmbedDocsPage() {
 
         {/* EXAMPLES */}
         <section className="mb-12">
-          <div className="text-[11px] uppercase tracking-[0.2em] text-[#4a9eff] font-black mb-4">Examples</div>
+          <div className="text-[11px] uppercase tracking-[0.2em] text-[#5B8DEF] font-black mb-4">Examples</div>
           <div className="space-y-3">
             <Example title="Light theme, small size, no link"
-              code={`<iframe src="https://genesis-swarm-rgq5.vercel.app/embed/${SAMPLE_LEI}?theme=light&size=sm&link=false" width="260" height="100" style="border:0; background:transparent;"></iframe>`} />
+              code={`<iframe src="https://genesis-swarm.vercel.app/embed/${SAMPLE_LEI}?theme=light&size=sm&link=false" width="260" height="100" style="border:0; background:transparent;"></iframe>`} />
             <Example title="Large dark badge on hero section"
-              code={`<iframe src="https://genesis-swarm-rgq5.vercel.app/embed/${SAMPLE_LEI}?size=lg" width="400" height="150" style="border:0; background:transparent;"></iframe>`} />
+              code={`<iframe src="https://genesis-swarm.vercel.app/embed/${SAMPLE_LEI}?size=lg" width="400" height="150" style="border:0; background:transparent;"></iframe>`} />
           </div>
         </section>
 
         {/* NOTES */}
         <section className="rounded-2xl p-6"
-          style={{ background: 'rgba(74,158,255,0.04)', border: '1px solid rgba(74,158,255,0.25)' }}>
-          <div className="text-[11px] uppercase tracking-[0.2em] text-[#4a9eff] font-black mb-3">Notes</div>
+          style={{ background: 'rgba(91,141,239,0.04)', border: '1px solid rgba(91,141,239,0.25)' }}>
+          <div className="text-[11px] uppercase tracking-[0.2em] text-[#5B8DEF] font-black mb-3">Notes</div>
           <ul className="space-y-2 text-[12px] text-[rgba(255,255,255,0.7)] leading-relaxed">
             <li>— Score is cached for 1 hour upstream; the iframe is cached 1 hour at the edge</li>
             <li>— GLEIF identity data cached for 24 hours</li>
             <li>— Badges are fully responsive — the iframe scales to its container</li>
             <li>— No tracking cookies, no analytics, no user data collected by the badge</li>
             <li>— Click-through opens the full Genesis dossier in a new tab</li>
-            <li>— Score reflects AI operational-risk analysis · not investment advice (<Link href="/legal" className="text-[#4a9eff] hover:underline">terms</Link>)</li>
+            <li>— Score reflects AI operational-risk analysis · not investment advice (<Link href="/legal" className="text-[#5B8DEF] hover:underline">terms</Link>)</li>
           </ul>
         </section>
 
@@ -138,10 +138,10 @@ function PreviewCard({ label, lei, theme, size }: { label: string; lei: string; 
 function CodeBlock({ code, language }: { code: string; language: string }) {
   return (
     <div className="rounded-xl overflow-hidden"
-      style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(74,158,255,0.25)', backdropFilter: 'blur(10px)' }}>
+      style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(91,141,239,0.25)', backdropFilter: 'blur(10px)' }}>
       <div className="flex items-center justify-between px-4 py-2"
-        style={{ background: 'rgba(74,158,255,0.04)', borderBottom: '1px solid rgba(74,158,255,0.15)' }}>
-        <span className="text-[10px] uppercase tracking-wider font-bold text-[#4a9eff]">{language}</span>
+        style={{ background: 'rgba(91,141,239,0.04)', borderBottom: '1px solid rgba(91,141,239,0.15)' }}>
+        <span className="text-[10px] uppercase tracking-wider font-bold text-[#5B8DEF]">{language}</span>
         <CopyButton text={code} />
       </div>
       <pre className="p-4 text-[12px] font-mono text-[rgba(255,255,255,0.85)] overflow-x-auto">{code}</pre>
@@ -165,7 +165,7 @@ function CopyButton({ text }: { text: string }) {
 function Row({ p, d, children }: { p: string; d: string; children: React.ReactNode }) {
   return (
     <div className="grid grid-cols-[120px_100px_1fr] gap-4 px-4 py-3 text-[11px] border-b border-[rgba(255,255,255,0.04)] last:border-0">
-      <span className="font-mono text-[#4a9eff] font-bold">{p}</span>
+      <span className="font-mono text-[#5B8DEF] font-bold">{p}</span>
       <span className="font-mono text-[rgba(255,255,255,0.5)]">{d}</span>
       <span className="text-[rgba(255,255,255,0.75)]">{children}</span>
     </div>
@@ -180,7 +180,7 @@ function Example({ title, code }: { title: string; code: string }) {
       <pre className="text-[10px] font-mono text-[rgba(255,255,255,0.6)] overflow-x-auto bg-[rgba(0,0,0,0.4)] p-3 rounded border border-[rgba(255,255,255,0.05)]">{code}</pre>
       <a href={`/embed/${SAMPLE_LEI}${code.split('?')[1]?.split('"')[0] ? '?' + code.split('?')[1].split('"')[0] : ''}`}
         target="_blank" rel="noopener noreferrer"
-        className="inline-flex items-center gap-1 mt-2 text-[10px] uppercase tracking-wider text-[#4a9eff] hover:underline">
+        className="inline-flex items-center gap-1 mt-2 text-[10px] uppercase tracking-wider text-[#5B8DEF] hover:underline">
         Open badge <ExternalLink className="w-2.5 h-2.5" />
       </a>
     </div>

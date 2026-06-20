@@ -17,7 +17,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       },
     ],
-    sitemap: 'https://genesis-swarm-rgq5.vercel.app/sitemap.xml',
-    host: 'https://genesis-swarm-rgq5.vercel.app',
+    sitemap: 'https://genesis-swarm.vercel.app/sitemap.xml',
+    host: 'https://genesis-swarm.vercel.app',
   }
 }

@@ -42,17 +42,17 @@ interface SimResult {
 }
 
 const TYPE_COLOR: Record<string, string> = {
-  press:     '#ffaa00',
-  regulator: '#00aaff',
+  press:     '#F5A524',
+  regulator: '#5B8DEF',
   audit:     '#ff8800',
-  company:   'rgba(0,255,136,0.5)',
-  legal:     '#ff3366',
-  collapse:  '#ff3366',
+  company:   'rgba(16,217,130,0.5)',
+  legal:     '#F2566E',
+  collapse:  '#F2566E',
 }
 
 const PATTERN_COLOR: Record<string, string> = {
-  ROUND_TRIP:   '#ff3366',
-  LAYERING:     '#ffaa00',
+  ROUND_TRIP:   '#F2566E',
+  LAYERING:     '#F5A524',
   STRUCTURING:  '#ff8800',
 }
 
@@ -63,11 +63,11 @@ function LeadTimeBadge({ days, label }: { days: number; label: string }) {
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ type: 'spring', stiffness: 200, delay: 0.3 }}
-        className="text-3xl font-bold font-mono text-[#ff3366] tabular-nums"
+        className="text-3xl font-bold font-mono text-[#F2566E] tabular-nums"
       >
         {days}
       </motion.div>
-      <div className="text-[8px] uppercase tracking-wider text-[rgba(255,51,102,0.6)] mt-0.5">
+      <div className="text-[8px] uppercase tracking-wider text-[rgba(242,86,110,0.6)] mt-0.5">
         days before<br/>{label}
       </div>
     </div>
@@ -89,19 +89,19 @@ function RiskChart({ points }: { points: RiskPoint[] }) {
     <svg width="100%" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="w-full" style={{ height: 80 }}>
       <defs>
         <linearGradient id="risk-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#ff3366" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#ff3366" stopOpacity="0.02" />
+          <stop offset="0%" stopColor="#F2566E" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="#F2566E" stopOpacity="0.02" />
         </linearGradient>
       </defs>
       <path d={area} fill="url(#risk-grad)" />
-      <path d={path} fill="none" stroke="#ff3366" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d={path} fill="none" stroke="#F2566E" strokeWidth="1.5" strokeLinejoin="round" />
       {/* Genesis Swarm first flag marker */}
       {points.findIndex(p => p.risk_level === 'HIGH') > -1 && (() => {
         const idx = points.findIndex(p => p.risk_level === 'HIGH')
         return (
           <g>
-            <line x1={xs[idx]} y1="0" x2={xs[idx]} y2={H} stroke="#00ff88" strokeWidth="1" strokeDasharray="3 2" />
-            <circle cx={xs[idx]} cy={ys[idx]} r="3" fill="#00ff88" />
+            <line x1={xs[idx]} y1="0" x2={xs[idx]} y2={H} stroke="#10D982" strokeWidth="1" strokeDasharray="3 2" />
+            <circle cx={xs[idx]} cy={ys[idx]} r="3" fill="#10D982" />
           </g>
         )
       })()}
@@ -124,10 +124,10 @@ export default function WirecardTimeline() {
 
   if (loading) {
     return (
-      <div className="bg-[#0d0d1a] border border-[rgba(255,51,102,0.2)] rounded p-6 flex items-center justify-center" style={{ minHeight: 300 }}>
+      <div className="bg-[#0d0d1a] border border-[rgba(242,86,110,0.2)] rounded p-6 flex items-center justify-center" style={{ minHeight: 300 }}>
         <div className="text-center space-y-2">
-          <div className="w-6 h-6 border-2 border-[#ff3366] border-t-transparent rounded-full animate-spin mx-auto" />
-          <div className="text-[9px] uppercase tracking-widest text-[rgba(255,51,102,0.6)] animate-pulse">
+          <div className="w-6 h-6 border-2 border-[#F2566E] border-t-transparent rounded-full animate-spin mx-auto" />
+          <div className="text-[9px] uppercase tracking-widest text-[rgba(242,86,110,0.6)] animate-pulse">
             Replaying Wirecard transactions…
           </div>
         </div>
@@ -140,31 +140,31 @@ export default function WirecardTimeline() {
   const firstDetection = data.detection_events[0]
 
   return (
-    <div className="bg-[#0d0d1a] border border-[rgba(255,51,102,0.25)] rounded overflow-hidden">
+    <div className="bg-[#0d0d1a] border border-[rgba(242,86,110,0.25)] rounded overflow-hidden">
 
       {/* ── Banner ─────────────────────────────────────────────────────────── */}
-      <div className="bg-[rgba(255,51,102,0.08)] border-b border-[rgba(255,51,102,0.2)] px-4 py-3">
+      <div className="bg-[rgba(242,86,110,0.08)] border-b border-[rgba(242,86,110,0.2)] px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-[#ff3366]" />
-            <span className="text-[11px] uppercase tracking-widest font-bold text-[#ff3366]">
+            <AlertTriangle className="w-4 h-4 text-[#F2566E]" />
+            <span className="text-[11px] uppercase tracking-widest font-bold text-[#F2566E]">
               Wirecard Fraud Simulation // Historical Replay
             </span>
           </div>
-          <div className="text-[8px] uppercase tracking-wider text-[rgba(255,51,102,0.5)]">
+          <div className="text-[8px] uppercase tracking-wider text-[rgba(242,86,110,0.5)]">
             Source: FT · Bundestag inquiry · KPMG audit · Munich prosecutor
           </div>
         </div>
-        <div className="mt-1 text-[9px] text-[rgba(255,51,102,0.6)] font-mono">
+        <div className="mt-1 text-[9px] text-[rgba(242,86,110,0.6)] font-mono">
           {data.total_transactions} transactions replayed · ~€{(data.total_amount_eur / 1e9).toFixed(1)}B total volume
         </div>
       </div>
 
       {/* ── Lead time heroes ───────────────────────────────────────────────── */}
-      <div className="px-4 py-4 border-b border-[rgba(255,51,102,0.1)]">
-        <div className="text-[8px] uppercase tracking-widest text-[rgba(0,255,136,0.5)] mb-3 flex items-center gap-2">
+      <div className="px-4 py-4 border-b border-[rgba(242,86,110,0.1)]">
+        <div className="text-[8px] uppercase tracking-widest text-[rgba(16,217,130,0.5)] mb-3 flex items-center gap-2">
           <Shield className="w-3 h-3" />
-          Genesis Swarm first flagged: <span className="text-[#00ff88] font-bold">{data.first_flag_date}</span>
+          Genesis Swarm first flagged: <span className="text-[#10D982] font-bold">{data.first_flag_date}</span>
         </div>
         <div className="grid grid-cols-3 gap-4">
           <LeadTimeBadge days={data.lead_days_vs_kpmg}    label="KPMG couldn't verify €1.9B" />
@@ -174,23 +174,23 @@ export default function WirecardTimeline() {
       </div>
 
       {/* ── Risk progression chart ─────────────────────────────────────────── */}
-      <div className="px-4 pt-3 pb-1 border-b border-[rgba(255,51,102,0.08)]">
-        <div className="text-[8px] uppercase tracking-wider text-[rgba(255,51,102,0.4)] mb-1 flex justify-between">
+      <div className="px-4 pt-3 pb-1 border-b border-[rgba(242,86,110,0.08)]">
+        <div className="text-[8px] uppercase tracking-wider text-[rgba(242,86,110,0.4)] mb-1 flex justify-between">
           <span>Risk Score Progression (Jan 2019 → Jun 2020)</span>
           <span className="flex items-center gap-1">
-            <span className="w-2 h-0.5 bg-[#00ff88] inline-block" /> First Genesis Swarm alert
+            <span className="w-2 h-0.5 bg-[#10D982] inline-block" /> First Genesis Swarm alert
           </span>
         </div>
         <RiskChart points={data.risk_progression} />
-        <div className="flex justify-between text-[7px] font-mono text-[rgba(255,51,102,0.3)] mt-0.5">
+        <div className="flex justify-between text-[7px] font-mono text-[rgba(242,86,110,0.3)] mt-0.5">
           <span>Jan 2019</span>
           <span>Jun 2020 — COLLAPSE</span>
         </div>
       </div>
 
       {/* ── Detection events ───────────────────────────────────────────────── */}
-      <div className="px-4 py-3 border-b border-[rgba(255,51,102,0.08)]">
-        <div className="text-[8px] uppercase tracking-wider text-[rgba(255,51,102,0.4)] mb-2">
+      <div className="px-4 py-3 border-b border-[rgba(242,86,110,0.08)]">
+        <div className="text-[8px] uppercase tracking-wider text-[rgba(242,86,110,0.4)] mb-2">
           Fraud Patterns Detected
         </div>
         <div className="space-y-2">
@@ -205,7 +205,7 @@ export default function WirecardTimeline() {
               style={{
                 borderColor: activeEvent?.pattern === ev.pattern
                   ? PATTERN_COLOR[ev.pattern]
-                  : 'rgba(255,51,102,0.1)',
+                  : 'rgba(242,86,110,0.1)',
                 background: activeEvent?.pattern === ev.pattern
                   ? `${PATTERN_COLOR[ev.pattern]}10`
                   : 'transparent',
@@ -217,8 +217,8 @@ export default function WirecardTimeline() {
                   <span className="text-[9px] font-bold font-mono" style={{ color: PATTERN_COLOR[ev.pattern] }}>
                     {ev.pattern.replace('_', '-')}
                   </span>
-                  <span className="text-[8px] text-[rgba(255,51,102,0.5)]">{ev.detected_at}</span>
-                  <span className="text-[7px] text-[rgba(0,255,136,0.6)] ml-auto">
+                  <span className="text-[8px] text-[rgba(242,86,110,0.5)]">{ev.detected_at}</span>
+                  <span className="text-[7px] text-[rgba(16,217,130,0.6)] ml-auto">
                     {ev.lead_days_vs_collapse}d before collapse
                   </span>
                 </div>
@@ -228,7 +228,7 @@ export default function WirecardTimeline() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      className="text-[8px] text-[rgba(255,51,102,0.7)] font-mono mt-1 overflow-hidden"
+                      className="text-[8px] text-[rgba(242,86,110,0.7)] font-mono mt-1 overflow-hidden"
                     >
                       {ev.description}
                     </motion.div>
@@ -242,18 +242,18 @@ export default function WirecardTimeline() {
 
       {/* ── Timeline of real events ────────────────────────────────────────── */}
       <div className="px-4 py-3">
-        <div className="text-[8px] uppercase tracking-wider text-[rgba(255,51,102,0.4)] mb-2 flex items-center gap-2">
+        <div className="text-[8px] uppercase tracking-wider text-[rgba(242,86,110,0.4)] mb-2 flex items-center gap-2">
           <Clock className="w-3 h-3" />
           Real-world timeline vs Genesis Swarm
         </div>
         <div className="space-y-1.5 relative">
           {/* Genesis Swarm flag line */}
-          <div className="flex items-center gap-2 py-1 px-2 rounded border border-[rgba(0,255,136,0.3)] bg-[rgba(0,255,136,0.05)]">
-            <div className="w-1.5 h-1.5 rounded-full bg-[#00ff88] shrink-0 animate-pulse" />
-            <span className="text-[8px] font-mono text-[rgba(0,255,136,0.5)] shrink-0 w-20">
+          <div className="flex items-center gap-2 py-1 px-2 rounded border border-[rgba(16,217,130,0.3)] bg-[rgba(16,217,130,0.05)]">
+            <div className="w-1.5 h-1.5 rounded-full bg-[#10D982] shrink-0 animate-pulse" />
+            <span className="text-[8px] font-mono text-[rgba(16,217,130,0.5)] shrink-0 w-20">
               {data.first_flag_date}
             </span>
-            <span className="text-[8px] text-[#00ff88] font-bold">
+            <span className="text-[8px] text-[#10D982] font-bold">
               ▲ GENESIS SWARM FIRST ALERT — {firstDetection?.pattern?.replace('_', '-')} DETECTED
             </span>
           </div>
@@ -269,7 +269,7 @@ export default function WirecardTimeline() {
                 className="w-1.5 h-1.5 rounded-full shrink-0"
                 style={{ background: TYPE_COLOR[ev.type] }}
               />
-              <span className="text-[8px] font-mono text-[rgba(255,51,102,0.4)] shrink-0 w-20">
+              <span className="text-[8px] font-mono text-[rgba(242,86,110,0.4)] shrink-0 w-20">
                 {ev.date}
               </span>
               <span className="text-[8px] font-mono" style={{ color: TYPE_COLOR[ev.type] }}>
@@ -281,10 +281,10 @@ export default function WirecardTimeline() {
       </div>
 
       {/* ── Summary ─────────────────────────────────────────────────────────── */}
-      <div className="px-4 py-3 border-t border-[rgba(255,51,102,0.1)] bg-[rgba(255,51,102,0.04)]">
+      <div className="px-4 py-3 border-t border-[rgba(242,86,110,0.1)] bg-[rgba(242,86,110,0.04)]">
         <div className="flex items-start gap-2">
-          <TrendingDown className="w-3 h-3 text-[#ff3366] shrink-0 mt-0.5" />
-          <p className="text-[8px] font-mono text-[rgba(255,51,102,0.7)] leading-relaxed">
+          <TrendingDown className="w-3 h-3 text-[#F2566E] shrink-0 mt-0.5" />
+          <p className="text-[8px] font-mono text-[rgba(242,86,110,0.7)] leading-relaxed">
             {data.summary}
           </p>
         </div>

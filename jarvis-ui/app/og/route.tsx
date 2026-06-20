@@ -9,12 +9,12 @@ export const runtime = 'edge'
 // Renders a 1200x630 OG card matching the brand cosmic background + accent.
 
 const ACCENTS: Record<string, { primary: string; secondary: string }> = {
-  red:     { primary: '#ff3366', secondary: '#ff7a00' },
-  purple:  { primary: '#9b6dff', secondary: '#4a9eff' },
-  green:   { primary: '#00ff88', secondary: '#4a9eff' },
-  cyan:    { primary: '#00d8ff', secondary: '#9b6dff' },
-  amber:   { primary: '#ffaa00', secondary: '#ff7a00' },
-  bitcoin: { primary: '#f7931a', secondary: '#ffaa00' },
+  red:     { primary: '#F2566E', secondary: '#F5A524' },
+  purple:  { primary: '#5B8DEF', secondary: '#5B8DEF' },
+  green:   { primary: '#10D982', secondary: '#5B8DEF' },
+  cyan:    { primary: '#5B8DEF', secondary: '#5B8DEF' },
+  amber:   { primary: '#F5A524', secondary: '#F5A524' },
+  bitcoin: { primary: '#f7931a', secondary: '#F5A524' },
 }
 
 export async function GET(req: NextRequest) {
@@ -112,7 +112,7 @@ export async function GET(req: NextRequest) {
             color: 'rgba(255,255,255,0.55)',
             fontFamily: 'monospace',
           }}>
-            genesis-swarm-rgq5.vercel.app
+            genesis-swarm.vercel.app
           </div>
         </div>
       </div>

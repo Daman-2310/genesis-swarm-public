@@ -47,9 +47,9 @@ export default function LookupClient({ entries }: { entries: SlimEntry[] }) {
     <div>
       {/* Search box */}
       <div className="rounded-2xl p-2 mb-8"
-        style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(74,158,255,0.3)', backdropFilter: 'blur(10px)' }}>
+        style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(91,141,239,0.3)', backdropFilter: 'blur(10px)' }}>
         <div className="flex items-center gap-3 px-3 py-2">
-          <Search className="w-5 h-5 text-[#4a9eff] shrink-0" />
+          <Search className="w-5 h-5 text-[#5B8DEF] shrink-0" />
           <input
             autoFocus
             type="text"
@@ -73,8 +73,8 @@ export default function LookupClient({ entries }: { entries: SlimEntry[] }) {
           <div className="flex flex-wrap gap-2">
             {SAMPLE_QUERIES.map(s => (
               <button key={s} onClick={() => setQuery(s)}
-                className="px-3 py-1.5 rounded-full text-[11px] text-[rgba(255,255,255,0.7)] transition-all hover:bg-[rgba(74,158,255,0.08)]"
-                style={{ background: 'rgba(74,158,255,0.04)', border: '1px solid rgba(74,158,255,0.2)' }}>
+                className="px-3 py-1.5 rounded-full text-[11px] text-[rgba(255,255,255,0.7)] transition-all hover:bg-[rgba(91,141,239,0.08)]"
+                style={{ background: 'rgba(91,141,239,0.04)', border: '1px solid rgba(91,141,239,0.2)' }}>
                 {s}
               </button>
             ))}
@@ -86,7 +86,7 @@ export default function LookupClient({ entries }: { entries: SlimEntry[] }) {
       {query && (
         <div>
           <div className="flex items-baseline justify-between mb-4">
-            <div className="text-[11px] uppercase tracking-[0.2em] text-[#4a9eff] font-black">
+            <div className="text-[11px] uppercase tracking-[0.2em] text-[#5B8DEF] font-black">
               {hits.length === 0 ? 'No matches' : `${hits.length} match${hits.length === 1 ? '' : 'es'}`}
             </div>
             {hits.length > 0 && (
@@ -119,9 +119,9 @@ export default function LookupClient({ entries }: { entries: SlimEntry[] }) {
 }
 
 function Result({ entry: e }: { entry: SlimEntry }) {
-  const pciColor = e.pre_crime_index >= 70 ? '#ff3366' : e.pre_crime_index >= 50 ? '#ffaa00' : e.pre_crime_index >= 30 ? '#ffd86b' : '#00ff88'
+  const pciColor = e.pre_crime_index >= 70 ? '#F2566E' : e.pre_crime_index >= 50 ? '#F5A524' : e.pre_crime_index >= 30 ? '#ffd86b' : '#10D982'
   const TIcon = e.trajectory === 'RISING' ? TrendingUp : e.trajectory === 'FALLING' ? TrendingDown : Minus
-  const tColor = e.trajectory === 'RISING' ? '#ff3366' : e.trajectory === 'FALLING' ? '#00ff88' : 'rgba(255,255,255,0.5)'
+  const tColor = e.trajectory === 'RISING' ? '#F2566E' : e.trajectory === 'FALLING' ? '#10D982' : 'rgba(255,255,255,0.5)'
 
   return (
     <Link href={`/book/${e.prophecy_id}`}
@@ -138,7 +138,7 @@ function Result({ entry: e }: { entry: SlimEntry }) {
             {e.pattern_match && (
               <>
                 <span>·</span>
-                <span className="font-mono text-[#9b6dff]">pattern: {e.pattern_match}</span>
+                <span className="font-mono text-[#5B8DEF]">pattern: {e.pattern_match}</span>
               </>
             )}
           </div>
@@ -179,7 +179,7 @@ function NoResults({ query }: { query: string }) {
       </div>
       <Link href="/pricing"
         className="inline-flex items-center gap-2 px-4 py-2 rounded text-[11px] uppercase tracking-wider font-bold transition-all"
-        style={{ background: 'rgba(74,158,255,0.12)', border: '1px solid rgba(74,158,255,0.4)', color: '#4a9eff' }}>
+        style={{ background: 'rgba(91,141,239,0.12)', border: '1px solid rgba(91,141,239,0.4)', color: '#5B8DEF' }}>
         See pricing →
       </Link>
     </div>

@@ -56,15 +56,15 @@ interface ProspectusResult {
 }
 
 const SEV_COLOR: Record<string, string> = {
-  CRITICAL: '#ff3366',
+  CRITICAL: '#F2566E',
   HIGH: '#ff8800',
-  MEDIUM: '#ffaa00',
+  MEDIUM: '#F5A524',
 }
 
 const STATUS_COLOR: Record<string, string> = {
-  COMPLIANT: '#00ff88',
-  PARTIALLY_COMPLIANT: '#ffaa00',
-  NON_COMPLIANT: '#ff3366',
+  COMPLIANT: '#10D982',
+  PARTIALLY_COMPLIANT: '#F5A524',
+  NON_COMPLIANT: '#F2566E',
   NOT_ASSESSED: 'rgba(255,255,255,0.3)',
 }
 
@@ -177,24 +177,24 @@ export default function AIFMDPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#050508] text-[#00ff88] font-mono select-none">
+    <div className="min-h-screen bg-[#050508] text-[#10D982] font-mono select-none">
       <div className="scanline pointer-events-none fixed inset-0 z-50" />
 
       {/* Header */}
-      <div className="sticky top-0 z-40 flex items-center justify-between px-6 py-3 border-b border-[rgba(0,255,136,0.12)]"
+      <div className="sticky top-0 z-40 flex items-center justify-between px-6 py-3 border-b border-[rgba(16,217,130,0.12)]"
         style={{ background: 'rgba(5,5,8,0.97)', backdropFilter: 'blur(8px)' }}>
         <div className="flex items-center gap-3">
-          <Shield className="w-4 h-4 text-[#00ff88]" />
+          <Shield className="w-4 h-4 text-[#10D982]" />
           <span className="font-bold tracking-[0.2em] text-sm uppercase">AIFMD II Compliance</span>
-          <span className="text-[rgba(0,255,136,0.4)] text-[9px] tracking-widest hidden sm:block">
+          <span className="text-[rgba(16,217,130,0.4)] text-[9px] tracking-widest hidden sm:block">
             // EU 2024/927 · Luxembourg Transposition April 2026
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <a href="/dora" className="text-[9px] uppercase tracking-wider px-3 py-1.5 border border-[rgba(0,170,255,0.3)] text-[#00aaff] rounded hover:bg-[rgba(0,170,255,0.08)] transition-colors">
+          <a href="/dora" className="text-[9px] uppercase tracking-wider px-3 py-1.5 border border-[rgba(91,141,239,0.3)] text-[#5B8DEF] rounded hover:bg-[rgba(91,141,239,0.08)] transition-colors">
             DORA ICT
           </a>
-          <a href="/operator" className="text-[9px] uppercase tracking-wider px-3 py-1.5 border border-[rgba(0,255,136,0.3)] text-[#00ff88] rounded hover:bg-[rgba(0,255,136,0.08)] transition-colors">
+          <a href="/dashboard" className="text-[9px] uppercase tracking-wider px-3 py-1.5 border border-[rgba(16,217,130,0.3)] text-[#10D982] rounded hover:bg-[rgba(16,217,130,0.08)] transition-colors">
             ← Dashboard
           </a>
         </div>
@@ -204,10 +204,10 @@ export default function AIFMDPage() {
 
         {/* Urgency banner */}
         <div className="flex items-center gap-3 p-3 rounded"
-          style={{ background: 'rgba(255,51,102,0.06)', border: '1px solid rgba(255,51,102,0.3)' }}>
-          <AlertTriangle className="w-4 h-4 text-[#ff3366] shrink-0" />
+          style={{ background: 'rgba(242,86,110,0.06)', border: '1px solid rgba(242,86,110,0.3)' }}>
+          <AlertTriangle className="w-4 h-4 text-[#F2566E] shrink-0" />
           <div className="text-[9px] text-[rgba(255,255,255,0.6)] leading-relaxed">
-            <span className="text-[#ff3366] font-bold">AIFMD II is live.</span> Luxembourg transposition effective April 2026.
+            <span className="text-[#F2566E] font-bold">AIFMD II is live.</span> Luxembourg transposition effective April 2026.
             CSSF expects all AIFMs to be compliant now — 6 requirements were due April 16, 2 more due June 30.
           </div>
         </div>
@@ -218,10 +218,10 @@ export default function AIFMDPage() {
             <button key={m} onClick={() => setMode(m as 'auto' | 'manual')}
               className="flex-1 flex flex-col items-center gap-0.5 py-2 px-3 rounded text-left transition-all"
               style={{
-                background: mode === m ? 'rgba(0,255,136,0.1)' : 'transparent',
-                border: `1px solid ${mode === m ? 'rgba(0,255,136,0.4)' : 'transparent'}`,
+                background: mode === m ? 'rgba(16,217,130,0.1)' : 'transparent',
+                border: `1px solid ${mode === m ? 'rgba(16,217,130,0.4)' : 'transparent'}`,
               }}>
-              <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: mode === m ? '#00ff88' : 'rgba(255,255,255,0.4)' }}>{label}</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: mode === m ? '#10D982' : 'rgba(255,255,255,0.4)' }}>{label}</span>
               <span className="text-[8px] text-[rgba(255,255,255,0.25)]">{sub}</span>
             </button>
           ))}
@@ -230,8 +230,8 @@ export default function AIFMDPage() {
         {/* Auto-analyze panel */}
         {mode === 'auto' && (
           <div className="space-y-4">
-            <div className="p-4 rounded space-y-3" style={{ background: 'rgba(0,170,255,0.04)', border: '1px solid rgba(0,170,255,0.15)' }}>
-              <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-[rgba(0,170,255,0.7)]">
+            <div className="p-4 rounded space-y-3" style={{ background: 'rgba(91,141,239,0.04)', border: '1px solid rgba(91,141,239,0.15)' }}>
+              <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-[rgba(91,141,239,0.7)]">
                 <Globe className="w-3 h-3" />
                 <span>Multilingual Prospectus Audit — French · German · English · Dutch · Any EU Language</span>
               </div>
@@ -244,21 +244,21 @@ export default function AIFMDPage() {
                   onChange={e => { setProspectusFile(e.target.files?.[0] ?? null); setProspectusResult(null) }} />
                 <button onClick={() => fileInputRef.current?.click()}
                   className="flex items-center gap-2 px-4 py-2 rounded text-[10px] uppercase tracking-wider transition-all"
-                  style={{ background: 'rgba(0,170,255,0.08)', border: '1px solid rgba(0,170,255,0.35)', color: '#00aaff' }}>
+                  style={{ background: 'rgba(91,141,239,0.08)', border: '1px solid rgba(91,141,239,0.35)', color: '#5B8DEF' }}>
                   <Upload className="w-3 h-3" />
                   {prospectusFile ? prospectusFile.name : 'Upload Fund Prospectus (PDF)'}
                 </button>
                 {prospectusFile && !prospectusResult && (
                   <button onClick={analyzeProspectus} disabled={analyzing}
                     className="flex items-center gap-2 px-4 py-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all"
-                    style={{ background: analyzing ? 'rgba(0,255,136,0.05)' : 'rgba(0,255,136,0.1)', border: '1px solid rgba(0,255,136,0.4)', color: '#00ff88', opacity: analyzing ? 0.6 : 1 }}>
+                    style={{ background: analyzing ? 'rgba(16,217,130,0.05)' : 'rgba(16,217,130,0.1)', border: '1px solid rgba(16,217,130,0.4)', color: '#10D982', opacity: analyzing ? 0.6 : 1 }}>
                     <Zap className="w-3 h-3" />
                     {analyzing ? 'Analysing…' : 'Analyse Now'}
                   </button>
                 )}
               </div>
               {analyzing && (
-                <div className="text-[9px] text-[rgba(0,255,136,0.5)] animate-pulse">
+                <div className="text-[9px] text-[rgba(16,217,130,0.5)] animate-pulse">
                   Reading document · Detecting language · Mapping AIFMD II requirements…
                 </div>
               )}
@@ -270,10 +270,10 @@ export default function AIFMDPage() {
                 {/* Score header */}
                 <div className="grid grid-cols-4 gap-3">
                   {[
-                    { label: 'Compliance Score', value: `${prospectusResult.overall_score}/100`, color: prospectusResult.overall_score >= 75 ? '#00ff88' : prospectusResult.overall_score >= 50 ? '#ffaa00' : '#ff3366' },
-                    { label: 'Language Detected', value: prospectusResult.detected_language, color: '#00aaff' },
+                    { label: 'Compliance Score', value: `${prospectusResult.overall_score}/100`, color: prospectusResult.overall_score >= 75 ? '#10D982' : prospectusResult.overall_score >= 50 ? '#F5A524' : '#F2566E' },
+                    { label: 'Language Detected', value: prospectusResult.detected_language, color: '#5B8DEF' },
                     { label: 'Pages Analysed', value: `${prospectusResult.pages_analysed}p`, color: 'rgba(255,255,255,0.6)' },
-                    { label: 'Analysis Cost', value: `€${prospectusResult.cost_eur}`, color: '#00ff88' },
+                    { label: 'Analysis Cost', value: `€${prospectusResult.cost_eur}`, color: '#10D982' },
                   ].map(({ label, value, color }) => (
                     <div key={label} className="p-3 rounded text-center" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
                       <div className="text-[8px] uppercase tracking-widest text-[rgba(255,255,255,0.3)] mb-1">{label}</div>
@@ -283,8 +283,8 @@ export default function AIFMDPage() {
                 </div>
 
                 {/* Key finding */}
-                <div className="p-3 rounded" style={{ background: 'rgba(255,170,0,0.06)', border: '1px solid rgba(255,170,0,0.2)' }}>
-                  <div className="text-[8px] uppercase tracking-widest text-[rgba(255,170,0,0.6)] mb-1">Key Finding</div>
+                <div className="p-3 rounded" style={{ background: 'rgba(245,165,36,0.06)', border: '1px solid rgba(245,165,36,0.2)' }}>
+                  <div className="text-[8px] uppercase tracking-widest text-[rgba(245,165,36,0.6)] mb-1">Key Finding</div>
                   <p className="text-[11px] text-[rgba(255,255,255,0.8)]">{prospectusResult.key_finding}</p>
                 </div>
 
@@ -292,7 +292,7 @@ export default function AIFMDPage() {
                 <div className="space-y-2">
                   <div className="text-[9px] uppercase tracking-widest text-[rgba(255,255,255,0.3)]">Requirement Analysis</div>
                   {Object.entries(prospectusResult.requirements).map(([id, req]) => {
-                    const color = req.status === 'COMPLIANT' ? '#00ff88' : req.status === 'PARTIAL' ? '#ffaa00' : '#ff3366'
+                    const color = req.status === 'COMPLIANT' ? '#10D982' : req.status === 'PARTIAL' ? '#F5A524' : '#F2566E'
                     const reqMeta = REQUIREMENTS.find(r => r.id === id)
                     return (
                       <div key={id} className="p-3 rounded" style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${color}22` }}>
@@ -304,7 +304,7 @@ export default function AIFMDPage() {
                           <span className="text-[9px] font-bold px-2 py-0.5 rounded" style={{ color, background: `${color}15` }}>{req.status}</span>
                         </div>
                         {req.evidence && (
-                          <div className="mt-1.5 p-2 rounded text-[8px] text-[rgba(255,255,255,0.5)] italic leading-relaxed" style={{ background: 'rgba(0,170,255,0.06)', borderLeft: '2px solid rgba(0,170,255,0.3)' }}>
+                          <div className="mt-1.5 p-2 rounded text-[8px] text-[rgba(255,255,255,0.5)] italic leading-relaxed" style={{ background: 'rgba(91,141,239,0.06)', borderLeft: '2px solid rgba(91,141,239,0.3)' }}>
                             "{req.evidence}"
                           </div>
                         )}
@@ -318,11 +318,11 @@ export default function AIFMDPage() {
 
                 {/* Recommended actions */}
                 {prospectusResult.recommended_actions?.length > 0 && (
-                  <div className="p-3 rounded space-y-1.5" style={{ background: 'rgba(0,255,136,0.03)', border: '1px solid rgba(0,255,136,0.15)' }}>
-                    <div className="text-[8px] uppercase tracking-widest text-[rgba(0,255,136,0.5)] mb-2">Recommended Actions</div>
+                  <div className="p-3 rounded space-y-1.5" style={{ background: 'rgba(16,217,130,0.03)', border: '1px solid rgba(16,217,130,0.15)' }}>
+                    <div className="text-[8px] uppercase tracking-widest text-[rgba(16,217,130,0.5)] mb-2">Recommended Actions</div>
                     {prospectusResult.recommended_actions.map((a, i) => (
                       <div key={i} className="flex items-start gap-2 text-[9px] text-[rgba(255,255,255,0.6)]">
-                        <span className="text-[#00ff88] mt-0.5">→</span><span>{a}</span>
+                        <span className="text-[#10D982] mt-0.5">→</span><span>{a}</span>
                       </div>
                     ))}
                   </div>
@@ -343,12 +343,12 @@ export default function AIFMDPage() {
         {/* Fund setup */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="text-[8px] uppercase tracking-widest text-[rgba(0,255,136,0.5)] block mb-1">Fund Name</label>
+            <label className="text-[8px] uppercase tracking-widest text-[rgba(16,217,130,0.5)] block mb-1">Fund Name</label>
             <input value={fundName} onChange={e => setFundName(e.target.value)}
               className="terminal-input w-full rounded text-sm" placeholder="Luxembourg AIF" />
           </div>
           <div>
-            <label className="text-[8px] uppercase tracking-widest text-[rgba(0,255,136,0.5)] block mb-1">Fund Type</label>
+            <label className="text-[8px] uppercase tracking-widest text-[rgba(16,217,130,0.5)] block mb-1">Fund Type</label>
             <select value={fundType} onChange={e => setFundType(e.target.value as 'AIF' | 'UCITS' | 'RAIF')}
               className="terminal-input w-full rounded text-sm">
               <option value="AIF">AIF — Alternative Investment Fund</option>
@@ -360,7 +360,7 @@ export default function AIFMDPage() {
 
         {/* Requirements questionnaire */}
         <div className="space-y-2">
-          <div className="text-[8px] uppercase tracking-widest text-[rgba(0,255,136,0.5)] mb-3">
+          <div className="text-[8px] uppercase tracking-widest text-[rgba(16,217,130,0.5)] mb-3">
             Self-Assessment — {REQUIREMENTS.length} Requirements
           </div>
           {REQUIREMENTS.map(req => {
@@ -374,7 +374,7 @@ export default function AIFMDPage() {
 
             return (
               <div key={req.id} className="rounded overflow-hidden"
-                style={{ border: `1px solid ${isComplete ? (pct! >= 100 ? 'rgba(0,255,136,0.25)' : pct! >= 50 ? 'rgba(255,170,0,0.25)' : 'rgba(255,51,102,0.25)') : 'rgba(255,255,255,0.08)'}` }}>
+                style={{ border: `1px solid ${isComplete ? (pct! >= 100 ? 'rgba(16,217,130,0.25)' : pct! >= 50 ? 'rgba(245,165,36,0.25)' : 'rgba(242,86,110,0.25)') : 'rgba(255,255,255,0.08)'}` }}>
 
                 {/* Header row */}
                 <button className="w-full flex items-center justify-between px-3 py-2.5 text-left transition-colors hover:bg-[rgba(255,255,255,0.02)]"
@@ -389,7 +389,7 @@ export default function AIFMDPage() {
                   </div>
                   <div className="flex items-center gap-3 shrink-0 ml-2">
                     <div className="flex items-center gap-1 text-[7px]"
-                      style={{ color: days < 0 ? '#ff3366' : days < 30 ? '#ffaa00' : 'rgba(255,255,255,0.3)' }}>
+                      style={{ color: days < 0 ? '#F2566E' : days < 30 ? '#F5A524' : 'rgba(255,255,255,0.3)' }}>
                       <Clock className="w-2.5 h-2.5" />
                       {days < 0 ? `${Math.abs(days)}d overdue` : `${days}d left`}
                     </div>
@@ -412,7 +412,7 @@ export default function AIFMDPage() {
                 {isOpen && (
                   <div className="px-3 pb-3 space-y-2 border-t border-[rgba(255,255,255,0.06)]">
                     <p className="text-[8px] text-[rgba(255,255,255,0.4)] mt-2 leading-relaxed">{req.description}</p>
-                    <div className="text-[7px] text-[rgba(0,255,136,0.4)] uppercase tracking-wider">{req.cssf_reference}</div>
+                    <div className="text-[7px] text-[rgba(16,217,130,0.4)] uppercase tracking-wider">{req.cssf_reference}</div>
                     {req.questions.map((q, qi) => (
                       <div key={qi} className="flex items-start gap-3 py-1.5">
                         <span className="text-[8px] text-[rgba(255,255,255,0.5)] flex-1 leading-relaxed">{q}</span>
@@ -423,10 +423,10 @@ export default function AIFMDPage() {
                               className="text-[7px] px-2 py-0.5 rounded font-bold uppercase transition-all"
                               style={{
                                 background: reqAnswers[qi] === val
-                                  ? (val ? 'rgba(0,255,136,0.2)' : 'rgba(255,51,102,0.2)')
+                                  ? (val ? 'rgba(16,217,130,0.2)' : 'rgba(242,86,110,0.2)')
                                   : 'rgba(255,255,255,0.05)',
-                                border: `1px solid ${reqAnswers[qi] === val ? (val ? '#00ff88' : '#ff3366') : 'rgba(255,255,255,0.1)'}`,
-                                color: reqAnswers[qi] === val ? (val ? '#00ff88' : '#ff3366') : 'rgba(255,255,255,0.3)',
+                                border: `1px solid ${reqAnswers[qi] === val ? (val ? '#10D982' : '#F2566E') : 'rgba(255,255,255,0.1)'}`,
+                                color: reqAnswers[qi] === val ? (val ? '#10D982' : '#F2566E') : 'rgba(255,255,255,0.3)',
                               }}>
                               {val ? 'YES' : 'NO'}
                             </button>
@@ -446,9 +446,9 @@ export default function AIFMDPage() {
           <button onClick={runCheck} disabled={checking || !allAnswered}
             className="flex-1 flex items-center justify-center gap-2 py-3 rounded font-bold text-sm uppercase tracking-wider transition-all disabled:opacity-40"
             style={{
-              background: checking ? 'rgba(255,170,0,0.1)' : 'rgba(0,255,136,0.1)',
-              border: `2px solid ${checking ? '#ffaa00' : '#00ff88'}`,
-              color: checking ? '#ffaa00' : '#00ff88',
+              background: checking ? 'rgba(245,165,36,0.1)' : 'rgba(16,217,130,0.1)',
+              border: `2px solid ${checking ? '#F5A524' : '#10D982'}`,
+              color: checking ? '#F5A524' : '#10D982',
             }}>
             {checking
               ? <><Zap className="w-4 h-4" style={{ animation: 'pulse 0.6s ease-in-out infinite' }} /> Analysing…</>
@@ -456,7 +456,7 @@ export default function AIFMDPage() {
           </button>
           <button onClick={exportRegister}
             className="flex items-center gap-1.5 px-4 py-3 rounded border text-[9px] uppercase tracking-wider transition-colors"
-            style={{ border: '1px solid rgba(0,170,255,0.4)', color: '#00aaff', background: 'rgba(0,170,255,0.06)' }}>
+            style={{ border: '1px solid rgba(91,141,239,0.4)', color: '#5B8DEF', background: 'rgba(91,141,239,0.06)' }}>
             <FileDown className="w-3.5 h-3.5" /> Export DORA Register
           </button>
         </div>
@@ -468,8 +468,8 @@ export default function AIFMDPage() {
         )}
 
         {error && (
-          <div className="text-[9px] text-[#ff3366] px-3 py-2 rounded"
-            style={{ background: 'rgba(255,51,102,0.08)', border: '1px solid rgba(255,51,102,0.3)' }}>
+          <div className="text-[9px] text-[#F2566E] px-3 py-2 rounded"
+            style={{ background: 'rgba(242,86,110,0.08)', border: '1px solid rgba(242,86,110,0.3)' }}>
             {error}
           </div>
         )}
@@ -481,14 +481,14 @@ export default function AIFMDPage() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
                 { label: 'Compliance Score', value: `${result.overall_score}%`,
-                  color: result.overall_score >= 75 ? '#00ff88' : result.overall_score >= 50 ? '#ffaa00' : '#ff3366' },
-                { label: 'Compliant', value: `${result.compliant}/${result.total}`, color: '#00ff88' },
-                { label: 'Critical Gaps', value: result.critical_gaps.length, color: result.critical_gaps.length > 0 ? '#ff3366' : '#00ff88' },
+                  color: result.overall_score >= 75 ? '#10D982' : result.overall_score >= 50 ? '#F5A524' : '#F2566E' },
+                { label: 'Compliant', value: `${result.compliant}/${result.total}`, color: '#10D982' },
+                { label: 'Critical Gaps', value: result.critical_gaps.length, color: result.critical_gaps.length > 0 ? '#F2566E' : '#10D982' },
                 { label: 'CSSF Action', value: result.cssf_action_required ? 'REQUIRED' : 'CLEAR',
-                  color: result.cssf_action_required ? '#ff3366' : '#00ff88' },
+                  color: result.cssf_action_required ? '#F2566E' : '#10D982' },
               ].map(m => (
                 <div key={m.label} className="rounded p-2.5"
-                  style={{ background: 'rgba(0,255,136,0.03)', border: '1px solid rgba(0,255,136,0.1)' }}>
+                  style={{ background: 'rgba(16,217,130,0.03)', border: '1px solid rgba(16,217,130,0.1)' }}>
                   <div className="text-[7px] text-[rgba(255,255,255,0.35)] uppercase tracking-wider">{m.label}</div>
                   <div className="text-sm font-bold mt-0.5" style={{ color: m.color }}>{m.value}</div>
                 </div>
@@ -499,10 +499,10 @@ export default function AIFMDPage() {
             <div className="space-y-1.5">
               {result.results.map(r => (
                 <div key={r.id} className="flex items-center justify-between px-3 py-2 rounded"
-                  style={{ background: 'rgba(0,255,136,0.02)', border: `1px solid ${STATUS_COLOR[r.gap_status]}22` }}>
+                  style={{ background: 'rgba(16,217,130,0.02)', border: `1px solid ${STATUS_COLOR[r.gap_status]}22` }}>
                   <div className="flex items-center gap-2">
                     {r.gap_status === 'COMPLIANT'
-                      ? <CheckCircle className="w-3 h-3 text-[#00ff88]" />
+                      ? <CheckCircle className="w-3 h-3 text-[#10D982]" />
                       : <AlertTriangle className="w-3 h-3" style={{ color: SEV_COLOR[r.severity] }} />}
                     <span className="text-[9px] font-bold text-[rgba(255,255,255,0.7)]">{r.title}</span>
                   </div>
@@ -520,9 +520,9 @@ export default function AIFMDPage() {
 
             {/* Certificate hash */}
             <div className="flex items-center justify-between px-3 py-2 rounded text-[7px]"
-              style={{ background: 'rgba(0,255,136,0.03)', border: '1px solid rgba(0,255,136,0.1)' }}>
+              style={{ background: 'rgba(16,217,130,0.03)', border: '1px solid rgba(16,217,130,0.1)' }}>
               <span className="text-[rgba(255,255,255,0.3)] uppercase tracking-wider">SHA3 Certificate Hash</span>
-              <span className="text-[#00ff88] font-bold">{result.certificate_hash}</span>
+              <span className="text-[#10D982] font-bold">{result.certificate_hash}</span>
             </div>
           </div>
         )}

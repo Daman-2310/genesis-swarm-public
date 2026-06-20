@@ -16,8 +16,8 @@ export default function DpaPage() {
             <ArrowLeft className="w-3 h-3" /> Home
           </Link>
           <div className="w-px h-4 bg-[rgba(255,255,255,0.1)]" />
-          <Lock className="w-4 h-4 text-[#4a9eff]" />
-          <span className="text-sm font-bold tracking-[0.18em] text-[#4a9eff]">DATA PROCESSING AGREEMENT</span>
+          <Lock className="w-4 h-4 text-[#5B8DEF]" />
+          <span className="text-sm font-bold tracking-[0.18em] text-[#5B8DEF]">DATA PROCESSING AGREEMENT</span>
           <span className="ml-auto text-[9px] uppercase tracking-wider text-[rgba(255,255,255,0.35)]">GDPR Art. 28 · v1.0</span>
         </div>
       </header>
@@ -64,21 +64,18 @@ export default function DpaPage() {
 
         <Section h="5. Sub-processors">
           <p>The Controller authorises the Processor to engage the following sub-processors:</p>
-          <div className="rounded-xl overflow-hidden my-3" style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(74,158,255,0.2)' }}>
+          <div className="rounded-xl overflow-hidden my-3" style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(91,141,239,0.2)' }}>
             <div className="grid grid-cols-[1fr_1fr_2fr] gap-3 p-3 text-[10px] uppercase tracking-wider font-bold"
-              style={{ borderBottom: '1px solid rgba(74,158,255,0.15)', color: '#4a9eff' }}>
+              style={{ borderBottom: '1px solid rgba(91,141,239,0.15)', color: '#5B8DEF' }}>
               <div>Sub-processor</div>
               <div>Purpose</div>
               <div>Location · transfers</div>
             </div>
             {[
-              ['Vercel Inc.',          'Hosting + edge runtime',    'USA · SCCs in place'],
+              ['Vercel Inc.',          'Hosting + edge runtime + cookieless analytics', 'USA · SCCs in place'],
               ['Upstash, Inc.',        'Redis cache + KV store',    'EU (eu-west-1) · no transfer'],
-              ['Groq, Inc.',           'LLM inference',             'USA · SCCs in place'],
-              ['Anthropic PBC',        'LLM inference (Court)',     'USA · SCCs in place'],
               ['Resend (Pillar 0 Inc)','Transactional email',       'USA · SCCs in place'],
               ['Stripe Payments Europe Ltd', 'Billing',             'Ireland · within EEA'],
-              ['Supabase, Inc.',       'Postgres database (planned)','EU (eu-west-1) · no transfer'],
             ].map(row => (
               <div key={row[0]} className="grid grid-cols-[1fr_1fr_2fr] gap-3 p-3 text-[12px] text-[rgba(255,255,255,0.78)]"
                 style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
@@ -96,7 +93,7 @@ export default function DpaPage() {
         </Section>
 
         <Section h="7. Data-Subject Rights">
-          <p>The Processor shall assist the Controller, by appropriate technical and organisational measures, in fulfilling the Controller&apos;s obligation to respond to requests for exercising data-subject rights under Articles 15-22 GDPR. Requests are to be initiated via <a href="mailto:daman.sharma.2310@gmail.com" className="text-[#4a9eff]">daman.sharma.2310@gmail.com</a> with subject prefix <code className="font-mono">GDPR:</code>.</p>
+          <p>The Processor shall assist the Controller, by appropriate technical and organisational measures, in fulfilling the Controller&apos;s obligation to respond to requests for exercising data-subject rights under Articles 15-22 GDPR. Requests are to be initiated via <a href="mailto:daman.sharma.2310@gmail.com" className="text-[#5B8DEF]">daman.sharma.2310@gmail.com</a> with subject prefix <code className="font-mono">GDPR:</code>.</p>
         </Section>
 
         <Section h="8. Annex I — Subject Matter">
@@ -111,7 +108,7 @@ export default function DpaPage() {
             <li>TLS 1.2+ for all data in transit; AES-256 for data at rest in Supabase/Upstash</li>
             <li>Role-based access control with principle of least privilege</li>
             <li>Audit-log retention of 18 months minimum</li>
-            <li>Cryptographic commit of Book ledger to Bitcoin via OpenTimestamps</li>
+            <li>SHA-256 sealing of every verdict for tamper-evident, reproducible audit records</li>
             <li>Quarterly review of sub-processor list and transfer instruments</li>
             <li>Annual SOC 2 Type II assessment (planned · target 2027)</li>
             <li>Incident response plan with 48-hour notification SLA</li>
@@ -119,13 +116,13 @@ export default function DpaPage() {
         </Section>
 
         <Section h="10. Contact · DPO">
-          <p>For DPA-related queries: <a href="mailto:daman.sharma.2310@gmail.com" className="text-[#4a9eff]">daman.sharma.2310@gmail.com</a></p>
+          <p>For DPA-related queries: <a href="mailto:daman.sharma.2310@gmail.com" className="text-[#5B8DEF]">daman.sharma.2310@gmail.com</a></p>
           <p>Pending appointment of a Data Protection Officer (planned upon Luxembourg SARL incorporation in August 2026), the founder Daman Sharma serves as the GDPR point of contact.</p>
-          <p>Supervisory authority for Luxembourg: <a href="https://cnpd.public.lu" target="_blank" rel="noopener noreferrer" className="text-[#4a9eff] hover:underline">Commission Nationale pour la Protection des Données (CNPD)</a>.</p>
+          <p>Supervisory authority for Luxembourg: <a href="https://cnpd.public.lu" target="_blank" rel="noopener noreferrer" className="text-[#5B8DEF] hover:underline">Commission Nationale pour la Protection des Données (CNPD)</a>.</p>
         </Section>
 
         <div className="text-[10px] text-[rgba(255,255,255,0.4)] mt-12">
-          See also: <Link href="/privacy" className="text-[#4a9eff] hover:underline">Privacy Policy</Link> · <Link href="/terms" className="text-[#4a9eff] hover:underline">Terms of Service</Link>
+          See also: <Link href="/privacy" className="text-[#5B8DEF] hover:underline">Privacy Policy</Link> · <Link href="/terms" className="text-[#5B8DEF] hover:underline">Terms of Service</Link>
         </div>
       </article>
     </div>
@@ -144,7 +141,7 @@ function Section({ h, children }: { h: string; children: React.ReactNode }) {
 function Box({ children }: { children: React.ReactNode }) {
   return (
     <div className="rounded-xl p-4 text-[14px] text-[rgba(255,255,255,0.85)] leading-relaxed mb-8"
-      style={{ background: 'rgba(74,158,255,0.06)', border: '1px solid rgba(74,158,255,0.2)' }}>
+      style={{ background: 'rgba(91,141,239,0.06)', border: '1px solid rgba(91,141,239,0.2)' }}>
       {children}
     </div>
   )

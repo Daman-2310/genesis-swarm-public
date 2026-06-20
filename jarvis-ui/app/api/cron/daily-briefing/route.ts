@@ -11,41 +11,21 @@ interface AlertPreferences { email: string; dailyBriefing: boolean }
 interface SavedAnalysis { fundName: string; complianceScore: number; verdict: string; fundType?: string }
 interface NewsItem { source: string; title: string; link: string; frameworks?: string[]; summary?: string }
 
-const GROQ = process.env.GROQ_API_KEY
-const SYSTEM = `You are a Luxembourg financial compliance analyst writing the morning briefing. Be concise, authoritative, written for an institutional CIO. Output PLAIN TEXT (no markdown, no bullets). 3 short paragraphs maximum.`
-
-async function generateBriefing(email: string, funds: SavedAnalysis[], news: NewsItem[]): Promise<string> {
-  if (!GROQ) {
-    return `Genesis Swarm morning briefing for ${email}\n\nTracking ${funds.length} saved fund${funds.length === 1 ? '' : 's'}. ${news.length} regulatory updates overnight.\n\nFunds: ${funds.slice(0, 5).map(f => `${f.fundName} (${f.complianceScore}/100)`).join(', ') || 'none yet'}.\n\nKey updates: ${news.slice(0, 3).map(n => `${n.source}: ${n.title}`).join(' / ') || 'none'}.`
-  }
-  const prompt = `Generate a 3-paragraph morning compliance briefing for ${email}.
-
-Their tracked funds (${funds.length} total):
-${funds.slice(0, 8).map(f => `- ${f.fundName} (${f.fundType ?? 'fund'}) compliance score ${f.complianceScore}/100`).join('\n') || 'none yet'}
-
-Latest regulatory headlines (last 24h):
-${news.slice(0, 10).map(n => `- [${n.source}] ${n.title}${n.frameworks?.length ? ` (${n.frameworks.join(', ')})` : ''}`).join('\n') || 'none'}
-
-Write: paragraph 1 = portfolio status (worst-scoring fund + any AIFMD/DORA/SFDR risks), paragraph 2 = what changed in regulation overnight that matters to them, paragraph 3 = single concrete action item for today.`
-
-  try {
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${GROQ}` },
-      body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
-        messages: [{ role: 'system', content: SYSTEM }, { role: 'user', content: prompt }],
-        max_tokens: 600,
-        temperature: 0.4,
-      }),
-      signal: AbortSignal.timeout(15000),
-    })
-    if (!res.ok) return `Briefing generation failed (Groq ${res.status}).`
-    const data = await res.json() as { choices?: Array<{ message?: { content?: string } }> }
-    return data.choices?.[0]?.message?.content?.trim() ?? 'No briefing available.'
-  } catch (e) {
-    return `Briefing generation error: ${String(e)}`
-  }
+// Deterministic morning briefing — assembled only from the subscriber's own
+// saved data and the real regulatory news feed. No LLM: nothing is sent to any
+// third party, and the text is fully reproducible from its inputs.
+function generateBriefing(email: string, funds: SavedAnalysis[], news: NewsItem[]): string {
+  const worst = [...funds].sort((a, b) => a.complianceScore - b.complianceScore)[0]
+  const fundLine = funds.length
+    ? `You are tracking ${funds.length} saved fund${funds.length === 1 ? '' : 's'}${worst ? `. The lowest compliance score is ${worst.fundName} at ${worst.complianceScore}/100` : ''}.`
+    : 'No saved funds yet — run a prospectus through /scan to start tracking compliance scores.'
+  const newsLine = news.length
+    ? `Overnight regulatory updates (${news.length}): ${news.slice(0, 3).map(n => `${n.source} — ${n.title}`).join(' · ')}.`
+    : 'No new regulatory headlines overnight.'
+  const action = worst && worst.complianceScore < 80
+    ? `Action: review ${worst.fundName} (${worst.complianceScore}/100) and re-scan after remediation.`
+    : 'Action: keep every tracked fund above 80/100; re-scan after any prospectus change.'
+  return `Genesis Swarm morning briefing for ${email}\n\n${fundLine}\n\n${newsLine}\n\n${action}`
 }
 
 function brieingHtml(briefing: string, funds: SavedAnalysis[], news: NewsItem[], dashboardUrl: string): string {

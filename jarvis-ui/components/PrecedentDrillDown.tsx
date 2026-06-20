@@ -104,17 +104,17 @@ export default function PrecedentDrillDown({ botType, score, summary, onClose }:
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
-      <div className="bg-[#0a0a14] border border-[rgba(0,255,136,0.3)] rounded w-full max-w-lg font-mono max-h-[90vh] flex flex-col">
+      <div className="bg-[#0a0a14] border border-[rgba(16,217,130,0.3)] rounded w-full max-w-lg font-mono max-h-[90vh] flex flex-col">
 
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-[rgba(0,255,136,0.1)]">
+        <div className="flex items-center justify-between p-4 border-b border-[rgba(16,217,130,0.1)]">
           <div className="flex items-center gap-2">
-            <Search className="w-4 h-4 text-[#00ff88]" />
-            <span className="text-[#00ff88] font-bold text-xs uppercase tracking-widest">
+            <Search className="w-4 h-4 text-[#10D982]" />
+            <span className="text-[#10D982] font-bold text-xs uppercase tracking-widest">
               Precedent Intelligence
             </span>
           </div>
-          <button onClick={onClose} className="text-[rgba(0,255,136,0.4)] hover:text-[#00ff88]">
+          <button onClick={onClose} className="text-[rgba(16,217,130,0.4)] hover:text-[#10D982]">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -122,17 +122,17 @@ export default function PrecedentDrillDown({ botType, score, summary, onClose }:
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
 
           {/* Anomaly header */}
-          <div className="bg-[rgba(255,51,102,0.06)] border border-[rgba(255,51,102,0.2)] rounded p-3">
+          <div className="bg-[rgba(242,86,110,0.06)] border border-[rgba(242,86,110,0.2)] rounded p-3">
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
-                <AlertTriangle className="w-3.5 h-3.5 text-[#ff3366]" />
-                <span className="text-[#ff3366] text-[10px] uppercase font-bold tracking-wider">
+                <AlertTriangle className="w-3.5 h-3.5 text-[#F2566E]" />
+                <span className="text-[#F2566E] text-[10px] uppercase font-bold tracking-wider">
                   {botType.replace(/_/g, ' ')}
                 </span>
               </div>
-              <span className="text-[#ff3366] font-bold text-sm">{score.toFixed(1)}</span>
+              <span className="text-[#F2566E] font-bold text-sm">{score.toFixed(1)}</span>
             </div>
-            <p className="text-[9px] text-[rgba(255,51,102,0.7)] leading-relaxed">{summary || '—'}</p>
+            <p className="text-[9px] text-[rgba(242,86,110,0.7)] leading-relaxed">{summary || '—'}</p>
           </div>
 
           {/* Fraud case match */}
@@ -140,25 +140,25 @@ export default function PrecedentDrillDown({ botType, score, summary, onClose }:
             <motion.div
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-[rgba(255,170,0,0.06)] border border-[rgba(255,170,0,0.3)] rounded p-3"
+              className="bg-[rgba(245,165,36,0.06)] border border-[rgba(245,165,36,0.3)] rounded p-3"
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="text-[#ffaa00] text-[10px] uppercase font-bold tracking-wider">
+                <span className="text-[#F5A524] text-[10px] uppercase font-bold tracking-wider">
                   Best Match
                 </span>
                 <div className="flex items-center gap-1">
-                  <TrendingUp className="w-3 h-3 text-[#ffaa00]" />
-                  <span className="text-[#ffaa00] font-bold text-xs">
+                  <TrendingUp className="w-3 h-3 text-[#F5A524]" />
+                  <span className="text-[#F5A524] font-bold text-xs">
                     {Math.round(fraudMatch.score * 100)}% similarity
                   </span>
                 </div>
               </div>
-              <div className="text-[#ffaa00] font-bold text-sm tracking-wider">
+              <div className="text-[#F5A524] font-bold text-sm tracking-wider">
                 {fraudMatch.name}
               </div>
-              <div className="mt-1 w-full bg-[rgba(255,170,0,0.1)] rounded-full h-1">
+              <div className="mt-1 w-full bg-[rgba(245,165,36,0.1)] rounded-full h-1">
                 <motion.div
-                  className="h-full bg-[#ffaa00] rounded-full"
+                  className="h-full bg-[#F5A524] rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${fraudMatch.score * 100}%` }}
                   transition={{ duration: 0.8, delay: 0.2 }}
@@ -169,9 +169,9 @@ export default function PrecedentDrillDown({ botType, score, summary, onClose }:
 
           {/* Loading state */}
           {loading && (
-            <div className="flex items-center gap-2 text-[rgba(0,255,136,0.5)] text-[10px]">
+            <div className="flex items-center gap-2 text-[rgba(16,217,130,0.5)] text-[10px]">
               <motion.div
-                className="w-2 h-2 rounded-full bg-[#00ff88]"
+                className="w-2 h-2 rounded-full bg-[#10D982]"
                 animate={{ opacity: [1, 0.2, 1] }}
                 transition={{ duration: 0.8, repeat: Infinity }}
               />
@@ -182,23 +182,23 @@ export default function PrecedentDrillDown({ botType, score, summary, onClose }:
           {/* RAG Answer */}
           {result?.answer && (
             <div>
-              <div className="text-[9px] text-[rgba(0,255,136,0.4)] uppercase tracking-wider mb-1">
+              <div className="text-[9px] text-[rgba(16,217,130,0.4)] uppercase tracking-wider mb-1">
                 AI Analysis
               </div>
-              <p className="text-[10px] text-[rgba(0,255,136,0.75)] leading-relaxed">
+              <p className="text-[10px] text-[rgba(16,217,130,0.75)] leading-relaxed">
                 {result.answer}
               </p>
               <div className="mt-1 flex items-center gap-2">
-                <span className="text-[8px] text-[rgba(0,255,136,0.3)] uppercase">Confidence:</span>
-                <div className="flex-1 bg-[rgba(0,255,136,0.1)] rounded-full h-0.5">
+                <span className="text-[8px] text-[rgba(16,217,130,0.3)] uppercase">Confidence:</span>
+                <div className="flex-1 bg-[rgba(16,217,130,0.1)] rounded-full h-0.5">
                   <motion.div
-                    className="h-full bg-[#00ff88] rounded-full"
+                    className="h-full bg-[#10D982] rounded-full"
                     initial={{ width: 0 }}
                     animate={{ width: `${(result.confidence ?? 0) * 100}%` }}
                     transition={{ duration: 0.6 }}
                   />
                 </div>
-                <span className="text-[8px] text-[#00ff88]">
+                <span className="text-[8px] text-[#10D982]">
                   {Math.round((result.confidence ?? 0) * 100)}%
                 </span>
               </div>
@@ -208,7 +208,7 @@ export default function PrecedentDrillDown({ botType, score, summary, onClose }:
           {/* Precedent list with cosine similarity bars */}
           {topPrecedents.length > 0 && (
             <div>
-              <div className="text-[9px] text-[rgba(0,255,136,0.4)] uppercase tracking-wider mb-2">
+              <div className="text-[9px] text-[rgba(16,217,130,0.4)] uppercase tracking-wider mb-2">
                 Closest Precedents (Cosine Similarity)
               </div>
               <div className="space-y-2">
@@ -218,22 +218,22 @@ export default function PrecedentDrillDown({ botType, score, summary, onClose }:
                     initial={{ opacity: 0, x: -8 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className="bg-[rgba(0,255,136,0.03)] border border-[rgba(0,255,136,0.1)] rounded p-2"
+                    className="bg-[rgba(16,217,130,0.03)] border border-[rgba(16,217,130,0.1)] rounded p-2"
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-[8px] text-[rgba(0,255,136,0.4)] uppercase">
+                      <span className="text-[8px] text-[rgba(16,217,130,0.4)] uppercase">
                         #{i + 1} Precedent
                       </span>
-                      <span className="text-[9px] font-bold text-[#4a9eff]">
+                      <span className="text-[9px] font-bold text-[#5B8DEF]">
                         {(p.sim * 100).toFixed(1)}%
                       </span>
                     </div>
-                    <p className="text-[9px] text-[rgba(0,255,136,0.6)] leading-relaxed line-clamp-2">
+                    <p className="text-[9px] text-[rgba(16,217,130,0.6)] leading-relaxed line-clamp-2">
                       {(p.document ?? '').slice(0, 120)}…
                     </p>
-                    <div className="mt-1.5 w-full bg-[rgba(74,158,255,0.1)] rounded-full h-0.5">
+                    <div className="mt-1.5 w-full bg-[rgba(91,141,239,0.1)] rounded-full h-0.5">
                       <motion.div
-                        className="h-full bg-[#4a9eff] rounded-full"
+                        className="h-full bg-[#5B8DEF] rounded-full"
                         initial={{ width: 0 }}
                         animate={{ width: `${p.sim * 100}%` }}
                         transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
@@ -246,14 +246,14 @@ export default function PrecedentDrillDown({ botType, score, summary, onClose }:
           )}
 
           {queried && !result?.answer && !loading && (
-            <div className="text-center text-[rgba(0,255,136,0.3)] text-[10px] uppercase py-4">
+            <div className="text-center text-[rgba(16,217,130,0.3)] text-[10px] uppercase py-4">
               RAG memory offline — no precedent data available
             </div>
           )}
         </div>
 
         {/* Footer */}
-        <div className="p-3 border-t border-[rgba(0,255,136,0.1)] flex justify-between text-[8px] text-[rgba(0,255,136,0.3)] uppercase">
+        <div className="p-3 border-t border-[rgba(16,217,130,0.1)] flex justify-between text-[8px] text-[rgba(16,217,130,0.3)] uppercase">
           <span>RAG // ChromaDB Vector Store</span>
           <span>Genesis Swarm v0.2 // DORA Compliant</span>
         </div>

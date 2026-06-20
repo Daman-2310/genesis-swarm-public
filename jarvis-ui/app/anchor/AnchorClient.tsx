@@ -36,24 +36,24 @@ export default function AnchorClient({ receipt, hash, calendar, submittedAt }: P
   }
 
   return (
-    <div className="rounded-xl p-4 mt-3" style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(74,158,255,0.2)' }}>
+    <div className="rounded-xl p-4 mt-3" style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(91,141,239,0.2)' }}>
       <div className="flex items-center justify-between mb-3 flex-wrap gap-3">
         <div>
-          <div className="text-[10px] uppercase tracking-wider font-bold text-[#4a9eff] mb-1">OpenTimestamps Receipt</div>
+          <div className="text-[10px] uppercase tracking-wider font-bold text-[#5B8DEF] mb-1">OpenTimestamps Receipt</div>
           <div className="text-[10px] text-[rgba(255,255,255,0.55)]">
-            Calendar: <a href={calendar} target="_blank" rel="noopener noreferrer" className="text-[#4a9eff] hover:underline font-mono">{calendar}</a>
+            Calendar: <a href={calendar} target="_blank" rel="noopener noreferrer" className="text-[#5B8DEF] hover:underline font-mono">{calendar}</a>
             {submittedAt && <span className="ml-2">· Submitted {new Date(submittedAt).toLocaleString('en-GB')}</span>}
           </div>
         </div>
         <div className="flex gap-2">
           <button onClick={downloadReceipt}
             className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider font-bold px-3 py-1.5 rounded transition-all"
-            style={{ background: 'rgba(74,158,255,0.12)', border: '1px solid rgba(74,158,255,0.4)', color: '#4a9eff' }}>
+            style={{ background: 'rgba(91,141,239,0.12)', border: '1px solid rgba(91,141,239,0.4)', color: '#5B8DEF' }}>
             <Download className="w-3 h-3" /> Download .ots
           </button>
           <button onClick={copyReceipt}
             className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider font-bold px-3 py-1.5 rounded transition-all"
-            style={{ background: 'rgba(74,158,255,0.06)', border: '1px solid rgba(74,158,255,0.2)', color: '#4a9eff' }}>
+            style={{ background: 'rgba(91,141,239,0.06)', border: '1px solid rgba(91,141,239,0.2)', color: '#5B8DEF' }}>
             {copied ? <><CheckCircle2 className="w-3 h-3" /> Copied</> : <><Copy className="w-3 h-3" /> Copy base64</>}
           </button>
           <button onClick={() => setShowReceipt(s => !s)}

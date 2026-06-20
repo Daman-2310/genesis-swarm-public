@@ -1,36 +1,13 @@
-import { NextRequest } from 'next/server'
-import { addSubscriber, sendEmail } from '@/lib/cron'
-import { buildBriefingPayload, renderBriefingHtml, renderBriefingText } from '@/lib/daily'
+// RETIRED 2026-06-13. This endpoint served or generated speculative / LLM /
+// fabricated assessments (risk verdicts, prophecies, scores, "agent findings")
+// about NAMED real entities — or exposed an AI-plugin surface. That has no place
+// in a deterministic, no-LLM compliance product and carries defamation + GDPR
+// (Art. 5/6) exposure. Use the client-side scanner at /scan (nothing is uploaded).
 
-export const runtime = 'nodejs'
-export const maxDuration = 30
-
-export async function POST(req: NextRequest) {
-  const body = (await req.json().catch(() => ({}))) as { email?: string; send_sample?: boolean }
-  const email = (body.email ?? '').trim().toLowerCase()
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return Response.json({ error: 'valid email required' }, { status: 400 })
-  }
-
-  await addSubscriber(email)
-
-  // Send confirmation + sample brief if requested (default true)
-  if (body.send_sample !== false) {
-    try {
-      const origin = new URL(req.url).origin
-      const payload = await buildBriefingPayload()
-      const html = renderBriefingHtml(payload, origin)
-      const text = renderBriefingText(payload, origin)
-      await sendEmail(email,
-        'Welcome to the Genesis Daily — sample brief inside',
-        html,
-        text,
-      )
-    } catch (e) {
-      // Subscription succeeded; sample send failed silently
-      console.error('[daily/subscribe] sample send failed', e)
-    }
-  }
-
-  return Response.json({ ok: true, email, sample_sent: body.send_sample !== false })
+const GONE = {
+  error: 'gone',
+  message: 'Retired — this surface produced or served fabricated/LLM assessments about named entities. Use the deterministic client-side scanner at /scan.',
 }
+
+export async function GET() { return Response.json(GONE, { status: 410 }) }
+export async function POST() { return Response.json(GONE, { status: 410 }) }

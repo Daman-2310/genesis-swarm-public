@@ -13,17 +13,17 @@ import {
 } from '../lib/api'
 
 const PROGRAM_COLOR: Record<string, string> = {
-  'SDN':                '#ff3366',
-  'UKRAINE-EO13685':    '#ffaa00',
-  'UKRAINE-EO13661':    '#ffaa00',
-  'RUSSIA-EO14024':     '#ffaa00',
+  'SDN':                '#F2566E',
+  'UKRAINE-EO13685':    '#F5A524',
+  'UKRAINE-EO13661':    '#F5A524',
+  'RUSSIA-EO14024':     '#F5A524',
   'IRAN':               '#ff6600',
   'IRAN-TRA':           '#ff6600',
-  'DPRK':               '#ff3366',
-  'DPRK2':              '#ff3366',
+  'DPRK':               '#F2566E',
+  'DPRK2':              '#F2566E',
   'VENEZUELA':          '#ff8800',
   'SYRIA':              '#cc44ff',
-  'CUBA':               '#00aaff',
+  'CUBA':               '#5B8DEF',
 }
 
 function programColor(p: string): string {
@@ -35,7 +35,7 @@ function programColor(p: string): string {
 
 function MatchScore({ score }: { score: number }) {
   const pct = Math.round(score * 100)
-  const color = pct >= 95 ? '#ff3366' : pct >= 88 ? '#ffaa00' : '#ff8800'
+  const color = pct >= 95 ? '#F2566E' : pct >= 88 ? '#F5A524' : '#ff8800'
   return (
     <div className="flex items-center gap-1">
       <div
@@ -58,19 +58,19 @@ function MatchRow({ match, idx }: { match: OFACMatch; idx: number }) {
       transition={{ delay: idx * 0.04 }}
       className="border rounded cursor-pointer transition-colors"
       style={{
-        borderColor: open ? '#ff3366' : 'rgba(255,51,102,0.12)',
-        background: open ? 'rgba(255,51,102,0.06)' : 'transparent',
+        borderColor: open ? '#F2566E' : 'rgba(242,86,110,0.12)',
+        background: open ? 'rgba(242,86,110,0.06)' : 'transparent',
       }}
       onClick={() => setOpen(v => !v)}
     >
       <div className="flex items-center gap-2 px-2 py-1.5">
-        <ShieldAlert className="w-3 h-3 text-[#ff3366] shrink-0" />
+        <ShieldAlert className="w-3 h-3 text-[#F2566E] shrink-0" />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-[9px] font-bold text-[#ff3366] font-mono truncate max-w-[120px]">
+            <span className="text-[9px] font-bold text-[#F2566E] font-mono truncate max-w-[120px]">
               {match.entity}
             </span>
-            <span className="text-[7px] text-[rgba(255,51,102,0.4)]">→</span>
+            <span className="text-[7px] text-[rgba(242,86,110,0.4)]">→</span>
             <span className="text-[9px] font-mono text-[rgba(255,255,255,0.7)] truncate max-w-[140px]">
               {match.sdn_name}
             </span>
@@ -79,12 +79,12 @@ function MatchRow({ match, idx }: { match: OFACMatch; idx: number }) {
             <MatchScore score={match.match_score} />
             <span
               className="text-[7px] font-mono px-1 py-0.5 rounded border"
-              style={{ borderColor: 'rgba(255,51,102,0.3)', color: 'rgba(255,51,102,0.6)' }}
+              style={{ borderColor: 'rgba(242,86,110,0.3)', color: 'rgba(242,86,110,0.6)' }}
             >
               {match.match_type}
             </span>
             <span className="text-[7px] text-[rgba(255,255,255,0.3)]">{match.sdn_type}</span>
-            <span className="text-[7px] font-mono text-[rgba(255,51,102,0.3)] ml-auto">
+            <span className="text-[7px] font-mono text-[rgba(242,86,110,0.3)] ml-auto">
               {match.screened_date}
             </span>
           </div>
@@ -167,22 +167,22 @@ export default function SanctionsPanel() {
   const loaded = stats?.loaded ?? false
 
   return (
-    <div className="bg-[#0d0d1a] border border-[rgba(255,51,102,0.25)] rounded overflow-hidden">
+    <div className="bg-[#0d0d1a] border border-[rgba(242,86,110,0.25)] rounded overflow-hidden">
 
       {/* ── Header ─────────────────────────────────────────────────────────── */}
-      <div className="bg-[rgba(255,51,102,0.07)] border-b border-[rgba(255,51,102,0.2)] px-4 py-2.5">
+      <div className="bg-[rgba(242,86,110,0.07)] border-b border-[rgba(242,86,110,0.2)] px-4 py-2.5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Shield className="w-4 h-4 text-[#ff3366]" />
-            <span className="text-[11px] uppercase tracking-widest font-bold text-[#ff3366]">
+            <Shield className="w-4 h-4 text-[#F2566E]" />
+            <span className="text-[11px] uppercase tracking-widest font-bold text-[#F2566E]">
               OFAC SDN Live Screening
             </span>
             <span
               className="text-[7px] font-mono px-1.5 py-0.5 rounded"
               style={{
-                background: loaded ? 'rgba(0,255,136,0.1)' : 'rgba(255,51,102,0.1)',
-                color: loaded ? '#00ff88' : '#ff3366',
-                border: `1px solid ${loaded ? 'rgba(0,255,136,0.3)' : 'rgba(255,51,102,0.3)'}`,
+                background: loaded ? 'rgba(16,217,130,0.1)' : 'rgba(242,86,110,0.1)',
+                color: loaded ? '#10D982' : '#F2566E',
+                border: `1px solid ${loaded ? 'rgba(16,217,130,0.3)' : 'rgba(242,86,110,0.3)'}`,
               }}
             >
               {loaded ? `LIVE · ${stats?.total_entries?.toLocaleString()} entries` : 'LOADING…'}
@@ -190,7 +190,7 @@ export default function SanctionsPanel() {
           </div>
           <div className="flex items-center gap-2">
             {stats?.publish_date && (
-              <span className="text-[7px] font-mono text-[rgba(255,51,102,0.4)]">
+              <span className="text-[7px] font-mono text-[rgba(242,86,110,0.4)]">
                 Published {stats.publish_date}
               </span>
             )}
@@ -199,9 +199,9 @@ export default function SanctionsPanel() {
               disabled={reloading}
               className="flex items-center gap-1 px-2 py-1 rounded text-[7px] uppercase tracking-wider transition-colors"
               style={{
-                border: '1px solid rgba(255,51,102,0.3)',
-                color: 'rgba(255,51,102,0.6)',
-                background: reloading ? 'rgba(255,51,102,0.08)' : 'transparent',
+                border: '1px solid rgba(242,86,110,0.3)',
+                color: 'rgba(242,86,110,0.6)',
+                background: reloading ? 'rgba(242,86,110,0.08)' : 'transparent',
               }}
             >
               <RefreshCw className={`w-2.5 h-2.5 ${reloading ? 'animate-spin' : ''}`} />
@@ -213,7 +213,7 @@ export default function SanctionsPanel() {
 
       {/* ── Stats row ──────────────────────────────────────────────────────── */}
       {stats && (
-        <div className="grid grid-cols-4 divide-x divide-[rgba(255,51,102,0.1)] border-b border-[rgba(255,51,102,0.1)]">
+        <div className="grid grid-cols-4 divide-x divide-[rgba(242,86,110,0.1)] border-b border-[rgba(242,86,110,0.1)]">
           {[
             { label: 'SDN Entries',    value: stats.total_entries.toLocaleString() },
             { label: 'Screened',       value: stats.screen_count.toLocaleString() },
@@ -223,11 +223,11 @@ export default function SanctionsPanel() {
             <div key={label} className="px-3 py-2 text-center">
               <div
                 className="text-[18px] font-bold font-mono tabular-nums"
-                style={{ color: accent ? '#ff3366' : 'rgba(255,255,255,0.7)' }}
+                style={{ color: accent ? '#F2566E' : 'rgba(255,255,255,0.7)' }}
               >
                 {value}
               </div>
-              <div className="text-[7px] uppercase tracking-wider text-[rgba(255,51,102,0.4)] mt-0.5">
+              <div className="text-[7px] uppercase tracking-wider text-[rgba(242,86,110,0.4)] mt-0.5">
                 {label}
               </div>
             </div>
@@ -236,8 +236,8 @@ export default function SanctionsPanel() {
       )}
 
       {/* ── Live search ────────────────────────────────────────────────────── */}
-      <div className="px-4 py-3 border-b border-[rgba(255,51,102,0.1)]">
-        <div className="text-[8px] uppercase tracking-wider text-[rgba(255,51,102,0.4)] mb-2 flex items-center gap-2">
+      <div className="px-4 py-3 border-b border-[rgba(242,86,110,0.1)]">
+        <div className="text-[8px] uppercase tracking-wider text-[rgba(242,86,110,0.4)] mb-2 flex items-center gap-2">
           <Search className="w-3 h-3" />
           Screen Entity Against OFAC SDN
         </div>
@@ -248,16 +248,16 @@ export default function SanctionsPanel() {
             onChange={e => setQuery(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleSearch()}
             placeholder="e.g. SBERBANK, MAHAN AIR, ROSNEFT…"
-            className="flex-1 bg-[rgba(255,51,102,0.05)] border border-[rgba(255,51,102,0.2)] rounded px-2 py-1 text-[9px] font-mono text-white placeholder-[rgba(255,51,102,0.3)] focus:outline-none focus:border-[rgba(255,51,102,0.5)]"
+            className="flex-1 bg-[rgba(242,86,110,0.05)] border border-[rgba(242,86,110,0.2)] rounded px-2 py-1 text-[9px] font-mono text-white placeholder-[rgba(242,86,110,0.3)] focus:outline-none focus:border-[rgba(242,86,110,0.5)]"
           />
           <button
             onClick={handleSearch}
             disabled={searching || !query.trim()}
             className="px-3 py-1 rounded text-[8px] font-bold uppercase tracking-wider transition-all"
             style={{
-              background: searching ? 'rgba(255,51,102,0.2)' : 'rgba(255,51,102,0.15)',
-              border: '1px solid rgba(255,51,102,0.4)',
-              color: '#ff3366',
+              background: searching ? 'rgba(242,86,110,0.2)' : 'rgba(242,86,110,0.15)',
+              border: '1px solid rgba(242,86,110,0.4)',
+              color: '#F2566E',
             }}
           >
             {searching ? '…' : 'SCREEN'}
@@ -270,11 +270,11 @@ export default function SanctionsPanel() {
               initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="mt-2 p-2 rounded border border-[rgba(255,51,102,0.5)] bg-[rgba(255,51,102,0.08)]"
+              className="mt-2 p-2 rounded border border-[rgba(242,86,110,0.5)] bg-[rgba(242,86,110,0.08)]"
             >
               <div className="flex items-center gap-2">
-                <AlertTriangle className="w-3 h-3 text-[#ff3366] shrink-0" />
-                <span className="text-[9px] font-bold text-[#ff3366]">SDN MATCH DETECTED</span>
+                <AlertTriangle className="w-3 h-3 text-[#F2566E] shrink-0" />
+                <span className="text-[9px] font-bold text-[#F2566E]">SDN MATCH DETECTED</span>
                 <span className="text-[8px] font-mono text-[rgba(255,255,255,0.6)]">
                   {liveHit.sdn_name}
                 </span>
@@ -298,7 +298,7 @@ export default function SanctionsPanel() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="mt-2 text-[8px] font-mono text-[rgba(0,255,136,0.6)]"
+              className="mt-2 text-[8px] font-mono text-[rgba(16,217,130,0.6)]"
             >
               No SDN match found for "{query}"
             </motion.div>
@@ -308,10 +308,10 @@ export default function SanctionsPanel() {
 
       {/* ── Match feed ─────────────────────────────────────────────────────── */}
       <div className="px-4 py-3">
-        <div className="text-[8px] uppercase tracking-wider text-[rgba(255,51,102,0.4)] mb-2 flex items-center gap-2">
+        <div className="text-[8px] uppercase tracking-wider text-[rgba(242,86,110,0.4)] mb-2 flex items-center gap-2">
           <Zap className="w-3 h-3" />
           Recent SDN Matches
-          <span className="ml-auto text-[rgba(255,51,102,0.3)] font-mono">
+          <span className="ml-auto text-[rgba(242,86,110,0.3)] font-mono">
             {matches.length} hits
           </span>
         </div>
@@ -319,13 +319,13 @@ export default function SanctionsPanel() {
         {matches.length === 0 && (
           <div className="text-center py-6">
             {loaded ? (
-              <p className="text-[8px] text-[rgba(255,51,102,0.3)] font-mono">
+              <p className="text-[8px] text-[rgba(242,86,110,0.3)] font-mono">
                 No SDN matches yet — list is loading or no entities screened
               </p>
             ) : (
               <div className="space-y-1">
-                <div className="w-5 h-5 border-2 border-[#ff3366] border-t-transparent rounded-full animate-spin mx-auto" />
-                <p className="text-[8px] text-[rgba(255,51,102,0.4)] font-mono animate-pulse">
+                <div className="w-5 h-5 border-2 border-[#F2566E] border-t-transparent rounded-full animate-spin mx-auto" />
+                <p className="text-[8px] text-[rgba(242,86,110,0.4)] font-mono animate-pulse">
                   Downloading OFAC SDN list…
                 </p>
               </div>
@@ -333,7 +333,7 @@ export default function SanctionsPanel() {
           </div>
         )}
 
-        <div className="space-y-1.5 max-h-64 overflow-y-auto pr-1" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,51,102,0.2) transparent' }}>
+        <div className="space-y-1.5 max-h-64 overflow-y-auto pr-1" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(242,86,110,0.2) transparent' }}>
           {matches.map((m, i) => (
             <MatchRow key={`${m.sdn_uid}-${m.screened_at}`} match={m} idx={i} />
           ))}
@@ -341,12 +341,12 @@ export default function SanctionsPanel() {
       </div>
 
       {/* ── Footer ─────────────────────────────────────────────────────────── */}
-      <div className="px-4 py-2 border-t border-[rgba(255,51,102,0.1)] bg-[rgba(255,51,102,0.03)] flex items-center justify-between">
-        <span className="text-[7px] font-mono text-[rgba(255,51,102,0.3)]">
+      <div className="px-4 py-2 border-t border-[rgba(242,86,110,0.1)] bg-[rgba(242,86,110,0.03)] flex items-center justify-between">
+        <span className="text-[7px] font-mono text-[rgba(242,86,110,0.3)]">
           Source: US Treasury OFAC SDN List · treasury.gov/ofac
         </span>
         {stats && (
-          <span className="text-[7px] font-mono text-[rgba(255,51,102,0.3)]">
+          <span className="text-[7px] font-mono text-[rgba(242,86,110,0.3)]">
             Threshold {Math.round(stats.match_threshold * 100)}% · Refreshes every {stats.refresh_interval_s / 60}min
           </span>
         )}

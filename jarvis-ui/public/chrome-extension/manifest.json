@@ -4,10 +4,10 @@
   "version": "0.1.0",
   "description": "Hover any company or LinkedIn profile. Get instant OFAC sanctions + AI compliance score from Genesis Swarm. Powered by 18,976 OFAC SDN entities + GLEIF + ECB.",
   "author": "Daman Sharma",
-  "homepage_url": "https://genesis-swarm-rgq5.vercel.app",
+  "homepage_url": "https://genesis-swarm.vercel.app",
   "permissions": ["activeTab", "storage", "contextMenus"],
   "host_permissions": [
-    "https://genesis-swarm-rgq5.vercel.app/*"
+    "https://genesis-swarm.vercel.app/*"
   ],
   "action": {
     "default_title": "Genesis Swarm",

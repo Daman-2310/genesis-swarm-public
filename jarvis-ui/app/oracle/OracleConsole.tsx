@@ -30,22 +30,22 @@ export default function OracleConsole() {
 
   return (
     <div className="rounded-xl overflow-hidden"
-      style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(0,216,255,0.3)', backdropFilter: 'blur(10px)' }}>
+      style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(91,141,239,0.3)', backdropFilter: 'blur(10px)' }}>
 
       <div className="px-4 py-3 flex items-center gap-3 flex-wrap"
-        style={{ background: 'rgba(0,216,255,0.04)', borderBottom: '1px solid rgba(0,216,255,0.15)' }}>
-        <span className="text-[10px] uppercase tracking-wider font-bold text-[#00d8ff] shrink-0">GET</span>
+        style={{ background: 'rgba(91,141,239,0.04)', borderBottom: '1px solid rgba(91,141,239,0.15)' }}>
+        <span className="text-[10px] uppercase tracking-wider font-bold text-[#5B8DEF] shrink-0">GET</span>
         <span className="text-[10px] font-mono text-[rgba(255,255,255,0.55)] shrink-0">/api/oracle?entity=</span>
         <input
           type="text"
           value={entity}
           onChange={e => setEntity(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && query()}
-          className="flex-1 min-w-[200px] bg-black/40 outline-none text-white text-[12px] px-3 py-1.5 rounded font-mono border border-[rgba(0,216,255,0.2)] focus:border-[rgba(0,216,255,0.6)]"
+          className="flex-1 min-w-[200px] bg-black/40 outline-none text-white text-[12px] px-3 py-1.5 rounded font-mono border border-[rgba(91,141,239,0.2)] focus:border-[rgba(91,141,239,0.6)]"
         />
         <button onClick={query} disabled={loading}
           className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider font-bold px-3 py-1.5 rounded transition-all disabled:opacity-50"
-          style={{ background: 'rgba(0,216,255,0.15)', border: '1px solid rgba(0,216,255,0.5)', color: '#00d8ff' }}>
+          style={{ background: 'rgba(91,141,239,0.15)', border: '1px solid rgba(91,141,239,0.5)', color: '#5B8DEF' }}>
           {loading ? <><Loader2 className="w-3 h-3 animate-spin" /> Fetching</> : <><Play className="w-3 h-3" /> Call</>}
         </button>
       </div>
@@ -55,7 +55,7 @@ export default function OracleConsole() {
         <span className="uppercase tracking-wider text-[rgba(255,255,255,0.35)]">try</span>
         {SAMPLE.map(s => (
           <button key={s} onClick={() => { setEntity(s); setTimeout(query, 0) }}
-            className="px-2 py-0.5 rounded font-mono text-[#00d8ff] hover:bg-[rgba(0,216,255,0.08)] transition-all">
+            className="px-2 py-0.5 rounded font-mono text-[#5B8DEF] hover:bg-[rgba(91,141,239,0.08)] transition-all">
             {s}
           </button>
         ))}
@@ -64,7 +64,7 @@ export default function OracleConsole() {
       <div className="relative">
         {error && (
           <div className="absolute top-2 right-2 z-10 flex items-center gap-1.5 text-[10px] px-2 py-1 rounded"
-            style={{ background: 'rgba(255,51,102,0.12)', border: '1px solid rgba(255,51,102,0.4)', color: '#ff3366' }}>
+            style={{ background: 'rgba(242,86,110,0.12)', border: '1px solid rgba(242,86,110,0.4)', color: '#F2566E' }}>
             <AlertCircle className="w-3 h-3" /> {error}
           </div>
         )}

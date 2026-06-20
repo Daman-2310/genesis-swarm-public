@@ -21,9 +21,9 @@ interface StatusResponse {
 
 const StatusBadge = ({ status, size = 'sm' }: { status: 'up' | 'degraded' | 'down'; size?: 'sm' | 'lg' }) => {
   const cfg = {
-    up:       { color: '#00ff88', Icon: CheckCircle2, label: 'OPERATIONAL' },
-    degraded: { color: '#ffaa00', Icon: AlertTriangle, label: 'DEGRADED' },
-    down:     { color: '#ff3366', Icon: XCircle, label: 'OUTAGE' },
+    up:       { color: '#10D982', Icon: CheckCircle2, label: 'OPERATIONAL' },
+    degraded: { color: '#F5A524', Icon: AlertTriangle, label: 'DEGRADED' },
+    down:     { color: '#F2566E', Icon: XCircle, label: 'OUTAGE' },
   }[status]
   if (size === 'lg') {
     return (
@@ -74,8 +74,8 @@ export default function StatusPage() {
             <ArrowLeft className="w-3 h-3" /> Home
           </Link>
           <div className="w-px h-4 bg-[rgba(255,255,255,0.1)]" />
-          <Activity className="w-4 h-4 text-[#00ff88]" />
-          <span className="text-sm font-bold tracking-[0.18em] text-[#00ff88]">SYSTEM STATUS</span>
+          <Activity className="w-4 h-4 text-[#10D982]" />
+          <span className="text-sm font-bold tracking-[0.18em] text-[#10D982]">SYSTEM STATUS</span>
         </div>
         <button onClick={fetchStatus} className="flex items-center gap-1.5 px-3 py-1.5 rounded text-[10px] uppercase tracking-wider font-bold text-[rgba(255,255,255,0.7)] hover:text-white"
           style={{ border: '1px solid rgba(255,255,255,0.1)' }}>

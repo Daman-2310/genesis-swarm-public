@@ -27,9 +27,9 @@ const HEX = '0123456789abcdef'
 type Phase = 'idle' | 'extracting' | 'scanning' | 'findings' | 'sealing' | 'sealed'
 
 const SEV_COLOR: Record<Finding['severity'], string> = {
-  critical: '#ff3366',
-  warning: '#ffaa00',
-  ok: '#00ff88',
+  critical: '#F2566E',
+  warning: '#F5A524',
+  ok: '#10D982',
 }
 
 // Run the real pipeline once. Pure + synchronous for extract/scan; the seal is
@@ -67,7 +67,10 @@ export default function ComplianceWall({ className = '' }: { className?: string 
     if (!el) return
     const io = new IntersectionObserver(
       ([e]) => setInView(e.isIntersecting),
-      { threshold: 0.25 },
+      // Generous margin + zero threshold so it reliably fires on mobile (iOS
+      // Safari is finicky with high thresholds on tall elements — that left the
+      // output panel stuck on STANDBY).
+      { threshold: 0, rootMargin: '200px 0px 200px 0px' },
     )
     io.observe(el)
     return () => io.disconnect()
@@ -181,13 +184,16 @@ export default function ComplianceWall({ className = '' }: { className?: string 
       // base `opacity:0`. It runs its own in-view animation instead.
       className={`relative py-20 md:py-32 px-6 overflow-hidden ${className}`}
     >
+      {/* Top fade — blend this section up into the hero's dark bottom (kills the seam) */}
+      <div className="absolute inset-x-0 top-0 h-48 pointer-events-none"
+        style={{ background: 'linear-gradient(to bottom, #06070A 0%, transparent 100%)' }} />
       <div className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at center top, rgba(255,86,48,0.06) 0%, transparent 60%)' }} />
+        style={{ background: 'radial-gradient(ellipse at center 42%, rgba(16,217,130,0.05) 0%, transparent 65%)' }} />
 
       <div className="relative max-w-6xl mx-auto">
         {/* Section header */}
         <div className="text-center mb-12 md:mb-16">
-          <div className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-[#ff5630] mb-4 font-bold">
+          <div className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-[#10D982] mb-4 font-bold">
             <ScanLine className="w-3.5 h-3.5" />
             // WATCH IT WORK — LIVE, IN YOUR BROWSER
           </div>
@@ -195,7 +201,7 @@ export default function ComplianceWall({ className = '' }: { className?: string 
             This prospectus breaks EU law.
             <br />
             <span style={{
-              background: 'linear-gradient(90deg, #ff5630 0%, #ffaa00 100%)',
+              background: 'linear-gradient(90deg, #10D982 0%, #F5A524 100%)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
             }}>
               The engine proves it — in milliseconds.
@@ -210,7 +216,7 @@ export default function ComplianceWall({ className = '' }: { className?: string 
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {/* ── INPUT: the document ───────────────────────────────────────── */}
-          <div className="relative rounded-2xl overflow-hidden flex flex-col"
+          <div className="relative rounded-2xl overflow-hidden flex flex-col order-2 lg:order-1"
             style={{
               background: 'rgba(255,255,255,0.02)',
               border: '1px solid rgba(255,255,255,0.08)',
@@ -232,8 +238,8 @@ export default function ComplianceWall({ className = '' }: { className?: string 
                 <div className="absolute left-0 right-0 pointer-events-none"
                   style={{
                     height: 56,
-                    background: 'linear-gradient(180deg, transparent, rgba(0,216,255,0.16) 45%, rgba(0,216,255,0.55) 50%, rgba(0,216,255,0.16) 55%, transparent)',
-                    boxShadow: '0 0 24px rgba(0,216,255,0.4)',
+                    background: 'linear-gradient(180deg, transparent, rgba(91,141,239,0.16) 45%, rgba(91,141,239,0.55) 50%, rgba(91,141,239,0.16) 55%, transparent)',
+                    boxShadow: '0 0 24px rgba(91,141,239,0.4)',
                     animation: 'wall-scan 2.2s cubic-bezier(0.4,0,0.2,1) infinite',
                   }} />
               )}
@@ -248,10 +254,10 @@ export default function ComplianceWall({ className = '' }: { className?: string 
                   <div key={i} className="whitespace-pre-wrap transition-colors duration-500"
                     style={{
                       color: line.trim() === '' ? 'transparent' : color,
-                      borderLeft: tone === 'bad' && verdictKnown ? '2px solid #ff5630' : '2px solid transparent',
+                      borderLeft: tone === 'bad' && verdictKnown ? '2px solid #10D982' : '2px solid transparent',
                       paddingLeft: 8,
                       marginLeft: -8,
-                      background: tone === 'bad' && verdictKnown ? 'rgba(255,86,48,0.06)' : 'transparent',
+                      background: tone === 'bad' && verdictKnown ? 'rgba(16,217,130,0.06)' : 'transparent',
                     }}>
                     {line || ' '}
                   </div>
@@ -267,9 +273,9 @@ export default function ComplianceWall({ className = '' }: { className?: string 
                 { k: 'Issuer cap', v: doc.declaredConcentrationCapPct != null ? `${doc.declaredConcentrationCapPct}%` : '—', bad: false },
               ].map(({ k, v }) => (
                 <div key={k} className="px-4 py-3 bg-[#05060d] text-center">
-                  <div className="text-[8px] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.35)]">{k}</div>
+                  <div className="text-[8px] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.62)]">{k}</div>
                   <div className="font-mono font-bold text-sm mt-0.5 transition-colors duration-500"
-                    style={{ color: phase === 'idle' ? 'rgba(255,255,255,0.4)' : '#7fe0ff' }}>
+                    style={{ color: phase === 'idle' ? 'rgba(255,255,255,0.66)' : '#7fe0ff' }}>
                     {phase === 'idle' ? '··' : v}
                   </div>
                 </div>
@@ -278,11 +284,11 @@ export default function ComplianceWall({ className = '' }: { className?: string 
           </div>
 
           {/* ── OUTPUT: the verdict ───────────────────────────────────────── */}
-          <div className="relative rounded-2xl overflow-hidden flex flex-col"
+          <div className="relative rounded-2xl overflow-hidden flex flex-col order-1 lg:order-2"
             style={{
               background: 'rgba(255,255,255,0.02)',
-              border: `1px solid ${verdictKnown ? 'rgba(255,51,102,0.4)' : 'rgba(255,255,255,0.08)'}`,
-              boxShadow: verdictKnown ? '0 0 50px rgba(255,51,102,0.1)' : 'none',
+              border: `1px solid ${verdictKnown ? 'rgba(242,86,110,0.4)' : 'rgba(255,255,255,0.08)'}`,
+              boxShadow: verdictKnown ? '0 0 50px rgba(242,86,110,0.1)' : 'none',
               backdropFilter: 'blur(12px)',
               transition: 'border-color 0.6s, box-shadow 0.6s',
             }}>
@@ -290,8 +296,8 @@ export default function ComplianceWall({ className = '' }: { className?: string 
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full"
                   style={{
-                    background: phase === 'idle' ? '#555' : '#00d8ff',
-                    boxShadow: phase === 'idle' ? 'none' : '0 0 8px #00d8ff',
+                    background: phase === 'idle' ? '#555' : '#5B8DEF',
+                    boxShadow: phase === 'idle' ? 'none' : '0 0 8px #5B8DEF',
                     animation: phase === 'idle' ? 'none' : 'pulse 1.2s ease-in-out infinite',
                   }} />
                 <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-[rgba(255,255,255,0.6)]">
@@ -335,19 +341,19 @@ export default function ComplianceWall({ className = '' }: { className?: string 
 
             {/* Verdict banner + sealed hash */}
             <div className="border-t border-[rgba(255,255,255,0.06)] px-5 py-4"
-              style={{ background: verdictKnown ? 'rgba(255,51,102,0.05)' : 'transparent', transition: 'background 0.6s' }}>
+              style={{ background: verdictKnown ? 'rgba(242,86,110,0.05)' : 'transparent', transition: 'background 0.6s' }}>
               <div className="flex items-center justify-between gap-3 flex-wrap">
                 <div className="flex items-center gap-2.5">
                   <div className="w-9 h-9 rounded-lg flex items-center justify-center"
                     style={{
-                      background: compliant ? 'rgba(0,255,136,0.12)' : 'rgba(255,51,102,0.12)',
-                      border: `1px solid ${compliant ? '#00ff88' : '#ff3366'}55`,
+                      background: compliant ? 'rgba(16,217,130,0.12)' : 'rgba(242,86,110,0.12)',
+                      border: `1px solid ${compliant ? '#10D982' : '#F2566E'}55`,
                     }}>
-                    <ShieldAlert className="w-4.5 h-4.5" style={{ color: compliant ? '#00ff88' : '#ff3366' }} />
+                    <ShieldAlert className="w-4.5 h-4.5" style={{ color: compliant ? '#10D982' : '#F2566E' }} />
                   </div>
                   <div>
                     <div className="font-black tracking-tight leading-none"
-                      style={{ fontSize: '1.05rem', color: verdictKnown ? (compliant ? '#00ff88' : '#ff3366') : 'rgba(255,255,255,0.3)' }}>
+                      style={{ fontSize: '1.05rem', color: verdictKnown ? (compliant ? '#10D982' : '#F2566E') : 'rgba(255,255,255,0.3)' }}>
                       {verdictKnown ? (compliant ? 'COMPLIANT' : 'NON-COMPLIANT') : 'AWAITING VERDICT'}
                     </div>
                     <div className="text-[10px] text-[rgba(255,255,255,0.45)] mt-0.5">
@@ -360,8 +366,8 @@ export default function ComplianceWall({ className = '' }: { className?: string 
                 <a href="/scan"
                   className="group flex items-center gap-1.5 px-4 py-2 rounded-md text-[11px] uppercase tracking-[0.12em] font-black transition-all"
                   style={{
-                    background: 'rgba(255,86,48,0.12)',
-                    border: '1px solid rgba(255,86,48,0.5)',
+                    background: 'rgba(16,217,130,0.12)',
+                    border: '1px solid rgba(16,217,130,0.5)',
                     color: '#ff7a52',
                   }}>
                   <ScanLine className="w-3.5 h-3.5" />
@@ -373,10 +379,10 @@ export default function ComplianceWall({ className = '' }: { className?: string 
               {/* Sealed SHA-256 */}
               <div className="mt-3 flex items-center gap-2 rounded-md px-3 py-2 font-mono text-[10px] md:text-[11px]"
                 style={{ background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                <Lock className="w-3 h-3 shrink-0" style={{ color: phase === 'sealed' ? '#00ff88' : 'rgba(255,255,255,0.4)' }} />
+                <Lock className="w-3 h-3 shrink-0" style={{ color: phase === 'sealed' ? '#10D982' : 'rgba(255,255,255,0.4)' }} />
                 <span className="text-[rgba(255,255,255,0.4)] shrink-0">sha256</span>
                 <span className="truncate tracking-wider"
-                  style={{ color: phase === 'sealed' ? '#9fffd0' : phase === 'sealing' ? '#00d8ff' : 'rgba(255,255,255,0.25)' }}>
+                  style={{ color: phase === 'sealed' ? '#9fffd0' : phase === 'sealing' ? '#5B8DEF' : 'rgba(255,255,255,0.25)' }}>
                   {hashDisplay || (hash ? '·'.repeat(16) : 'computing…')}
                 </span>
               </div>

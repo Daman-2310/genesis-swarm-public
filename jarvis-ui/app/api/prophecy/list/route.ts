@@ -1,19 +1,13 @@
-import { kv } from '@/lib/kv'
+// RETIRED 2026-06-13. This endpoint served or generated speculative / LLM /
+// fabricated assessments (risk verdicts, prophecies, scores, "agent findings")
+// about NAMED real entities — or exposed an AI-plugin surface. That has no place
+// in a deterministic, no-LLM compliance product and carries defamation + GDPR
+// (Art. 5/6) exposure. Use the client-side scanner at /scan (nothing is uploaded).
 
-export const runtime = 'edge'
-
-interface IndexEntry {
-  id: string
-  subject: string
-  sealed_at: string
-  pre_crime_index: number
-  pattern?: string
+const GONE = {
+  error: 'gone',
+  message: 'Retired — this surface produced or served fabricated/LLM assessments about named entities. Use the deterministic client-side scanner at /scan.',
 }
 
-export async function GET() {
-  const recent = await kv.lrange<IndexEntry>('prophecy:index', 0, 49)
-  return Response.json({
-    count: recent.length,
-    prophecies: recent,
-  })
-}
+export async function GET() { return Response.json(GONE, { status: 410 }) }
+export async function POST() { return Response.json(GONE, { status: 410 }) }

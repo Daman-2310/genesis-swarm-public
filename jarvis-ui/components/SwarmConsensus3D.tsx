@@ -20,11 +20,12 @@ import * as THREE from 'three'
 const NODE_COUNT = 11
 const QUORUM = 8 // 2f+1 for f=3 tolerated faults across 11 nodes
 
-// Brand palette (sRGB hex) reused from the rest of the site.
-const C_IDLE = new THREE.Color('#4a9eff')
-const C_PROPOSER = new THREE.Color('#9b6dff')
-const C_VOTED = new THREE.Color('#00d8ff')
-const C_COMMIT = new THREE.Color('#00ff88')
+// Institutional Emerald palette — idle/voting in the cool secondary, the
+// proposer a touch deeper, and the commit flash the brand emerald.
+const C_IDLE = new THREE.Color('#5B8DEF')
+const C_PROPOSER = new THREE.Color('#8B7BFF')
+const C_VOTED = new THREE.Color('#86C5FF')
+const C_COMMIT = new THREE.Color('#10D982')
 
 interface Pulse {
   from: number
@@ -138,7 +139,7 @@ export default function SwarmConsensus3D({ className }: { className?: string }) 
     })
     const lineGeo = new THREE.BufferGeometry()
     lineGeo.setAttribute('position', new THREE.BufferAttribute(linePos, 3))
-    const lineMat = new THREE.LineBasicMaterial({ color: new THREE.Color('#4f8fd6'), transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending, depthWrite: false })
+    const lineMat = new THREE.LineBasicMaterial({ color: new THREE.Color('#3F6FB5'), transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false })
     const lineSeg = new THREE.LineSegments(lineGeo, lineMat)
     swarm.add(lineSeg)
 

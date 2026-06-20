@@ -16,7 +16,7 @@ interface LeiResult {
   error?: string
 }
 
-const ACCENT = '#4a9eff'
+const ACCENT = '#5B8DEF'
 
 export default function LeiVerify() {
   const [lei, setLei] = useState('')
@@ -65,15 +65,15 @@ export default function LeiVerify() {
       {res && (
         <div className="mt-3">
           {res.ok && res.found ? (
-            <div className="rounded-lg p-3" style={{ background: 'rgba(0,255,136,0.05)', border: '1px solid rgba(0,255,136,0.25)' }}>
+            <div className="rounded-lg p-3" style={{ background: 'rgba(16,217,130,0.05)', border: '1px solid rgba(16,217,130,0.25)' }}>
               <div className="flex items-center gap-2 mb-2">
-                <CheckCircle2 className="w-4 h-4 text-[#00ff88]" />
+                <CheckCircle2 className="w-4 h-4 text-[#10D982]" />
                 <span className="text-[13px] font-bold text-white">{res.legalName}</span>
               </div>
               <div className="flex flex-wrap gap-1.5 text-[9px] uppercase tracking-wider">
                 {[
-                  ['entity', res.entityStatus, res.entityStatus === 'ACTIVE' ? '#00ff88' : '#ff3366'],
-                  ['registration', res.registrationStatus, res.registrationStatus === 'ISSUED' ? '#00ff88' : '#ffaa00'],
+                  ['entity', res.entityStatus, res.entityStatus === 'ACTIVE' ? '#10D982' : '#F2566E'],
+                  ['registration', res.registrationStatus, res.registrationStatus === 'ISSUED' ? '#10D982' : '#F5A524'],
                   ['country', res.country, ACCENT],
                   ['jurisdiction', res.jurisdiction, ACCENT],
                 ].filter(([, v]) => v).map(([k, v, c]) => (
@@ -87,8 +87,8 @@ export default function LeiVerify() {
               )}
             </div>
           ) : (
-            <div className="rounded-lg p-3 flex items-center gap-2" style={{ background: 'rgba(255,51,102,0.06)', border: '1px solid rgba(255,51,102,0.3)' }}>
-              <XCircle className="w-4 h-4 text-[#ff3366] shrink-0" />
+            <div className="rounded-lg p-3 flex items-center gap-2" style={{ background: 'rgba(242,86,110,0.06)', border: '1px solid rgba(242,86,110,0.3)' }}>
+              <XCircle className="w-4 h-4 text-[#F2566E] shrink-0" />
               <span className="text-[11px] text-[rgba(255,255,255,0.7)]">{res.error ?? 'Not found in the registry.'}</span>
             </div>
           )}

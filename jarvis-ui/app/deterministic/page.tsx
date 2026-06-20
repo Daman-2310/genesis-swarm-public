@@ -19,7 +19,7 @@ import {
 import { runScanBenchmark, proveDeterminism, type PerfResult } from '@/lib/perf-benchmark'
 
 const CosmicBackground = dynamic(() => import('@/components/CosmicBackground'), { ssr: false })
-const ACCENT = '#00ff88'
+const ACCENT = '#10D982'
 
 interface Row { dim: string; genesis: string; llm: string }
 const COMPARISON: Row[] = [
@@ -52,13 +52,13 @@ export default function DeterministicPage() {
   }, [])
 
   return (
-    <div className="min-h-screen text-white" style={{ fontFamily: 'system-ui, -apple-system, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+    <div className="min-h-screen text-white" style={{ fontFamily: 'var(--font-geist-sans), system-ui, -apple-system, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
       <CosmicBackground variant="calm" accent={ACCENT} />
 
       <nav className="relative z-10 flex items-center justify-between px-5 md:px-8 py-4 border-b border-[rgba(255,255,255,0.06)]">
         <a href="/" className="flex items-center gap-2.5">
           <div className="w-7 h-7 rounded-md flex items-center justify-center"
-            style={{ background: `linear-gradient(135deg, ${ACCENT}, #00aa55)`, boxShadow: `0 0 18px ${ACCENT}88` }}>
+            style={{ background: `linear-gradient(135deg, ${ACCENT}, #0B9E63)`, boxShadow: `0 0 18px ${ACCENT}88` }}>
             <Sparkles className="w-4 h-4 text-black" />
           </div>
           <span className="text-sm font-black tracking-[0.15em]">GENESIS SWARM</span>
@@ -111,8 +111,8 @@ export default function DeterministicPage() {
 
         {/* Honest tradeoff */}
         <section className="rounded-2xl p-5 mb-10 flex items-start gap-3"
-          style={{ background: 'rgba(255,170,0,0.06)', border: '1px solid rgba(255,170,0,0.3)' }}>
-          <Scale className="w-5 h-5 mt-0.5 shrink-0 text-[#ffaa00]" />
+          style={{ background: 'rgba(245,165,36,0.06)', border: '1px solid rgba(245,165,36,0.3)' }}>
+          <Scale className="w-5 h-5 mt-0.5 shrink-0 text-[#F5A524]" />
           <div>
             <div className="text-sm font-bold text-white mb-1">The honest tradeoff</div>
             <p className="text-[13px] text-[rgba(255,255,255,0.6)] leading-relaxed">
@@ -140,7 +140,7 @@ export default function DeterministicPage() {
               <Gauge className="w-4 h-4" /> {benchRunning ? 'Measuring…' : 'Run benchmark (5,000 scans)'}
             </button>
           ) : (
-            <div className="rounded-2xl p-5" style={{ background: 'rgba(0,255,136,0.04)', border: `1px solid ${ACCENT}33` }}>
+            <div className="rounded-2xl p-5" style={{ background: 'rgba(16,217,130,0.04)', border: `1px solid ${ACCENT}33` }}>
               <div className="flex items-baseline gap-3 mb-4 flex-wrap">
                 <span className="font-black tabular-nums" style={{ fontSize: 'clamp(2rem,6vw,3rem)', color: ACCENT, textShadow: `0 0 24px ${ACCENT}66` }}>
                   {bench.docsPerSec.toLocaleString()}
@@ -188,10 +188,10 @@ export default function DeterministicPage() {
               <Repeat className="w-4 h-4" /> Prove it
             </button>
           ) : (
-            <div className="rounded-2xl p-5" style={{ background: proof.identical ? 'rgba(0,255,136,0.05)' : 'rgba(255,51,102,0.08)', border: `1px solid ${proof.identical ? ACCENT + '44' : '#ff336644'}` }}>
+            <div className="rounded-2xl p-5" style={{ background: proof.identical ? 'rgba(16,217,130,0.05)' : 'rgba(242,86,110,0.08)', border: `1px solid ${proof.identical ? ACCENT + '44' : '#F2566E44'}` }}>
               <div className="flex items-center gap-2 mb-3">
-                {proof.identical ? <CheckCircle2 className="w-5 h-5" style={{ color: ACCENT }} /> : <XCircle className="w-5 h-5 text-[#ff3366]" />}
-                <span className="font-bold text-sm" style={{ color: proof.identical ? ACCENT : '#ff3366' }}>
+                {proof.identical ? <CheckCircle2 className="w-5 h-5" style={{ color: ACCENT }} /> : <XCircle className="w-5 h-5 text-[#F2566E]" />}
+                <span className="font-bold text-sm" style={{ color: proof.identical ? ACCENT : '#F2566E' }}>
                   {proof.identical ? 'IDENTICAL — deterministic' : 'MISMATCH'}
                 </span>
               </div>

@@ -1,30 +1,13 @@
-import { NextRequest } from 'next/server'
-import { kv } from '@/lib/kv'
+// RETIRED 2026-06-13. This endpoint served or generated speculative / LLM /
+// fabricated assessments (risk verdicts, prophecies, scores, "agent findings")
+// about NAMED real entities — or exposed an AI-plugin surface. That has no place
+// in a deterministic, no-LLM compliance product and carries defamation + GDPR
+// (Art. 5/6) exposure. Use the client-side scanner at /scan (nothing is uploaded).
 
-export const runtime = 'edge'
-
-interface LogEntry {
-  id: string
-  subject: string
-  scanned_at: string
-  risk_level: string
-  sentiment_score: number
+const GONE = {
+  error: 'gone',
+  message: 'Retired — this surface produced or served fabricated/LLM assessments about named entities. Use the deterministic client-side scanner at /scan.',
 }
 
-interface ScanArtifact extends LogEntry {
-  ofac_hits: number
-  swarm_findings: string[]
-  verdict: string
-  merkle_root: string
-}
-
-export async function GET(req: NextRequest) {
-  const id = new URL(req.url).searchParams.get('id')?.trim()
-  if (id) {
-    const a = await kv.get<ScanArtifact>(`eye:${id}`)
-    if (!a) return Response.json({ error: 'not found' }, { status: 404 })
-    return Response.json({ artifact: a })
-  }
-  const recent = await kv.lrange<LogEntry>('eye:log', 0, 99)
-  return Response.json({ count: recent.length, entries: recent })
-}
+export async function GET() { return Response.json(GONE, { status: 410 }) }
+export async function POST() { return Response.json(GONE, { status: 410 }) }

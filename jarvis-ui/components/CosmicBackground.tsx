@@ -15,7 +15,8 @@ import * as THREE from 'three'
 
 interface Props { variant?: 'calm' | 'intense' | 'void'; accent?: string; solarSystem?: boolean }
 
-const PALETTE = ['#9b6dff', '#00d8ff', '#ff5630', '#00ff88', '#4a9eff', '#ff3366', '#b478ff', '#22d3a6']
+// Institutional Emerald — emerald + cool family only (no rainbow particles).
+const PALETTE = ['#10D982', '#5B8DEF', '#14F08C', '#22D3A6', '#3F7DE0', '#0B9E63', '#7FB0FF', '#10D982']
 function hexToRgb(hex: string) { const h = hex.replace('#', ''); return { r: parseInt(h.slice(0, 2), 16), g: parseInt(h.slice(2, 4), 16), b: parseInt(h.slice(4, 6), 16) } }
 function hashString(s: string) { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619) } return h >>> 0 }
 function mulberry32(a: number) { return () => { a |= 0; a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296 } }
@@ -27,7 +28,7 @@ function radial(inner: string): THREE.Texture {
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t
 }
 
-export default function CosmicBackground({ variant = 'calm', accent = '#9b6dff', solarSystem = false }: Props) {
+export default function CosmicBackground({ variant = 'calm', accent = '#10D982', solarSystem = false }: Props) {
   const mountRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -35,6 +36,17 @@ export default function CosmicBackground({ variant = 'calm', accent = '#9b6dff',
     if (!mount) return
     const reduce = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
     const rng = mulberry32(hashString((typeof window !== 'undefined' ? window.location.pathname : '/') + accent))
+
+    // Mobile / low-power: skip the WebGL starfield entirely and keep only the CSS
+    // gradient fallback below (the radial-gradient div renders regardless). Prevents
+    // the phone hang from running a WebGL context per page.
+    const nav = navigator as Navigator & { deviceMemory?: number }
+    const lowPower =
+      !!window.matchMedia?.('(max-width: 820px)').matches ||
+      !!window.matchMedia?.('(pointer: coarse)').matches ||
+      (typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency <= 4) ||
+      (typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 4)
+    if (lowPower) return
 
     let renderer: THREE.WebGLRenderer
     try { renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'high-performance' }) } catch { return }
@@ -66,7 +78,7 @@ export default function CosmicBackground({ variant = 'calm', accent = '#9b6dff',
     const stars = new THREE.Points(sg, sm); scene.add(stars)
 
     // Aurora / energy clouds — drifting, rotating, pulsing additive sprites.
-    const auroraHexes = [accent, PALETTE[Math.floor(rng() * PALETTE.length)], '#4a9eff', '#00d8ff', '#9b6dff']
+    const auroraHexes = [accent, PALETTE[Math.floor(rng() * PALETTE.length)], '#5B8DEF', '#10D982', '#3F7DE0']
     const count = (variant === 'void' ? 3 : variant === 'intense' ? 8 : 5) + (solarSystem ? 4 : 0)
     interface Cloud { sp: THREE.Sprite; baseOp: number; ph: number; spd: number; drift: THREE.Vector2 }
     const clouds: Cloud[] = []
@@ -134,7 +146,7 @@ export default function CosmicBackground({ variant = 'calm', accent = '#9b6dff',
   const op = variant === 'intense' ? 0.32 : variant === 'calm' ? 0.2 : 0.08, a = hexToRgb(accent)
   return (
     <>
-      <div className="fixed inset-0 pointer-events-none -z-30" style={{ background: `radial-gradient(ellipse at 20% 10%, rgba(${a.r},${a.g},${a.b}, ${op * 0.5}) 0%, transparent 50%), radial-gradient(ellipse at 80% 80%, rgba(74,158,255, ${op * 0.4}) 0%, transparent 55%), radial-gradient(ellipse at top, #0a0a1a 0%, #050508 45%, #000 100%)` }} />
+      <div className="fixed inset-0 pointer-events-none -z-30" style={{ background: `radial-gradient(ellipse at 20% 10%, rgba(${a.r},${a.g},${a.b}, ${op * 0.5}) 0%, transparent 50%), radial-gradient(ellipse at 80% 80%, rgba(91,141,239, ${op * 0.38}) 0%, transparent 55%), radial-gradient(ellipse at top, #080A12 0%, #06070A 45%, #000 100%)` }} />
       <div ref={mountRef} className="fixed inset-0 pointer-events-none -z-20" aria-hidden="true" />
       <div className="fixed inset-0 pointer-events-none -z-10 opacity-[0.022] mix-blend-overlay" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,}} />
     </>

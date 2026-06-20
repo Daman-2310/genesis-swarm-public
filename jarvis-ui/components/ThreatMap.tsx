@@ -119,14 +119,14 @@ export default function ThreatMap() {
       .attr('refX', 14).attr('refY', 0)
       .attr('markerWidth', 4).attr('markerHeight', 4)
       .attr('orient', 'auto')
-      .append('path').attr('d', 'M0,-5L10,0L0,5').attr('fill', 'rgba(0,255,136,0.5)')
+      .append('path').attr('d', 'M0,-5L10,0L0,5').attr('fill', 'rgba(16,217,130,0.5)')
 
     defs.append('marker')
       .attr('id', 'arrow-sus').attr('viewBox', '0 -5 10 10')
       .attr('refX', 14).attr('refY', 0)
       .attr('markerWidth', 4).attr('markerHeight', 4)
       .attr('orient', 'auto')
-      .append('path').attr('d', 'M0,-5L10,0L0,5').attr('fill', '#ff3366')
+      .append('path').attr('d', 'M0,-5L10,0L0,5').attr('fill', '#F2566E')
 
     // ── Simulation ───────────────────────────────────────────────────────────
     if (simRef.current) simRef.current.stop()
@@ -149,7 +149,7 @@ export default function ThreatMap() {
     // ── Links ────────────────────────────────────────────────────────────────
     const link = svg.append('g').selectAll<SVGLineElement, MapLink>('line')
       .data(links).enter().append('line')
-      .attr('stroke', d => d.suspicious ? '#ff3366' : 'rgba(0,255,136,0.25)')
+      .attr('stroke', d => d.suspicious ? '#F2566E' : 'rgba(16,217,130,0.25)')
       .attr('stroke-width', d => d.suspicious ? 1.5 : 0.8)
       .attr('stroke-dasharray', d => d.suspicious ? '4 2' : 'none')
       .attr('marker-end', d => d.suspicious ? 'url(#arrow-sus)' : 'url(#arrow-clean)')
@@ -165,7 +165,7 @@ export default function ThreatMap() {
     nodeG.filter(d => d.infected).append('circle')
       .attr('r', d => d.weight * 9 + 5)
       .attr('fill', 'none')
-      .attr('stroke', '#ff3366')
+      .attr('stroke', '#F2566E')
       .attr('stroke-width', 1)
       .attr('opacity', 0.4)
       .each(function() {
@@ -189,16 +189,16 @@ export default function ThreatMap() {
         return d.weight * 7 + 5
       })
       .attr('fill', d => {
-        if (d.type === 'firewall') return 'rgba(0,170,255,0.15)'
-        if (d.blocked) return 'rgba(255,51,102,0.2)'
-        if (d.infected) return 'rgba(255,170,0,0.15)'
-        return 'rgba(0,255,136,0.08)'
+        if (d.type === 'firewall') return 'rgba(91,141,239,0.15)'
+        if (d.blocked) return 'rgba(242,86,110,0.2)'
+        if (d.infected) return 'rgba(245,165,36,0.15)'
+        return 'rgba(16,217,130,0.08)'
       })
       .attr('stroke', d => {
-        if (d.type === 'firewall') return '#00aaff'
-        if (d.blocked) return '#ff3366'
-        if (d.infected) return '#ffaa00'
-        return 'rgba(0,255,136,0.4)'
+        if (d.type === 'firewall') return '#5B8DEF'
+        if (d.blocked) return '#F2566E'
+        if (d.infected) return '#F5A524'
+        return 'rgba(16,217,130,0.4)'
       })
       .attr('stroke-width', d => d.type === 'firewall' ? 2 : 1)
       .attr('filter', d => {
@@ -214,10 +214,10 @@ export default function ThreatMap() {
       .attr('font-size', d => d.type === 'firewall' ? 8 : 6)
       .attr('font-family', 'monospace')
       .attr('fill', d => {
-        if (d.type === 'firewall') return '#00aaff'
-        if (d.blocked) return '#ff3366'
-        if (d.infected) return '#ffaa00'
-        return 'rgba(0,255,136,0.7)'
+        if (d.type === 'firewall') return '#5B8DEF'
+        if (d.blocked) return '#F2566E'
+        if (d.infected) return '#F5A524'
+        return 'rgba(16,217,130,0.7)'
       })
       .attr('pointer-events', 'none')
       .text(d => d.label)
@@ -242,24 +242,24 @@ export default function ThreatMap() {
   const s = stats as { total_evaluated?: number; hard_blocked?: number; block_rate_pct?: number; avg_suspicion_pct?: number } | null
 
   return (
-    <div className="bg-[#0d0d1a] border border-[rgba(0,255,136,0.15)] rounded h-full flex flex-col">
+    <div className="bg-[#0d0d1a] border border-[rgba(16,217,130,0.15)] rounded h-full flex flex-col">
       {/* Header */}
       <div className="px-3 pt-3 pb-1 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#00ff88] animate-pulse" />
-          <span className="text-[10px] uppercase tracking-widest text-[rgba(0,255,136,0.6)]">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#10D982] animate-pulse" />
+          <span className="text-[10px] uppercase tracking-widest text-[rgba(16,217,130,0.6)]">
             Financial Immune System // Threat Map
           </span>
         </div>
         <div className="flex gap-3 text-[9px] font-mono">
-          <span className="text-[rgba(0,255,136,0.5)]">
-            EVAL: <span className="text-[#00ff88]">{s?.total_evaluated ?? 0}</span>
+          <span className="text-[rgba(16,217,130,0.5)]">
+            EVAL: <span className="text-[#10D982]">{s?.total_evaluated ?? 0}</span>
           </span>
-          <span className="text-[rgba(255,51,102,0.7)]">
-            BLOCKED: <span className="text-[#ff3366] font-bold">{s?.hard_blocked ?? 0}</span>
+          <span className="text-[rgba(242,86,110,0.7)]">
+            BLOCKED: <span className="text-[#F2566E] font-bold">{s?.hard_blocked ?? 0}</span>
           </span>
-          <span className="text-[rgba(255,170,0,0.7)]">
-            RATE: <span className="text-[#ffaa00]">{s?.block_rate_pct ?? 0}%</span>
+          <span className="text-[rgba(245,165,36,0.7)]">
+            RATE: <span className="text-[#F5A524]">{s?.block_rate_pct ?? 0}%</span>
           </span>
         </div>
       </div>
@@ -267,20 +267,20 @@ export default function ThreatMap() {
       {/* Legend */}
       <div className="px-3 pb-1 flex gap-3 text-[8px] font-mono shrink-0">
         <span className="flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full border border-[#00aaff] inline-block" />
-          <span className="text-[rgba(0,170,255,0.7)]">Firewall</span>
+          <span className="w-2 h-2 rounded-full border border-[#5B8DEF] inline-block" />
+          <span className="text-[rgba(91,141,239,0.7)]">Firewall</span>
         </span>
         <span className="flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full border border-[#ff3366] inline-block" />
-          <span className="text-[rgba(255,51,102,0.7)]">Hard-Blocked</span>
+          <span className="w-2 h-2 rounded-full border border-[#F2566E] inline-block" />
+          <span className="text-[rgba(242,86,110,0.7)]">Hard-Blocked</span>
         </span>
         <span className="flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full border border-[#ffaa00] inline-block" />
-          <span className="text-[rgba(255,170,0,0.7)]">Suspicious</span>
+          <span className="w-2 h-2 rounded-full border border-[#F5A524] inline-block" />
+          <span className="text-[rgba(245,165,36,0.7)]">Suspicious</span>
         </span>
         <span className="flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full border border-[rgba(0,255,136,0.4)] inline-block" />
-          <span className="text-[rgba(0,255,136,0.5)]">Clean</span>
+          <span className="w-2 h-2 rounded-full border border-[rgba(16,217,130,0.4)] inline-block" />
+          <span className="text-[rgba(16,217,130,0.5)]">Clean</span>
         </span>
       </div>
 
@@ -288,7 +288,7 @@ export default function ThreatMap() {
       <div className="flex-1 relative min-h-0">
         {(!decisions || (decisions as GatewayDecision[]).length === 0) && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-[10px] text-[rgba(0,255,136,0.3)] uppercase tracking-widest animate-pulse">
+            <div className="text-[10px] text-[rgba(16,217,130,0.3)] uppercase tracking-widest animate-pulse">
               Waiting for transactions…
             </div>
           </div>
@@ -304,16 +304,16 @@ export default function ThreatMap() {
 
       {/* Suspicion bar */}
       <div className="px-3 pb-2 shrink-0">
-        <div className="flex justify-between text-[8px] font-mono text-[rgba(0,255,136,0.4)] mb-0.5">
+        <div className="flex justify-between text-[8px] font-mono text-[rgba(16,217,130,0.4)] mb-0.5">
           <span>AVG SUSPICION</span>
           <span>{s?.avg_suspicion_pct ?? 0}%</span>
         </div>
-        <div className="h-0.5 bg-[rgba(0,255,136,0.1)] rounded-full overflow-hidden">
+        <div className="h-0.5 bg-[rgba(16,217,130,0.1)] rounded-full overflow-hidden">
           <div
             className="h-full transition-all duration-1000 rounded-full"
             style={{
               width: `${s?.avg_suspicion_pct ?? 0}%`,
-              background: (s?.avg_suspicion_pct ?? 0) > 40 ? '#ff3366' : '#00ff88',
+              background: (s?.avg_suspicion_pct ?? 0) > 40 ? '#F2566E' : '#10D982',
             }}
           />
         </div>

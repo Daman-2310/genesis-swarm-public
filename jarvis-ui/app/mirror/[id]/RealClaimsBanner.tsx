@@ -41,14 +41,14 @@ export default function RealClaimsBanner({ prophecyId }: { prophecyId: string })
 
   return (
     <section className="rounded-2xl p-5 mb-8"
-      style={{ background: 'rgba(0,255,136,0.05)', border: '1px solid rgba(0,255,136,0.35)', backdropFilter: 'blur(10px)' }}>
+      style={{ background: 'rgba(16,217,130,0.05)', border: '1px solid rgba(16,217,130,0.35)', backdropFilter: 'blur(10px)' }}>
       <div className="flex items-center gap-2 mb-2">
-        <FileCheck2 className="w-4 h-4 text-[#00ff88]" />
-        <span className="text-[11px] uppercase tracking-[0.2em] font-black text-[#00ff88]">
+        <FileCheck2 className="w-4 h-4 text-[#10D982]" />
+        <span className="text-[11px] uppercase tracking-[0.2em] font-black text-[#10D982]">
           Real extracted claims · live document
         </span>
         <span className="ml-auto text-[9px] uppercase tracking-wider px-2 py-0.5 rounded font-bold"
-          style={{ background: 'rgba(0,255,136,0.15)', border: '1px solid rgba(0,255,136,0.4)', color: '#00ff88' }}>
+          style={{ background: 'rgba(16,217,130,0.15)', border: '1px solid rgba(16,217,130,0.4)', color: '#10D982' }}>
           {data.claims.length} real
         </span>
       </div>
@@ -61,7 +61,7 @@ export default function RealClaimsBanner({ prophecyId }: { prophecyId: string })
           <>
             {' '}
             <a href={data.source_url} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[#00ff88] hover:underline">
+              className="inline-flex items-center gap-1 text-[#10D982] hover:underline">
               source document <ExternalLink className="w-3 h-3" />
             </a>
           </>
@@ -71,12 +71,12 @@ export default function RealClaimsBanner({ prophecyId }: { prophecyId: string })
       <div className="space-y-2">
         {data.claims.map((c, i) => (
           <div key={i} className="rounded-xl p-3"
-            style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(0,255,136,0.2)' }}>
+            style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(16,217,130,0.2)' }}>
             <div className="flex items-center justify-between gap-3 mb-1.5">
               <span className="text-[13px] font-bold text-white">{c.label}</span>
               <div className="flex items-center gap-2">
                 {c.promised !== null && (
-                  <span className="text-[13px] font-mono font-black text-[#00ff88]">
+                  <span className="text-[13px] font-mono font-black text-[#10D982]">
                     {c.direction === 'min' ? '≥' : c.direction === 'max' ? '≤' : ''} {c.promised}{c.unit ?? ''}
                   </span>
                 )}
@@ -87,7 +87,7 @@ export default function RealClaimsBanner({ prophecyId }: { prophecyId: string })
             </div>
             {c.quote && (
               <div className="flex items-start gap-2 text-[11px] text-[rgba(255,255,255,0.6)] italic leading-relaxed">
-                <Quote className="w-3 h-3 shrink-0 mt-0.5 text-[rgba(0,255,136,0.5)]" />
+                <Quote className="w-3 h-3 shrink-0 mt-0.5 text-[rgba(16,217,130,0.5)]" />
                 <span>&ldquo;{c.quote}&rdquo;</span>
               </div>
             )}

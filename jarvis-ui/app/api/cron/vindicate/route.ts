@@ -1,24 +1,13 @@
-// Daily Vindication Engine sweep.
-// Scheduled by vercel.json. Manually triggerable by signed-in users or with CRON_SECRET.
-import { NextRequest } from 'next/server'
-import { authorizeCron } from '@/lib/cron'
-import { vindicationSweep } from '@/lib/vindicate'
+// RETIRED 2026-06-13. This endpoint served or generated speculative / LLM /
+// fabricated assessments (risk verdicts, prophecies, scores, "agent findings")
+// about NAMED real entities — or exposed an AI-plugin surface. That has no place
+// in a deterministic, no-LLM compliance product and carries defamation + GDPR
+// (Art. 5/6) exposure. Use the client-side scanner at /scan (nothing is uploaded).
 
-export const runtime = 'nodejs'
-export const maxDuration = 60
-
-export async function GET(req: NextRequest) {
-  const ok = await authorizeCron(req)
-  if (!ok) return Response.json({ error: 'unauthorized' }, { status: 401 })
-
-  // Sweep up to 30 entries per cron tick (politely paced). KV de-dupes already-vindicated.
-  const result = await vindicationSweep({ limit: 30 })
-  return Response.json({
-    ok: true,
-    ran_at: new Date().toISOString(),
-    checked: result.checked,
-    new_hits: result.hits.length,
-    sample: result.hits.slice(0, 5),
-    error_count: result.errors.length,
-  })
+const GONE = {
+  error: 'gone',
+  message: 'Retired — this surface produced or served fabricated/LLM assessments about named entities. Use the deterministic client-side scanner at /scan.',
 }
+
+export async function GET() { return Response.json(GONE, { status: 410 }) }
+export async function POST() { return Response.json(GONE, { status: 410 }) }

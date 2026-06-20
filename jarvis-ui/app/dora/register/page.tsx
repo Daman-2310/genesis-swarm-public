@@ -41,7 +41,7 @@ const COUNTRIES = [
 ]
 
 const CRITICALITY_COLORS = {
-  low: '#00aaff', medium: '#ffaa00', high: '#ff6b35', critical: '#ff3366',
+  low: '#5B8DEF', medium: '#F5A524', high: '#ff6b35', critical: '#F2566E',
 }
 
 function VendorRow({ vendor, onChange, onRemove }: {
@@ -66,17 +66,17 @@ function VendorRow({ vendor, onChange, onRemove }: {
           <div className="text-[10px] text-[rgba(255,255,255,0.4)]">{vendor.service_type} · {vendor.country} · {vendor.criticality.toUpperCase()}</div>
         </div>
         {gaps.length > 0 && (
-          <div className="flex items-center gap-1 text-[#ffaa00] text-[9px]">
+          <div className="flex items-center gap-1 text-[#F5A524] text-[9px]">
             <AlertTriangle className="w-3 h-3" /> {gaps.length} gap{gaps.length > 1 ? 's' : ''}
           </div>
         )}
         {gaps.length === 0 && vendor.name && (
-          <div className="flex items-center gap-1 text-[#00ff88] text-[9px]">
+          <div className="flex items-center gap-1 text-[#10D982] text-[9px]">
             <CheckCircle className="w-3 h-3" /> Clean
           </div>
         )}
         <button onClick={e => { e.stopPropagation(); onRemove() }}
-          className="p-1 text-[rgba(255,51,102,0.5)] hover:text-[#ff3366] transition-colors">
+          className="p-1 text-[rgba(242,86,110,0.5)] hover:text-[#F2566E] transition-colors">
           <Trash2 className="w-3.5 h-3.5" />
         </button>
       </div>
@@ -87,13 +87,13 @@ function VendorRow({ vendor, onChange, onRemove }: {
             <label className="block text-[10px] text-[rgba(255,255,255,0.4)] uppercase tracking-wider mb-1">ICT Provider Name *</label>
             <input value={vendor.name} onChange={e => onChange({...vendor, name: e.target.value})}
               placeholder="e.g. Amazon Web Services EMEA SARL"
-              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] rounded px-3 py-2 text-sm text-white placeholder-[rgba(255,255,255,0.25)] focus:outline-none focus:border-[rgba(0,170,255,0.4)]" />
+              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] rounded px-3 py-2 text-sm text-white placeholder-[rgba(255,255,255,0.25)] focus:outline-none focus:border-[rgba(91,141,239,0.4)]" />
           </div>
 
           <div>
             <label className="block text-[10px] text-[rgba(255,255,255,0.4)] uppercase tracking-wider mb-1">Service Type</label>
             <select value={vendor.service_type} onChange={e => onChange({...vendor, service_type: e.target.value})}
-              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-[rgba(0,170,255,0.4)]">
+              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-[rgba(91,141,239,0.4)]">
               {SERVICE_TYPES.map(s => <option key={s} value={s} className="bg-[#0a0f14]">{s}</option>)}
             </select>
           </div>
@@ -101,7 +101,7 @@ function VendorRow({ vendor, onChange, onRemove }: {
           <div>
             <label className="block text-[10px] text-[rgba(255,255,255,0.4)] uppercase tracking-wider mb-1">Data / Service Location</label>
             <select value={vendor.country} onChange={e => onChange({...vendor, country: e.target.value})}
-              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-[rgba(0,170,255,0.4)]">
+              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-[rgba(91,141,239,0.4)]">
               {COUNTRIES.map(c => <option key={c} value={c} className="bg-[#0a0f14]">{c}</option>)}
             </select>
           </div>
@@ -109,7 +109,7 @@ function VendorRow({ vendor, onChange, onRemove }: {
           <div>
             <label className="block text-[10px] text-[rgba(255,255,255,0.4)] uppercase tracking-wider mb-1">Criticality (DORA Art. 28)</label>
             <select value={vendor.criticality} onChange={e => onChange({...vendor, criticality: e.target.value as Vendor['criticality']})}
-              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-[rgba(0,170,255,0.4)]">
+              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-[rgba(91,141,239,0.4)]">
               <option value="low" className="bg-[#0a0f14]">Low</option>
               <option value="medium" className="bg-[#0a0f14]">Medium</option>
               <option value="high" className="bg-[#0a0f14]">High</option>
@@ -120,7 +120,7 @@ function VendorRow({ vendor, onChange, onRemove }: {
           <div>
             <label className="block text-[10px] text-[rgba(255,255,255,0.4)] uppercase tracking-wider mb-1">Contract Start Date</label>
             <input type="date" value={vendor.contract_start} onChange={e => onChange({...vendor, contract_start: e.target.value})}
-              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-[rgba(0,170,255,0.4)]" />
+              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-[rgba(91,141,239,0.4)]" />
           </div>
 
           <div className="col-span-2 flex gap-3">
@@ -131,8 +131,8 @@ function VendorRow({ vendor, onChange, onRemove }: {
               const val = vendor[opt.key as keyof Vendor] as boolean
               return (
                 <button key={opt.key} type="button" onClick={() => onChange({...vendor, [opt.key]: !val})}
-                  className={`flex items-center gap-2 px-3 py-2 rounded border text-xs flex-1 transition-colors ${val ? 'border-[rgba(0,255,136,0.4)] bg-[rgba(0,255,136,0.06)] text-[#00ff88]' : 'border-[rgba(255,51,102,0.3)] bg-[rgba(255,51,102,0.04)] text-[#ff6b35]'}`}>
-                  <span className={`w-2.5 h-2.5 rounded-full ${val ? 'bg-[#00ff88]' : 'bg-[#ff6b35]'}`} />
+                  className={`flex items-center gap-2 px-3 py-2 rounded border text-xs flex-1 transition-colors ${val ? 'border-[rgba(16,217,130,0.4)] bg-[rgba(16,217,130,0.06)] text-[#10D982]' : 'border-[rgba(242,86,110,0.3)] bg-[rgba(242,86,110,0.04)] text-[#ff6b35]'}`}>
+                  <span className={`w-2.5 h-2.5 rounded-full ${val ? 'bg-[#10D982]' : 'bg-[#ff6b35]'}`} />
                   {opt.label}
                 </button>
               )
@@ -144,14 +144,14 @@ function VendorRow({ vendor, onChange, onRemove }: {
               <label className="block text-[10px] text-[rgba(255,255,255,0.4)] uppercase tracking-wider mb-1">Sub-Contractors (Art. 28(4)(f))</label>
               <input value={vendor.sub_contractors} onChange={e => onChange({...vendor, sub_contractors: e.target.value})}
                 placeholder="e.g. Equinix (data centre), Lumen Technologies (network)"
-                className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] rounded px-3 py-2 text-sm text-white placeholder-[rgba(255,255,255,0.25)] focus:outline-none focus:border-[rgba(0,170,255,0.4)]" />
+                className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] rounded px-3 py-2 text-sm text-white placeholder-[rgba(255,255,255,0.25)] focus:outline-none focus:border-[rgba(91,141,239,0.4)]" />
             </div>
           )}
 
           {gaps.length > 0 && (
             <div className="col-span-2 flex gap-2 flex-wrap">
               {gaps.map(g => (
-                <span key={g} className="text-[9px] px-2 py-0.5 border border-[rgba(255,170,0,0.3)] text-[#ffaa00] rounded-full flex items-center gap-1">
+                <span key={g} className="text-[9px] px-2 py-0.5 border border-[rgba(245,165,36,0.3)] text-[#F5A524] rounded-full flex items-center gap-1">
                   <AlertTriangle className="w-2.5 h-2.5" /> {g}
                 </span>
               ))}
@@ -205,13 +205,13 @@ export default function DoraRegisterPage() {
 
   return (
     <div className="min-h-screen bg-[#050a0e] text-white font-mono">
-      <div className="border-b border-[rgba(0,255,136,0.1)] px-6 py-3 flex items-center justify-between">
+      <div className="border-b border-[rgba(16,217,130,0.1)] px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <a href="/dora" className="text-[10px] text-[rgba(255,255,255,0.4)] hover:text-white flex items-center gap-1"><ArrowLeft className="w-3 h-3" /> DORA</a>
           <div className="w-px h-4 bg-[rgba(255,255,255,0.1)]" />
           <div className="flex items-center gap-2">
-            <Shield className="w-4 h-4 text-[#00aaff]" />
-            <span className="text-sm font-bold tracking-widest text-[#00aaff]">DORA ICT REGISTER BUILDER</span>
+            <Shield className="w-4 h-4 text-[#5B8DEF]" />
+            <span className="text-sm font-bold tracking-widest text-[#5B8DEF]">DORA ICT REGISTER BUILDER</span>
           </div>
         </div>
         <div className="text-[9px] text-[rgba(255,255,255,0.3)] uppercase tracking-wider">DORA Art. 28 · EBA RTS · CSSF Format</div>
@@ -219,10 +219,10 @@ export default function DoraRegisterPage() {
 
       <div className="max-w-3xl mx-auto px-6 py-8 space-y-6">
         {/* Info banner */}
-        <div className="flex items-start gap-3 p-4 border border-[rgba(0,170,255,0.2)] bg-[rgba(0,170,255,0.03)] rounded-lg text-xs text-[rgba(255,255,255,0.5)]">
-          <Info className="w-4 h-4 text-[#00aaff] flex-shrink-0 mt-0.5" />
+        <div className="flex items-start gap-3 p-4 border border-[rgba(91,141,239,0.2)] bg-[rgba(91,141,239,0.03)] rounded-lg text-xs text-[rgba(255,255,255,0.5)]">
+          <Info className="w-4 h-4 text-[#5B8DEF] flex-shrink-0 mt-0.5" />
           <div>
-            <span className="text-[#00aaff] font-bold">DORA Register of Information</span> — Article 28 requires all AIFMs to maintain and submit this register to CSSF. 
+            <span className="text-[#5B8DEF] font-bold">DORA Register of Information</span> — Article 28 requires all AIFMs to maintain and submit this register to CSSF. 
             Add all ICT third-party providers below. The export will flag gaps per EBA RTS 2024 mandatory columns.
           </div>
         </div>
@@ -232,12 +232,12 @@ export default function DoraRegisterPage() {
           <div>
             <label className="block text-[10px] text-[rgba(255,255,255,0.4)] uppercase tracking-wider mb-1">Fund Name *</label>
             <input value={fundName} onChange={e => setFundName(e.target.value)} placeholder="e.g. Acme Capital Luxembourg AIF"
-              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] rounded px-3 py-2 text-sm text-white placeholder-[rgba(255,255,255,0.25)] focus:outline-none focus:border-[rgba(0,170,255,0.5)]" />
+              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] rounded px-3 py-2 text-sm text-white placeholder-[rgba(255,255,255,0.25)] focus:outline-none focus:border-[rgba(91,141,239,0.5)]" />
           </div>
           <div>
             <label className="block text-[10px] text-[rgba(255,255,255,0.4)] uppercase tracking-wider mb-1">AIFM / Manager Name</label>
             <input value={aifmName} onChange={e => setAifmName(e.target.value)} placeholder="e.g. Acme Asset Management S.A."
-              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] rounded px-3 py-2 text-sm text-white placeholder-[rgba(255,255,255,0.25)] focus:outline-none focus:border-[rgba(0,170,255,0.5)]" />
+              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.12)] rounded px-3 py-2 text-sm text-white placeholder-[rgba(255,255,255,0.25)] focus:outline-none focus:border-[rgba(91,141,239,0.5)]" />
           </div>
         </div>
 
@@ -245,9 +245,9 @@ export default function DoraRegisterPage() {
         {vendors.some(v => v.name) && (
           <div className="grid grid-cols-3 gap-3 text-center">
             {[
-              {label:'ICT Providers', value: vendors.filter(v=>v.name).length, color:'#00aaff'},
-              {label:'Critical', value: criticalCount, color: criticalCount > 0 ? '#ff3366' : '#00ff88'},
-              {label:'Gaps to Fix', value: totalGaps, color: totalGaps > 0 ? '#ffaa00' : '#00ff88'},
+              {label:'ICT Providers', value: vendors.filter(v=>v.name).length, color:'#5B8DEF'},
+              {label:'Critical', value: criticalCount, color: criticalCount > 0 ? '#F2566E' : '#10D982'},
+              {label:'Gaps to Fix', value: totalGaps, color: totalGaps > 0 ? '#F5A524' : '#10D982'},
             ].map(s => (
               <div key={s.label} className="border border-[rgba(255,255,255,0.07)] rounded p-3">
                 <div className="text-2xl font-black" style={{ color: s.color }}>{s.value}</div>
@@ -262,7 +262,7 @@ export default function DoraRegisterPage() {
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-bold text-[rgba(255,255,255,0.7)] uppercase tracking-wider">ICT Providers</h2>
             <button onClick={addVendor}
-              className="flex items-center gap-1.5 px-3 py-1.5 border border-[rgba(0,255,136,0.3)] text-[#00ff88] rounded text-xs hover:bg-[rgba(0,255,136,0.06)] transition-colors">
+              className="flex items-center gap-1.5 px-3 py-1.5 border border-[rgba(16,217,130,0.3)] text-[#10D982] rounded text-xs hover:bg-[rgba(16,217,130,0.06)] transition-colors">
               <Plus className="w-3.5 h-3.5" /> Add Provider
             </button>
           </div>
@@ -274,7 +274,7 @@ export default function DoraRegisterPage() {
         </div>
 
         {error && (
-          <div className="flex items-center gap-2 p-3 border border-[rgba(255,51,102,0.3)] bg-[rgba(255,51,102,0.05)] rounded text-sm text-[#ff3366]">
+          <div className="flex items-center gap-2 p-3 border border-[rgba(242,86,110,0.3)] bg-[rgba(242,86,110,0.05)] rounded text-sm text-[#F2566E]">
             <AlertTriangle className="w-4 h-4 flex-shrink-0" /> {error}
           </div>
         )}
@@ -282,7 +282,7 @@ export default function DoraRegisterPage() {
         {/* Export */}
         <div className="flex gap-3 flex-wrap">
           <button onClick={downloadRegister} disabled={downloading}
-            className="flex items-center gap-2 px-5 py-3 bg-[rgba(0,170,255,0.1)] border border-[rgba(0,170,255,0.5)] text-[#00aaff] rounded font-bold hover:bg-[rgba(0,170,255,0.15)] disabled:opacity-40 transition-colors">
+            className="flex items-center gap-2 px-5 py-3 bg-[rgba(91,141,239,0.1)] border border-[rgba(91,141,239,0.5)] text-[#5B8DEF] rounded font-bold hover:bg-[rgba(91,141,239,0.15)] disabled:opacity-40 transition-colors">
             {downloading ? 'Building register…' : <><Download className="w-4 h-4" /> Export CSSF Register CSV</>}
           </button>
           <a href="/onboard"

@@ -9,41 +9,41 @@ export const metadata = {
 
 const PAPERS = [
   {
-    id: 'foresight-01-cryptographic-pre-registration',
-    number: 'FORESIGHT-01',
-    title: 'Cryptographic Pre-Registration of Financial Risk Forecasts: A Methodology',
-    date: '2026-05-30',
+    id: 'note-02-extraction-is-the-hard-part',
+    number: 'NOTE-02',
+    title: 'Extraction Is the Hard Part: Why Automated AIFMD II Checking Is Harder Than the AI Vendors Admit',
+    date: '2026-06-20',
     abstract:
-      'We propose a methodology for cryptographically committing operational-risk forecasts on named financial entities to a public timestamping authority (Bitcoin via OpenTimestamps) such that the publication date of the forecast is unfakeable. We argue that this transforms risk forecasting from a backward-looking activity into a falsifiable, dated scientific claim — and we demonstrate the protocol on a five-entity Watch List covering the EU financial sector for the 18-month period 2026-05 to 2027-11.',
-    tags: ['methodology', 'cryptography', 'risk forecasting', 'EU banking'],
-    pages: 7,
+      "The AIFMD II quantitative limits are arithmetic; the hard part is getting the numbers out of a real prospectus. Findings from running a deterministic engine over real public Luxembourg prospectuses: the figures are present but rarely machine-readable (holding tables collapse on extraction), an LLM hides that wall by guessing — a silent, confident wrong 'compliant' — and naive matching over-flags as readily as naive extraction under-reads. The honest conclusion: good compliance tooling should sometimes refuse to answer.",
+    tags: ['AIFMD II', 'extraction', 'deterministic', 'RegTech'],
+    pages: 2,
   },
   {
-    id: 'foresight-02-pattern-archetypes',
-    number: 'FORESIGHT-02',
-    title: 'Six Archetypes of EU/Global Finance Collapse, 2008–2023: A Pattern Vocabulary',
-    date: 'Forthcoming · Q3 2026',
+    id: 'report-01-aifmd2-readiness',
+    number: 'REPORT-01',
+    title: 'The 2027 AIFMD II Prospectus Readiness Report',
+    date: '2026-06-14',
     abstract:
-      'Forthcoming. Codifies six recurring structural archetypes (Wirecard-prototype, Greensill-counterparty, Archegos-hidden-leverage, FTX-insider-market-maker, SVB-deposit-concentration, Madoff-circular-claims) and maps them to observable public-record signal vocabularies across multilingual EU regulatory disclosure.',
-    tags: ['pattern analysis', 'collapse archetypes', 'backcast'],
-    pages: null,
+      'A practical, cited readiness guide for Luxembourg ManCos and AIFMs. What AIFMD II (Directive (EU) 2024/927) changed for fund prospectuses — the loan-origination leverage/retention/concentration limits, liquidity management tools, and the UCITS limits that still stand — plus a self-check you can run today and the deterministic, versioned method behind it. Written for smaller houses carrying the same obligation on a fraction of the budget.',
+    tags: ['AIFMD II', 'readiness', 'prospectus', 'Luxembourg'],
+    pages: 6,
   },
   {
-    id: 'foresight-03-counterparty-contagion',
-    number: 'FORESIGHT-03',
-    title: 'Bottom-Up Counterparty Contagion Modelling Without Privileged Data',
-    date: 'Forthcoming · Q4 2026',
+    id: 'note-01-consistent-isnt-compliant',
+    number: 'NOTE-01',
+    title: "Consistent Isn't Compliant: Teaching Software to Read Fund Prospectuses",
+    date: '2026-06-07',
     abstract:
-      'Forthcoming. Demonstrates that a counterparty exposure graph constructed exclusively from public AIFMD Annex IV filings, Pillar 3 disclosures, and audited annual reports recovers approximately 78% of the contagion pathways that drove the Q1 2023 European regional-bank stress event.',
-    tags: ['contagion', 'network science', 'public data'],
-    pages: null,
+      'A practitioner field note on building a deterministic AIFMD II prospectus checker — software that tests a fund prospectus against the law with no LLM in the decision path. Three findings: internal consistency and legal compliance are different questions; the same quantitative limit appears in many textual forms, so silent omission is the dangerous failure mode; and deterministic checking reaches quantitative breaches but not structural ones.',
+    tags: ['methodology', 'AIFMD II', 'deterministic', 'RegTech'],
+    pages: 2,
   },
 ]
 
 export default function ResearchPage() {
   return (
     <div className="min-h-screen text-white relative">
-      <CosmicBackground variant="calm" accent="#4a9eff" />
+      <CosmicBackground variant="calm" accent="#5B8DEF" />
 
       <header className="sticky top-0 z-30 border-b border-[rgba(255,255,255,0.06)] px-6 py-3"
         style={{ background: 'rgba(5,5,12,0.78)', backdropFilter: 'blur(20px) saturate(140%)' }}>
@@ -52,8 +52,8 @@ export default function ResearchPage() {
             <ArrowLeft className="w-3 h-3" /> Home
           </Link>
           <div className="w-px h-4 bg-[rgba(255,255,255,0.1)]" />
-          <Microscope className="w-4 h-4 text-[#4a9eff]" />
-          <span className="text-sm font-bold tracking-[0.18em] text-[#4a9eff]">FORESIGHT LAB</span>
+          <Microscope className="w-4 h-4 text-[#5B8DEF]" />
+          <span className="text-sm font-bold tracking-[0.18em] text-[#5B8DEF]">FORESIGHT LAB</span>
           <span className="ml-auto text-[9px] uppercase tracking-wider text-[rgba(255,255,255,0.35)]">
             Open methodology · reproducible findings · cited primary sources
           </span>
@@ -64,9 +64,9 @@ export default function ResearchPage() {
 
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5"
-            style={{ background: 'rgba(74,158,255,0.08)', border: '1px solid rgba(74,158,255,0.3)' }}>
-            <Microscope className="w-3 h-3 text-[#4a9eff]" />
-            <span className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#4a9eff]">
+            style={{ background: 'rgba(91,141,239,0.08)', border: '1px solid rgba(91,141,239,0.3)' }}>
+            <Microscope className="w-3 h-3 text-[#5B8DEF]" />
+            <span className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#5B8DEF]">
               The research wing of Genesis Swarm
             </span>
           </div>
@@ -75,15 +75,15 @@ export default function ResearchPage() {
             <span className="text-white">Open methodology.</span>
             <br />
             <span style={{
-              background: 'linear-gradient(90deg, #4a9eff 0%, #9b6dff 100%)',
+              background: 'linear-gradient(90deg, #5B8DEF 0%, #5B8DEF 100%)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-              filter: 'drop-shadow(0 0 24px rgba(74,158,255,0.3))',
+              filter: 'drop-shadow(0 0 24px rgba(91,141,239,0.3))',
             }}>Falsifiable findings.</span>
           </h1>
           <p className="text-[rgba(255,255,255,0.7)] text-base max-w-2xl mx-auto leading-relaxed">
-            Genesis Foresight Lab publishes the analytical methodology behind the scoring engine,
-            the Book, the Mirror, and the Watch List. Papers are cited, sourced, reproducible —
-            and every claim is backed by the public data that produced it. We invite peer review.
+            Field notes on building a deterministic AIFMD&nbsp;II / UCITS prospectus checker —
+            how the engine reads a fund document, where regex-and-arithmetic checking reaches,
+            and where it honestly stops. Cited, sourced, reproducible. We invite peer review.
           </p>
         </div>
 
@@ -95,7 +95,7 @@ export default function ResearchPage() {
               <>
                 <div className="flex items-start justify-between gap-4 mb-3">
                   <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] font-mono font-bold"
-                    style={{ color: isPublished ? '#4a9eff' : 'rgba(255,255,255,0.4)' }}>
+                    style={{ color: isPublished ? '#5B8DEF' : 'rgba(255,255,255,0.4)' }}>
                     <FileText className="w-3 h-3" />
                     {p.number}
                   </div>
@@ -115,20 +115,20 @@ export default function ResearchPage() {
                   <div className="flex flex-wrap gap-1.5">
                     {p.tags.map(t => (
                       <span key={t} className="text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded"
-                        style={{ background: 'rgba(74,158,255,0.10)', border: '1px solid rgba(74,158,255,0.25)', color: '#4a9eff' }}>
+                        style={{ background: 'rgba(91,141,239,0.10)', border: '1px solid rgba(91,141,239,0.25)', color: '#5B8DEF' }}>
                         {t}
                       </span>
                     ))}
                   </div>
                   {isPublished && (
-                    <span className="text-[10px] uppercase tracking-wider font-bold text-[#4a9eff] flex items-center gap-1">
+                    <span className="text-[10px] uppercase tracking-wider font-bold text-[#5B8DEF] flex items-center gap-1">
                       Read paper <ChevronRight className="w-3 h-3" />
                     </span>
                   )}
                 </div>
               </>
             )
-            const style = { background: 'rgba(0,0,0,0.45)', border: `1px solid ${isPublished ? 'rgba(74,158,255,0.3)' : 'rgba(255,255,255,0.08)'}`, backdropFilter: 'blur(10px)' }
+            const style = { background: 'rgba(0,0,0,0.45)', border: `1px solid ${isPublished ? 'rgba(91,141,239,0.3)' : 'rgba(255,255,255,0.08)'}`, backdropFilter: 'blur(10px)' }
             return isPublished ? (
               <Link key={p.id} href={`/research/${p.id}`}
                 className="block rounded-2xl p-6 transition-all hover:translate-x-1" style={style}>
@@ -142,19 +142,18 @@ export default function ResearchPage() {
 
         {/* CITING */}
         <section className="rounded-2xl p-6"
-          style={{ background: 'rgba(74,158,255,0.04)', border: '1px solid rgba(74,158,255,0.25)', backdropFilter: 'blur(10px)' }}>
-          <div className="text-[11px] uppercase tracking-[0.2em] text-[#4a9eff] font-black mb-3">How to cite</div>
+          style={{ background: 'rgba(91,141,239,0.04)', border: '1px solid rgba(91,141,239,0.25)', backdropFilter: 'blur(10px)' }}>
+          <div className="text-[11px] uppercase tracking-[0.2em] text-[#5B8DEF] font-black mb-3">How to cite</div>
           <pre className="text-[11px] font-mono text-[rgba(255,255,255,0.85)] bg-black/40 rounded p-3 overflow-x-auto">
-{`Sharma, D. (2026). "Cryptographic Pre-Registration of Financial Risk
-Forecasts: A Methodology." Genesis Foresight Lab Working Paper FORESIGHT-01.
-Genesis Swarm, Luxembourg.
-URL: https://genesis-swarm-rgq5.vercel.app/research/foresight-01-cryptographic-pre-registration
-Bitcoin anchor: 9e52141ce22948f8...`}
+{`Sharma, D. (2026). "Consistent Isn't Compliant: Teaching Software to
+Read Fund Prospectuses." Genesis Swarm Field Note NOTE-01.
+Luxembourg.
+URL: https://genesis-swarm.vercel.app/research/note-01-consistent-isnt-compliant`}
           </pre>
           <p className="text-[12px] text-[rgba(255,255,255,0.6)] leading-relaxed mt-4">
-            All Foresight Lab papers are released under Creative Commons Attribution 4.0
+            Field notes are released under Creative Commons Attribution 4.0
             International. You may reproduce, distribute, and build on the work with attribution.
-            Code accompanying the papers is released under Apache 2.0.
+            The scan engine that accompanies them is open for inspection.
           </p>
         </section>
 

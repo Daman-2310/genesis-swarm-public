@@ -17,10 +17,10 @@ interface NewsItem {
 interface NewsResponse { total: number; items: NewsItem[]; sources: string[]; frameworks: string[] }
 
 const FRAMEWORK_COLORS: Record<string, string> = {
-  DORA: '#ff3366', AIFMD: '#00ff88', UCITS: '#4a9eff', SFDR: '#9b6dff',
-  MiFID: '#ffaa00', AML: '#ff8800', SANCTIONS: '#ff3366', CSSF: '#00ff88',
-  EBA: '#4a9eff', ESMA: '#9b6dff', BANKING: '#4a9eff', SECURITIES: '#9b6dff',
-  EU: '#ffaa00', LUXEMBOURG: '#00ff88',
+  DORA: '#F2566E', AIFMD: '#10D982', UCITS: '#5B8DEF', SFDR: '#5B8DEF',
+  MiFID: '#F5A524', AML: '#ff8800', SANCTIONS: '#F2566E', CSSF: '#10D982',
+  EBA: '#5B8DEF', ESMA: '#5B8DEF', BANKING: '#5B8DEF', SECURITIES: '#5B8DEF',
+  EU: '#F5A524', LUXEMBOURG: '#10D982',
 }
 
 const SOURCE_LOGOS: Record<string, string> = {
@@ -81,8 +81,8 @@ export default function IntelligencePage() {
           </a>
           <div className="w-px h-4 bg-[rgba(255,255,255,0.1)]" />
           <div className="flex items-center gap-2">
-            <Newspaper className="w-4 h-4 text-[#9b6dff]" />
-            <span className="text-sm font-bold tracking-[0.18em] text-[#9b6dff]">REGULATORY INTELLIGENCE</span>
+            <Newspaper className="w-4 h-4 text-[#5B8DEF]" />
+            <span className="text-sm font-bold tracking-[0.18em] text-[#5B8DEF]">REGULATORY INTELLIGENCE</span>
           </div>
         </div>
         <button onClick={fetchNews}
@@ -99,7 +99,7 @@ export default function IntelligencePage() {
           <h1 className="text-3xl md:text-4xl font-black mb-2 tracking-tight">
             Live regulatory feed
             <br />
-            <span style={{ background: 'linear-gradient(90deg, #9b6dff 0%, #4a9eff 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            <span style={{ background: 'linear-gradient(90deg, #5B8DEF 0%, #5B8DEF 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               CSSF · EBA · ESMA
             </span>
           </h1>
@@ -130,9 +130,9 @@ export default function IntelligencePage() {
             <button onClick={() => setSource(null)}
               className="text-[9px] px-2 py-0.5 rounded uppercase tracking-wider"
               style={{
-                background: !source ? 'rgba(155,109,255,0.15)' : 'transparent',
-                border: `1px solid ${!source ? 'rgba(155,109,255,0.4)' : 'rgba(255,255,255,0.1)'}`,
-                color: !source ? '#9b6dff' : 'rgba(255,255,255,0.5)',
+                background: !source ? 'rgba(91,141,239,0.15)' : 'transparent',
+                border: `1px solid ${!source ? 'rgba(91,141,239,0.4)' : 'rgba(255,255,255,0.1)'}`,
+                color: !source ? '#5B8DEF' : 'rgba(255,255,255,0.5)',
               }}>All</button>
             {meta.sources.map(s => (
               <button key={s} onClick={() => setSource(s)}
@@ -150,9 +150,9 @@ export default function IntelligencePage() {
             <button onClick={() => setFramework(null)}
               className="text-[9px] px-2 py-0.5 rounded uppercase tracking-wider"
               style={{
-                background: !framework ? 'rgba(155,109,255,0.15)' : 'transparent',
-                border: `1px solid ${!framework ? 'rgba(155,109,255,0.4)' : 'rgba(255,255,255,0.1)'}`,
-                color: !framework ? '#9b6dff' : 'rgba(255,255,255,0.5)',
+                background: !framework ? 'rgba(91,141,239,0.15)' : 'transparent',
+                border: `1px solid ${!framework ? 'rgba(91,141,239,0.4)' : 'rgba(255,255,255,0.1)'}`,
+                color: !framework ? '#5B8DEF' : 'rgba(255,255,255,0.5)',
               }}>All</button>
             {meta.frameworks.map(f => (
               <button key={f} onClick={() => setFramework(f)}
@@ -169,7 +169,7 @@ export default function IntelligencePage() {
         {/* News stream */}
         {loading && items.length === 0 ? (
           <div className="flex justify-center py-20">
-            <Loader2 className="w-6 h-6 text-[#9b6dff] animate-spin" />
+            <Loader2 className="w-6 h-6 text-[#5B8DEF] animate-spin" />
           </div>
         ) : items.length === 0 ? (
           <div className="rounded-xl p-12 text-center"
@@ -178,7 +178,7 @@ export default function IntelligencePage() {
             <p className="text-[13px] text-[rgba(255,255,255,0.5)] mb-2">No regulatory updates indexed yet</p>
             <p className="text-[11px] text-[rgba(255,255,255,0.35)]">
               The heartbeat cron will populate this every 6 hours. Trigger it manually with{' '}
-              <code className="text-[#9b6dff]">GET /api/cron/heartbeat</code>.
+              <code className="text-[#5B8DEF]">GET /api/cron/heartbeat</code>.
             </p>
           </div>
         ) : (

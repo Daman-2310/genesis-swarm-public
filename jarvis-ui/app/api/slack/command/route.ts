@@ -1,6 +1,8 @@
 // Slack slash command endpoint: /compliance <question>
-// Verifies Slack signing secret, parses the command, calls Groq, returns a
-// Slack-formatted response with regulatory citations.
+// Verifies the Slack signing secret, then returns a deterministic, honest
+// response. Genesis Swarm makes NO LLM calls — this bot does not send the
+// question to any third-party model. It points the user at the deterministic
+// scanner and the relevant regulation references.
 import { NextRequest } from 'next/server'
 import crypto from 'crypto'
 
@@ -8,9 +10,7 @@ export const runtime = 'nodejs'
 export const maxDuration = 30
 
 const SLACK_SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET
-const GROQ = process.env.GROQ_API_KEY
-
-const SYSTEM = `You are JARVIS, the Genesis Swarm compliance AI deployed via Slack. Answer concisely (3 short paragraphs maximum) for a Luxembourg fund manager. Cite specific regulation articles (DORA Art. X, AIFMD II Art. Y, SFDR Art. Z, CSSF Circular NN/NNN, ECJ rulings). End with a single concrete action item. Format for Slack: use *bold*, no markdown bullets, plain line breaks.`
+const BASE = 'https://genesis-swarm.vercel.app'
 
 function verifySlackSignature(body: string, sig: string | null, ts: string | null): boolean {
   if (!SLACK_SIGNING_SECRET || !sig || !ts) return false
@@ -25,27 +25,24 @@ function verifySlackSignature(body: string, sig: string | null, ts: string | nul
   return diff === 0
 }
 
-async function askGroq(question: string): Promise<string> {
-  if (!GROQ) return 'Genesis Swarm AI is currently offline. Please contact daman.sharma.2310@gmail.com'
-  try {
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${GROQ}` },
-      body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
-        messages: [{ role: 'system', content: SYSTEM }, { role: 'user', content: question }],
-        max_tokens: 500,
-        temperature: 0.3,
-      }),
-      signal: AbortSignal.timeout(20_000),
-    })
-    if (!res.ok) return `AI engine returned ${res.status}. Please try again in a moment.`
-    type GroqOut = { choices?: Array<{ message?: { content?: string } }> }
-    const groq = (await res.json()) as GroqOut
-    return groq.choices?.[0]?.message?.content?.trim() ?? 'No response generated.'
-  } catch (e) {
-    return `Genesis Swarm error: ${String(e).slice(0, 200)}`
-  }
+// Deterministic routing — no model, no generated prose. Points at the right
+// regulation reference page based on simple keyword matching.
+function route(question: string): string {
+  const q = question.toLowerCase()
+  const refs: string[] = []
+  if (/\bdora\b|operational resilience|ict/.test(q)) refs.push(`• DORA → ${BASE}/dora`)
+  if (/aifmd|leverage|aifm/.test(q)) refs.push(`• AIFMD II → ${BASE}/aifmd`)
+  if (/sfdr|article 8|article 9|esg|sustainab/.test(q)) refs.push(`• SFDR → ${BASE}/sfdr`)
+  if (/sanction|ofac|screen|sdn/.test(q)) refs.push(`• Sanctions screening → ${BASE}/screening`)
+  if (refs.length === 0) refs.push(`• Regulation references → ${BASE}/aifmd, ${BASE}/dora, ${BASE}/sfdr`)
+  return [
+    `Genesis Swarm is *deterministic* — it does not use an AI/LLM, so it won't generate a free-text answer here.`,
+    ``,
+    `To check a prospectus against AIFMD II / UCITS reproducibly, paste it into the client-side scanner (nothing is uploaded): ${BASE}/scan`,
+    ``,
+    `Relevant references for *"${question.slice(0, 160)}"*:`,
+    ...refs,
+  ].join('\n')
 }
 
 export async function POST(req: NextRequest) {
@@ -68,13 +65,11 @@ export async function POST(req: NextRequest) {
   if (!text || text === 'help') {
     return Response.json({
       response_type: 'ephemeral',
-      text: `*Genesis Swarm Compliance Bot*\n\nUsage: \`${command} <your compliance question>\`\n\nExamples:\n• \`${command} Does DORA Art. 28 apply to a sub-threshold AIFM?\`\n• \`${command} What are SFDR Art. 8 disclosure obligations?\`\n• \`${command} Screen ROSNEFT against OFAC\`\n\nFull dashboard: https://genesis-swarm-rgq5.vercel.app`,
+      text: `*Genesis Swarm Compliance Bot*\n\nGenesis Swarm is deterministic — no AI/LLM. This bot points you at the right tool and references.\n\nUsage: \`${command} <topic>\`\n\nExamples:\n• \`${command} DORA Art. 28 sub-threshold AIFM\`\n• \`${command} SFDR Art. 8 disclosure\`\n• \`${command} screen ROSNEFT\`\n\nRun a prospectus check (nothing uploaded): ${BASE}/scan`,
     })
   }
 
-  // Send a 200 immediately and respond async via response_url? For now, sync (Slack times out at 3s)
-  // Groq usually responds in 1-2s for short prompts
-  const answer = await askGroq(text)
+  const answer = route(text)
 
   return Response.json({
     response_type: 'in_channel',
@@ -94,13 +89,13 @@ export async function POST(req: NextRequest) {
       {
         type: 'actions',
         elements: [
-          { type: 'button', text: { type: 'plain_text', text: 'Open Dashboard' }, url: 'https://genesis-swarm-rgq5.vercel.app/dashboard', style: 'primary' },
-          { type: 'button', text: { type: 'plain_text', text: 'Get full audit pack' }, url: 'https://genesis-swarm-rgq5.vercel.app/audit' },
+          { type: 'button', text: { type: 'plain_text', text: 'Run a scan' }, url: `${BASE}/scan`, style: 'primary' },
+          { type: 'button', text: { type: 'plain_text', text: 'Open Dashboard' }, url: `${BASE}/dashboard` },
         ],
       },
       {
         type: 'context',
-        elements: [{ type: 'mrkdwn', text: '_Powered by Genesis Swarm RegTech AI · Groq llama-3.3-70b · cite-your-sources mode · This is AI guidance, not legal advice._' }],
+        elements: [{ type: 'mrkdwn', text: '_Genesis Swarm · deterministic compliance tooling · no LLM, nothing uploaded · information only, not legal advice._' }],
       },
     ],
   })

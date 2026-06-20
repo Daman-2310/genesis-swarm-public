@@ -20,7 +20,7 @@ const FRAMEWORKS = [
 export default function LuxPage() {
   return (
     <div className="min-h-screen text-white relative">
-      <CosmicBackground variant="calm" accent="#9b6dff" />
+      <CosmicBackground variant="calm" accent="#5B8DEF" />
 
       <header className="sticky top-0 z-30 border-b border-[rgba(255,255,255,0.06)] px-6 py-3"
         style={{ background: 'rgba(5,5,12,0.78)', backdropFilter: 'blur(20px) saturate(140%)' }}>
@@ -29,8 +29,8 @@ export default function LuxPage() {
             <ArrowLeft className="w-3 h-3" /> Home
           </Link>
           <div className="w-px h-4 bg-[rgba(255,255,255,0.1)]" />
-          <Landmark className="w-4 h-4 text-[#9b6dff]" />
-          <span className="text-sm font-bold tracking-[0.18em] text-[#9b6dff]">LUXEMBOURG REGTECH</span>
+          <Landmark className="w-4 h-4 text-[#5B8DEF]" />
+          <span className="text-sm font-bold tracking-[0.18em] text-[#5B8DEF]">LUXEMBOURG REGTECH</span>
           <span className="ml-auto text-[9px] uppercase tracking-wider text-[rgba(255,255,255,0.35)]">5 engines · runs in your browser</span>
         </div>
       </header>
@@ -38,13 +38,13 @@ export default function LuxPage() {
       <div className="relative max-w-6xl mx-auto px-6 py-14">
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5"
-            style={{ background: 'rgba(155,109,255,0.08)', border: '1px solid rgba(155,109,255,0.3)' }}>
-            <ShieldCheck className="w-3 h-3 text-[#9b6dff]" />
-            <span className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#9b6dff]">See it work — no signup, no backend wait</span>
+            style={{ background: 'rgba(91,141,239,0.08)', border: '1px solid rgba(91,141,239,0.3)' }}>
+            <ShieldCheck className="w-3 h-3 text-[#5B8DEF]" />
+            <span className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#5B8DEF]">See it work — no signup, no backend wait</span>
           </div>
           <h1 className="font-black tracking-tight mb-5" style={{ fontSize: 'clamp(2.2rem, 6vw, 4.5rem)', lineHeight: 0.95 }}>
             <span className="text-white">Five compliance engines,</span><br />
-            <span style={{ background: 'linear-gradient(90deg, #9b6dff 0%, #00d8ff 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', filter: 'drop-shadow(0 0 24px rgba(155,109,255,0.3))' }}>
+            <span style={{ background: 'linear-gradient(90deg, #5B8DEF 0%, #5B8DEF 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', filter: 'drop-shadow(0 0 24px rgba(91,141,239,0.3))' }}>
               running live, right now.
             </span>
           </h1>
@@ -56,7 +56,7 @@ export default function LuxPage() {
           <div className="flex flex-wrap justify-center gap-2 mt-6">
             {FRAMEWORKS.map(f => (
               <span key={f} className="text-[9px] uppercase tracking-wider px-2.5 py-1 rounded-full"
-                style={{ background: 'rgba(155,109,255,0.06)', border: '1px solid rgba(155,109,255,0.25)', color: 'rgba(255,255,255,0.6)' }}>
+                style={{ background: 'rgba(91,141,239,0.06)', border: '1px solid rgba(91,141,239,0.25)', color: 'rgba(255,255,255,0.6)' }}>
                 {f}
               </span>
             ))}
@@ -68,8 +68,8 @@ export default function LuxPage() {
         <ComplianceDisclaimer className="mt-6" />
 
         <section className="rounded-2xl p-6 mt-10"
-          style={{ background: 'rgba(155,109,255,0.04)', border: '1px solid rgba(155,109,255,0.25)', backdropFilter: 'blur(10px)' }}>
-          <div className="text-[11px] uppercase tracking-[0.2em] text-[#9b6dff] font-black mb-3">For investors</div>
+          style={{ background: 'rgba(91,141,239,0.04)', border: '1px solid rgba(91,141,239,0.25)', backdropFilter: 'blur(10px)' }}>
+          <div className="text-[11px] uppercase tracking-[0.2em] text-[#5B8DEF] font-black mb-3">For investors</div>
           <p className="text-[13px] text-[rgba(255,255,255,0.75)] leading-relaxed mb-3">
             Most RegTech demos are screenshots. This is the actual rules engine — geofencing by
             point-in-polygon, reconciliation at 0.5% tolerance, AIFMD II leverage/retention/concentration

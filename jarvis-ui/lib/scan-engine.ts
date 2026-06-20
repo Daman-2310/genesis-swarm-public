@@ -91,18 +91,19 @@ export interface ScanResult {
 
 // ── Extraction ────────────────────────────────────────────────────────────────
 
-function firstMatch(text: string, re: RegExp, scale = 1): { value: number; line: string } | null {
+function firstMatch(text: string, re: RegExp, scale = 1): { value: number; line: string; lineNo: number } | null {
   const m = re.exec(text)
   if (!m) return null
   const raw = parseFloat(m[1].replace(/,/g, '')) * scale
   if (Number.isNaN(raw)) return null
   const value = Math.round(raw * 100) / 100
-  // Recover the source line for provenance.
+  // Recover the source line (text + 1-based line number) for audit-grade provenance.
   const idx = m.index
   const start = text.lastIndexOf('\n', idx) + 1
   const end = text.indexOf('\n', idx)
   const line = text.slice(start, end === -1 ? undefined : end).trim()
-  return { value, line }
+  const lineNo = text.slice(0, idx).split('\n').length
+  return { value, line, lineNo }
 }
 
 // Bound the work the extraction regexes do — a prospectus is well under this;
@@ -131,7 +132,11 @@ export function extractDocument(raw: string): ExtractedDoc {
   // loan-originating AIFs. Applying them to a general AIF / PE / hedge fund is a
   // false positive — those funds legitimately run higher leverage and concentrated
   // positions. Every loan-origination check is gated on this flag.
-  const loanOriginating = /loan[-\s]?originat|originat\w*\s+(?:the\s+)?loans?|origination\s+of\s+loans?|direct\s+lending|private\s+credit|credit\s+fund|grant(?:s|ing)?\s+loans?/i.test(text)
+  // Term of art is decisive; incidental strategy descriptors need 2+ hits, so one
+  // "private credit" line in a multi-compartment prospectus can't misclassify it.
+  const strongLoanOrig = /loan[-\s]?originat|origination\s+of\s+loans?|originat\w*\s+(?:the\s+)?loans?/i.test(text)
+  const weakLoanOrigHits = (text.match(/direct\s+lending|private\s+credit|credit\s+fund|grant(?:s|ing)?\s+loans?/gi) || []).length
+  const loanOriginating = strongLoanOrig || weakLoanOrigHits >= 2
 
   // Declared leverage cap. Real prospectuses phrase this many ways: "leverage up to
   // 200%", "maximum leverage of 175%", "leverage ... shall not exceed 300%",
@@ -146,7 +151,7 @@ export function extractDocument(raw: string): ExtractedDoc {
     ?? firstMatch(text, /gross\s+exposure[^.\n]{0,60}?(\d{2,4}(?:\.\d+)?)\s?(?:%|per\s?cent\.?|percent)/i)
     ?? firstMatch(text, /(?:maximum\s+)?leverage[^.\n]{0,60}?(?:of|up\s+to|:|=)?\s*(\d{1,2}(?:\.\d+)?)\s?(?:x|times)\b/i, 100)
   const lev = levHit && !LOSS_CONTEXT.test(levHit.line) ? levHit : null
-  if (lev) provenance.push(`leverage cap ← "${lev.line}"`)
+  if (lev) provenance.push(`leverage cap ← line ${lev.lineNo}: "${lev.line}"`)
 
   // Declared single-issuer / single-investment / single-borrower concentration cap.
   // Handles "no more than 20% ... single issuer", "limitation of 30% ... in any single
@@ -155,14 +160,15 @@ export function extractDocument(raw: string): ExtractedDoc {
   const conc = firstMatch(text, /(?:no more than|maximum|max\.?|up\s+to|limited\s+to|limitation\s+of|not\s+(?:to\s+)?exceed(?:ing)?|(?:shall\s+)?not\s+invest\s+more\s+than)\s*(\d{1,2}(?:\.\d+)?)\s?(?:%|per\s?cent\.?|percent)[^.\n]{0,55}?(?:single|any\s+one|any\s+single|per|each)\s*(?:issuer|counterparty|borrower|investment|company|entity|name)/i)
     ?? firstMatch(text, /(?:single|any\s+one|any\s+single)\s+(?:issuer|investment|borrower|counterparty|company)[^.\n]{0,55}?(\d{1,2}(?:\.\d+)?)\s?(?:%|per\s?cent\.?|percent)/i)
     ?? firstMatch(text, /(?:issuer|counterparty|borrower)\s+concentration[^.\n]{0,40}?(\d{1,2}(?:\.\d+)?)\s?(?:%|per\s?cent\.?|percent)/i)
-  if (conc) provenance.push(`concentration cap ← "${conc.line}"`)
+  if (conc) provenance.push(`concentration cap ← line ${conc.lineNo}: "${conc.line}"`)
 
-  // Declared risk-retention. Handles "retain X%", "X% retention", and the formal
-  // securitisation/AIFMD phrasing "(material) net economic interest of (at least) X%".
-  const ret = firstMatch(text, /retain[^.\n]{0,45}?(\d{1,2}(?:\.\d+)?)\s?(?:%|per\s?cent\.?|percent)/i)
+  // Declared risk-retention: "retain X% of the notional/loan", "X% retention", or
+  // "(net) economic interest of X%". The retain-form requires retention context so a
+  // "retain 25% of the management fee" line isn't mistaken for it.
+  const ret = firstMatch(text, /retain[^.\n]{0,45}?(\d{1,2}(?:\.\d+)?)\s?(?:%|per\s?cent\.?|percent)[^.\n]{0,40}?(?:notional|economic\s+interest|originat|securitis|loans?\b)/i)
     ?? firstMatch(text, /(?:net\s+)?economic\s+interest[^.\n]{0,45}?(?:of\s+)?(?:at\s+least\s+)?(\d{1,2}(?:\.\d+)?)\s?(?:%|per\s?cent\.?|percent)/i)
     ?? firstMatch(text, /(\d{1,2}(?:\.\d+)?)\s?(?:%|per\s?cent\.?|percent)[^.\n]{0,30}?retention/i)
-  if (ret) provenance.push(`retention ← "${ret.line}"`)
+  if (ret) provenance.push(`retention ← line ${ret.lineNo}: "${ret.line}"`)
 
   // Holdings: lines like "Acme Corp — 22%", "Position: Beta SA  30% of NAV".
   const holdings: Holding[] = []
@@ -191,6 +197,47 @@ export function extractDocument(raw: string): ExtractedDoc {
 }
 
 // ── Compliance scan ─────────────────────────────────────────────────────────────
+
+// ── Manual entry ────────────────────────────────────────────────────────────────
+// When a real prospectus PDF flattens its tables and the parser can't extract enough
+// (the honesty gate flags INSUFFICIENT_DATA), the user keys the few figures the engine
+// needs into a small form. This builds the SAME ExtractedDoc the parser would, so it
+// flows through the identical scanCompliance + seal. Provenance is tagged "entered by
+// user" so the audit trail never pretends a value was parsed from the document.
+export interface ManualEntry {
+  fundName?: string
+  structure: ExtractedDoc['structure']
+  isUCITS: boolean
+  loanOriginating: boolean
+  declaredLeverageCapPct?: number | null
+  declaredConcentrationCapPct?: number | null
+  declaredRetentionPct?: number | null
+  holdings: Holding[]
+}
+
+export function fromManualEntry(m: ManualEntry): ExtractedDoc {
+  const num = (x?: number | null) => (x == null || Number.isNaN(x) ? null : x)
+  const lev = num(m.declaredLeverageCapPct)
+  const conc = num(m.declaredConcentrationCapPct)
+  const ret = num(m.declaredRetentionPct)
+  const holdings = m.holdings.filter(h => h.name.trim() && Number.isFinite(h.weightPct) && h.weightPct > 0)
+  const provenance: string[] = []
+  if (lev != null) provenance.push(`leverage cap ← entered by user: ${lev}%`)
+  if (conc != null) provenance.push(`concentration cap ← entered by user: ${conc}%`)
+  if (ret != null) provenance.push(`retention ← entered by user: ${ret}%`)
+  if (holdings.length) provenance.push(`${holdings.length} holding(s) ← entered by user`)
+  return {
+    fundName: m.fundName?.trim() || null,
+    structure: m.structure,
+    isUCITS: m.isUCITS,
+    loanOriginating: m.loanOriginating,
+    declaredLeverageCapPct: lev,
+    declaredConcentrationCapPct: conc,
+    declaredRetentionPct: ret,
+    holdings,
+    provenance,
+  }
+}
 
 export function scanCompliance(doc: ExtractedDoc): Omit<ScanResult, 'doc'> {
   const findings: Finding[] = []
@@ -319,20 +366,27 @@ export function scanCompliance(doc: ExtractedDoc): Omit<ScanResult, 'doc'> {
     }
   }
 
-  // 6. Honesty guard: if we could not locate ANY limit or holding, do not let the
-  //    verdict read as a clean bill of health — surface that manual review is needed.
-  const assessedSomething =
-    doc.declaredLeverageCapPct != null || doc.declaredRetentionPct != null ||
-    doc.declaredConcentrationCapPct != null || doc.holdings.length > 0
-  if (!assessedSomething) {
+  // 6. Honesty guard. A "compliant" verdict must rest on a real basis. Count what was
+  //    actually extracted; if it's too thin to judge — the common case for a real,
+  //    table-heavy or reflowed prospectus PDF, where the figures live in tables that
+  //    text extraction flattens or drops — we must NOT return a clean bill of health.
+  //    A false CLEAN is the worst failure a compliance tool can have. (Confirmed on
+  //    real Luxembourg SICAV prospectuses: extraction yielded one stray value and the
+  //    old guard let the verdict read "compliant" — this gate closes that.)
+  const limitsFound =
+    (doc.declaredLeverageCapPct != null ? 1 : 0) +
+    (doc.declaredRetentionPct != null ? 1 : 0) +
+    (doc.declaredConcentrationCapPct != null ? 1 : 0)
+  const tooThinToJudge = doc.holdings.length === 0 && limitsFound < 2
+  if (tooThinToJudge) {
     findings.push({
       code: 'INSUFFICIENT_DATA',
       severity: 'warning',
       basis: 'own-prospectus',
-      title: 'No declared limits or holdings could be located',
-      detail: 'The scanner could not extract a leverage cap, retention rate, concentration limit, or holding weights from the pasted text — real prospectuses often defer these to sub-fund particulars or annexes. This is NOT a clean bill of health: paste the relevant section, or treat the document as requiring manual review.',
-      observed: 0,
-      limit: 0,
+      title: 'Too little extracted to confirm compliance',
+      detail: 'The scanner located no holding weights and fewer than two declared limits — not enough to assert compliance. Real prospectuses keep these figures in tables and sub-fund supplements that text extraction often flattens or drops, so this is NOT a clean bill of health. Paste the relevant section (investment limits / holdings), or treat the document as requiring manual review.',
+      observed: limitsFound,
+      limit: 2,
     })
   }
 
@@ -340,7 +394,7 @@ export function scanCompliance(doc: ExtractedDoc): Omit<ScanResult, 'doc'> {
   const warningCount = findings.filter(f => f.severity === 'warning').length
   return {
     findings,
-    compliant: criticalCount === 0,
+    compliant: criticalCount === 0 && !tooThinToJudge,
     criticalCount,
     warningCount,
     checkedAt: new Date().toISOString(),

@@ -19,9 +19,9 @@ export default function RouteError({
       style={{ background: 'radial-gradient(ellipse at top, #0a0a1a 0%, #050508 50%, #000 100%)', color: 'white' }}>
       <div className="max-w-xl w-full text-center">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6"
-          style={{ background: 'rgba(255,170,0,0.08)', border: '1px solid rgba(255,170,0,0.3)' }}>
-          <AlertTriangle className="w-3.5 h-3.5 text-[#ffaa00]" />
-          <span className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#ffaa00]">Page error</span>
+          style={{ background: 'rgba(245,165,36,0.08)', border: '1px solid rgba(245,165,36,0.3)' }}>
+          <AlertTriangle className="w-3.5 h-3.5 text-[#F5A524]" />
+          <span className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#F5A524]">Page error</span>
         </div>
         <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-4 leading-tight">
           This page couldn&apos;t load.
@@ -39,8 +39,8 @@ export default function RouteError({
         )}
 
         {isDev && error?.message && (
-          <pre className="text-[11px] font-mono text-[#ff7a00] text-left max-h-60 overflow-auto p-3 rounded-lg mb-6 whitespace-pre-wrap break-words"
-            style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,170,0,0.2)' }}>
+          <pre className="text-[11px] font-mono text-[#F5A524] text-left max-h-60 overflow-auto p-3 rounded-lg mb-6 whitespace-pre-wrap break-words"
+            style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(245,165,36,0.2)' }}>
             {error.message}{'\n\n'}{error.stack ?? ''}
           </pre>
         )}
@@ -48,7 +48,7 @@ export default function RouteError({
         <div className="flex flex-wrap justify-center gap-3">
           <button onClick={reset}
             className="flex items-center gap-2 px-5 py-3 rounded-lg text-[12px] uppercase tracking-wider font-bold transition-all"
-            style={{ background: 'rgba(155,109,255,0.15)', border: '1px solid rgba(155,109,255,0.5)', color: '#9b6dff' }}>
+            style={{ background: 'rgba(91,141,239,0.15)', border: '1px solid rgba(91,141,239,0.5)', color: '#5B8DEF' }}>
             <RefreshCw className="w-3.5 h-3.5" />
             Try again
           </button>
@@ -62,7 +62,7 @@ export default function RouteError({
 
         <p className="text-[11px] text-[rgba(255,255,255,0.4)] mt-7">
           Persistent issue? Email{' '}
-          <a href="mailto:daman.sharma.2310@gmail.com" className="text-[#9b6dff] hover:underline">
+          <a href="mailto:daman.sharma.2310@gmail.com" className="text-[#5B8DEF] hover:underline">
             daman.sharma.2310@gmail.com
           </a>
         </p>

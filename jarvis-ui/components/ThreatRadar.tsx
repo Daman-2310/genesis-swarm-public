@@ -61,24 +61,24 @@ export default function ThreatRadar() {
     <div className="rounded-lg overflow-hidden flex flex-col h-full"
       style={{
         background: 'rgba(5,5,12,0.9)',
-        border: '1px solid rgba(0,255,136,0.15)',
-        boxShadow: 'inset 0 0 60px rgba(0,255,136,0.04), 0 0 40px rgba(0,255,136,0.06)',
+        border: '1px solid rgba(16,217,130,0.15)',
+        boxShadow: 'inset 0 0 60px rgba(16,217,130,0.04), 0 0 40px rgba(16,217,130,0.06)',
         backdropFilter: 'blur(12px)',
       }}>
 
       {/* Header */}
       <div className="px-4 py-3 flex items-center justify-between shrink-0"
-        style={{ borderBottom: '1px solid rgba(0,255,136,0.1)', background: 'rgba(0,255,136,0.025)' }}>
+        style={{ borderBottom: '1px solid rgba(16,217,130,0.1)', background: 'rgba(16,217,130,0.025)' }}>
         <div className="flex items-center gap-2.5">
-          <div className="w-1 h-5 rounded-full" style={{ background: '#00ff88', boxShadow: '0 0 8px #00ff88' }} />
+          <div className="w-1 h-5 rounded-full" style={{ background: '#10D982', boxShadow: '0 0 8px #10D982' }} />
           <div>
-            <div className="text-[10px] font-black tracking-[0.15em] uppercase" style={{ color: '#00ff88' }}>Threat Radar</div>
-            <div className="text-[8px] tracking-wider mt-0.5 uppercase" style={{ color: 'rgba(74,158,255,0.6)' }}>Bot positional intelligence</div>
+            <div className="text-[10px] font-black tracking-[0.15em] uppercase" style={{ color: '#10D982' }}>Threat Radar</div>
+            <div className="text-[8px] tracking-wider mt-0.5 uppercase" style={{ color: 'rgba(91,141,239,0.6)' }}>Bot positional intelligence</div>
           </div>
         </div>
         <div className="flex items-center gap-1.5">
-          <Radio className="w-3 h-3 text-[#00ff88]" style={{ animation: 'pulse 1.2s ease-in-out infinite' }} />
-          <span className="text-[8px] font-black uppercase tracking-wider text-[#00ff88]">SWEEPING</span>
+          <Radio className="w-3 h-3 text-[#10D982]" style={{ animation: 'pulse 1.2s ease-in-out infinite' }} />
+          <span className="text-[8px] font-black uppercase tracking-wider text-[#10D982]">SWEEPING</span>
         </div>
       </div>
 
@@ -87,12 +87,12 @@ export default function ThreatRadar() {
         <svg viewBox="0 0 280 280" className="w-full h-full max-w-[280px]">
           <defs>
             <radialGradient id="radarBg" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="rgba(0,255,136,0.08)" />
-              <stop offset="100%" stopColor="rgba(0,255,136,0)" />
+              <stop offset="0%" stopColor="rgba(16,217,130,0.08)" />
+              <stop offset="100%" stopColor="rgba(16,217,130,0)" />
             </radialGradient>
             <linearGradient id="sweepGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="rgba(0,255,136,0)" />
-              <stop offset="100%" stopColor="rgba(0,255,136,0.6)" />
+              <stop offset="0%" stopColor="rgba(16,217,130,0)" />
+              <stop offset="100%" stopColor="rgba(16,217,130,0.6)" />
             </linearGradient>
             <filter id="blipGlow">
               <feGaussianBlur stdDeviation="2.5" result="blur" />
@@ -111,7 +111,7 @@ export default function ThreatRadar() {
             <circle key={r}
               cx={CENTER} cy={CENTER} r={MAX_RADIUS * r}
               fill="none"
-              stroke="rgba(0,255,136,0.12)"
+              stroke="rgba(16,217,130,0.12)"
               strokeWidth="1"
               strokeDasharray={r === 1 ? '0' : '2 3'}
             />
@@ -119,9 +119,9 @@ export default function ThreatRadar() {
 
           {/* Cross-hairs */}
           <line x1={CENTER - MAX_RADIUS} y1={CENTER} x2={CENTER + MAX_RADIUS} y2={CENTER}
-            stroke="rgba(0,255,136,0.08)" strokeWidth="1" />
+            stroke="rgba(16,217,130,0.08)" strokeWidth="1" />
           <line x1={CENTER} y1={CENTER - MAX_RADIUS} x2={CENTER} y2={CENTER + MAX_RADIUS}
-            stroke="rgba(0,255,136,0.08)" strokeWidth="1" />
+            stroke="rgba(16,217,130,0.08)" strokeWidth="1" />
 
           {/* Sweep cone */}
           <g transform={`rotate(${sweepAngle} ${CENTER} ${CENTER})`}>
@@ -131,7 +131,7 @@ export default function ThreatRadar() {
               opacity="0.5"
             />
             <line x1={CENTER} y1={CENTER} x2={CENTER + MAX_RADIUS} y2={CENTER}
-              stroke="#00ff88" strokeWidth="2" opacity="0.9" filter="url(#blipGlow)" />
+              stroke="#10D982" strokeWidth="2" opacity="0.9" filter="url(#blipGlow)" />
           </g>
 
           {/* Blips */}
@@ -139,7 +139,7 @@ export default function ThreatRadar() {
             const rad = (b.angle * Math.PI) / 180
             const x = CENTER + Math.cos(rad) * MAX_RADIUS * b.radius
             const y = CENTER + Math.sin(rad) * MAX_RADIUS * b.radius
-            const color = b.threat >= 60 ? '#ff3366' : b.threat >= 30 ? '#ffaa00' : '#00ff88'
+            const color = b.threat >= 60 ? '#F2566E' : b.threat >= 30 ? '#F5A524' : '#10D982'
             const isHot = b.threat >= 60
             return (
               <g key={b.bot}>
@@ -166,20 +166,20 @@ export default function ThreatRadar() {
           })}
 
           {/* Center crosshair */}
-          <circle cx={CENTER} cy={CENTER} r="3" fill="#00ff88" />
-          <circle cx={CENTER} cy={CENTER} r="6" fill="none" stroke="#00ff88" strokeWidth="1" opacity="0.4" />
+          <circle cx={CENTER} cy={CENTER} r="3" fill="#10D982" />
+          <circle cx={CENTER} cy={CENTER} r="6" fill="none" stroke="#10D982" strokeWidth="1" opacity="0.4" />
         </svg>
       </div>
 
       {/* Legend */}
       <div className="px-4 py-2 flex items-center justify-between shrink-0"
-        style={{ borderTop: '1px solid rgba(0,255,136,0.08)', background: 'rgba(0,0,0,0.3)' }}>
+        style={{ borderTop: '1px solid rgba(16,217,130,0.08)', background: 'rgba(0,0,0,0.3)' }}>
         <div className="flex items-center gap-3 text-[8px] uppercase tracking-wider">
-          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#00ff88]" /> <span className="text-[rgba(255,255,255,0.5)]">NOMINAL</span></span>
-          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#ffaa00]" /> <span className="text-[rgba(255,255,255,0.5)]">ELEVATED</span></span>
-          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#ff3366]" /> <span className="text-[rgba(255,255,255,0.5)]">CRITICAL</span></span>
+          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#10D982]" /> <span className="text-[rgba(255,255,255,0.5)]">NOMINAL</span></span>
+          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#F5A524]" /> <span className="text-[rgba(255,255,255,0.5)]">ELEVATED</span></span>
+          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#F2566E]" /> <span className="text-[rgba(255,255,255,0.5)]">CRITICAL</span></span>
         </div>
-        <div className="flex items-center gap-1 text-[8px] uppercase tracking-wider text-[rgba(0,255,136,0.5)]">
+        <div className="flex items-center gap-1 text-[8px] uppercase tracking-wider text-[rgba(16,217,130,0.5)]">
           <Crosshair className="w-2.5 h-2.5" /> <span>11 contacts</span>
         </div>
       </div>

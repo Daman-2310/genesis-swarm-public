@@ -6,15 +6,19 @@ import type { LucideIcon } from 'lucide-react'
 
 // 3D consensus swarm — lazy + client-only so Three.js stays out of the initial
 // bundle and only loads once the hero mounts.
-const SwarmConsensus3D = dynamic(() => import('@/components/SwarmConsensus3D'), { ssr: false })
+const CinematicHero3D = dynamic(() => import('@/components/CinematicHero3D'), { ssr: false })
 const CosmicBackground = dynamic(() => import('@/components/CosmicBackground'), { ssr: false })
 // Live Compliance Wall — runs the real scan engine in-browser as a proof section.
 const ComplianceWall = dynamic(() => import('@/components/ComplianceWall'), { ssr: false })
+import TiltCard from '@/components/TiltCard'
+import CinematicFx from '@/components/CinematicFx'
+import LiveScanHero from '@/components/LiveScanHero'
 import {
   ArrowRight, Shield, Zap, Activity, AlertOctagon, CheckCircle2,
   Cpu, Lock, GitBranch, FileText, TrendingUp, Sparkles, ChevronRight, Menu, X,
   Eye, Bitcoin, Network, Scale, Brain, Award, Crosshair, BarChart3, Bot, Globe2,
   Target, Rewind, Tv2, Feather, Users, Mail, FlaskConical, ScrollText, Landmark, Boxes, ScanLine, Vault,
+  SlidersHorizontal,
 } from 'lucide-react'
 
 // Secondary feature navigation. Kept as data so the row stays DRY and ordered
@@ -29,45 +33,18 @@ interface FeatureChip {
 }
 
 const FEATURE_CHIPS: FeatureChip[] = [
-  { href: '/predictions',  label: '10 Live Predictions',            Icon: Eye,         color: '#ff3366' },
-  { href: '/anchor',       label: 'Bitcoin-Anchored Proof',         Icon: Bitcoin,     color: '#f7931a' },
-  { href: '/network',      label: 'Counterparty Network',           Icon: Network,     color: '#9b6dff' },
-  { href: '/oracle',       label: 'On-Chain Oracle',                Icon: Zap,         color: '#00d8ff' },
-  { href: '/whistleblower',label: 'Sealed Whistleblower',           Icon: Lock,        color: '#ff3388' },
-  { href: '/witness',      label: 'Board Witness',                  Icon: Scale,       color: '#ffd86b' },
-  { href: '/mirror',       label: 'Prospectus Mirror',              Icon: Eye,         color: '#00d8ff' },
-  { href: '/obituary',     label: 'Forensic Obituaries',            Icon: AlertOctagon,color: '#ff3366' },
-  { href: '/twin',         label: 'Monte Carlo Twin',               Icon: BarChart3,   color: '#ff7a00' },
-  { href: '/sentinel',     label: 'Sentinel Agents',                Icon: Bot,         color: '#9b6dff' },
-  { href: '/codex',        label: 'Compliance LLM (Codex)',         Icon: Brain,       color: '#00d8ff' },
-  { href: '/claim',        label: 'Claim Your Listing',             Icon: Award,       color: '#00ff88' },
-  { href: '/watchlist',    label: 'The Watch List 2026-27',         Icon: Crosshair,   color: '#ff3366', emphasis: true },
-  { href: '/deck',         label: 'Pitch Deck',                     Icon: BarChart3,   color: '#9b6dff' },
-  { href: '/independence', label: 'Independence Pledge',            Icon: Scale,       color: '#00ff88' },
-  { href: '/research',     label: 'Foresight Lab',                  Icon: FlaskConical,color: '#4a9eff' },
-  { href: '/architecture', label: 'The Genesis Engine · 7 Pillars', Icon: Cpu,         color: '#9b6dff', emphasis: true },
-  { href: '/lux',          label: 'Luxembourg RegTech · 5 Engines', Icon: Landmark,    color: '#9b6dff', emphasis: true },
-  { href: '/clearing',     label: 'Clearing Matrix · live crypto',  Icon: Boxes,       color: '#00d8ff', emphasis: true },
-  { href: '/scan',         label: 'Live Compliance Scan',           Icon: ScanLine,    color: '#ff5630', emphasis: true },
-  { href: '/shadow',       label: 'Shadow Mode · zero-risk pilot',  Icon: GitBranch,   color: '#7c83ff', emphasis: true },
-  { href: '/deterministic',label: 'Deterministic by Design',        Icon: Cpu,         color: '#00ff88' },
-  { href: '/verify',       label: 'Verify a Verdict',               Icon: CheckCircle2,color: '#00ff88' },
-  { href: '/vault',        label: 'Evidence Vault · audit proof',   Icon: Vault,       color: '#00ff88', emphasis: true },
-  { href: '/globe',        label: '3D Genesis Globe',               Icon: Globe2,      color: '#9b6dff' },
-  { href: '/lookup',       label: 'Search Your Exposure',           Icon: Target,      color: '#4a9eff' },
-  { href: '/mcp',          label: 'MCP for ChatGPT / Claude',       Icon: Bot,         color: '#9b6dff' },
-  { href: '/timemachine',  label: 'Time Machine',                   Icon: Rewind,      color: '#ff3366' },
-  { href: '/warroom',      label: 'War Room (live 24/7)',           Icon: Tv2,         color: '#ff7700' },
-  { href: '/doctrine',     label: 'The Doctrine',                   Icon: Feather,     color: '#4a9eff' },
-  { href: '/coalition',    label: 'Sign the Coalition',             Icon: Users,       color: '#00ff88' },
-  { href: '/bounty',       label: '€10K Bounty',                    Icon: Target,      color: '#ffaa00' },
-  { href: '/daily',        label: 'Daily Brief',                    Icon: Mail,        color: '#00ff88' },
+  { href: '/scan',         label: 'Live Compliance Scan',           Icon: ScanLine,    color: '#10D982', emphasis: true },
+  { href: '/playground',   label: 'Rule Playground · live',         Icon: SlidersHorizontal, color: '#10D982', emphasis: true },
+  { href: '/lux',          label: 'UCITS + AIFMD II Engines',       Icon: Landmark,    color: '#5B8DEF', emphasis: true },
+  { href: '/shadow',       label: 'Shadow Mode · zero-risk pilot',  Icon: GitBranch,   color: '#5B8DEF', emphasis: true },
+  { href: '/vault',        label: 'Evidence Vault · audit proof',   Icon: Vault,       color: '#10D982', emphasis: true },
+  { href: '/deterministic',label: 'Deterministic by Design',        Icon: Cpu,         color: '#10D982' },
+  { href: '/verify',       label: 'Verify a Verdict',               Icon: CheckCircle2,color: '#10D982' },
+  { href: '/screening',    label: 'Sanctions Screening',            Icon: Crosshair,   color: '#5B8DEF' },
+  { href: '/docs',         label: 'API Docs',                       Icon: Boxes,       color: '#5B8DEF' },
 ]
 
-// The strongest, most-undeniable surfaces — the only ones shown on the hero.
-// Everything else lives behind "Explore all" so the landing reads as one sharp
-// product, not a 27-door arcade.
-const PRIMARY_HREFS = new Set(['/scan', '/shadow', '/vault', '/lux', '/clearing', '/watchlist', '/anchor'])
+// All feature surfaces are real pages, shown directly in the hero chip row.
 
 function hexToRgba(hex: string, alpha: number): string {
   const h = hex.replace('#', '')
@@ -119,18 +96,11 @@ function Nav() {
     return () => window.removeEventListener('scroll', fn)
   }, [])
   const links = [
-    { href: '/everything',    label: 'All Features' },
     { href: '/shadow',        label: 'Shadow Mode' },
     { href: '/deterministic', label: 'Why Deterministic' },
     { href: '/verify',        label: 'Verify a Verdict' },
-    { href: '/audit',         label: '60-Min Audit' },
-    { href: '/opinion',       label: 'Legal Opinion' },
-    { href: '/analyze',       label: 'PDF Analyzer' },
-    { href: '/token-screen',  label: 'RWA Tokens' },
-    { href: '/intelligence',  label: 'Intelligence' },
-    { href: '/case-studies',  label: 'Case Studies' },
     { href: '/docs',          label: 'API Docs' },
-    { href: '/operator',      label: 'Live Dashboard' },
+    { href: '/scan',          label: 'Run a Scan' },
   ]
   return (
     <nav className="fixed top-0 inset-x-0 z-50 transition-all"
@@ -142,12 +112,12 @@ function Nav() {
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 flex items-center justify-between">
         <a href="/" className="flex items-center gap-2.5 shrink-0">
           <div className="w-7 h-7 rounded-md flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #00ff88 0%, #00aa55 100%)', boxShadow: '0 0 18px rgba(0,255,136,0.5)' }}>
+            style={{ background: 'linear-gradient(135deg, #10D982 0%, #0B9E63 100%)', boxShadow: '0 0 18px rgba(16,217,130,0.5)' }}>
             <Sparkles className="w-4 h-4 text-black" />
           </div>
           <div className="leading-tight">
             <div className="text-sm font-black tracking-[0.15em] text-white">GENESIS SWARM</div>
-            <div className="text-[8px] uppercase tracking-[0.25em] text-[#00ff88]">// REGTECH AI</div>
+            <div className="text-[8px] uppercase tracking-[0.25em] text-[#10D982]">// DETERMINISTIC REGTECH</div>
           </div>
         </a>
         <div className="hidden xl:flex items-center gap-x-5 text-[12px] tracking-wide text-[rgba(255,255,255,0.6)] min-w-0">
@@ -161,9 +131,9 @@ function Nav() {
           </a>
           <a href="/trial" className="hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-md text-[11px] uppercase tracking-[0.15em] font-black whitespace-nowrap"
             style={{
-              background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
+              background: 'linear-gradient(135deg, #10D982 0%, #0B9E63 100%)',
               color: '#000',
-              boxShadow: '0 0 20px rgba(0,255,136,0.35), 0 4px 16px rgba(0,255,136,0.2)',
+              boxShadow: '0 0 20px rgba(16,217,130,0.35), 0 4px 16px rgba(16,217,130,0.2)',
             }}>
             Request a pilot <ArrowRight className="w-3 h-3" />
           </a>
@@ -194,9 +164,9 @@ function Nav() {
               <a href="/trial"
                 className="text-center py-2.5 rounded text-[11px] uppercase tracking-[0.15em] font-black"
                 style={{
-                  background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
+                  background: 'linear-gradient(135deg, #10D982 0%, #0B9E63 100%)',
                   color: '#000',
-                  boxShadow: '0 0 16px rgba(0,255,136,0.3)',
+                  boxShadow: '0 0 16px rgba(16,217,130,0.3)',
                 }}>
                 Request a pilot →
               </a>
@@ -212,21 +182,24 @@ function Nav() {
 function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 pt-32 pb-24 overflow-hidden">
-      {/* Animated gradient blobs */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-[10%] -left-32 w-[500px] h-[500px] rounded-full opacity-30"
-          style={{ background: 'radial-gradient(circle, #00ff88 0%, transparent 70%)', filter: 'blur(80px)', animation: 'float1 18s ease-in-out infinite' }} />
-        <div className="absolute bottom-[5%] -right-32 w-[600px] h-[600px] rounded-full opacity-25"
-          style={{ background: 'radial-gradient(circle, #4a9eff 0%, transparent 70%)', filter: 'blur(90px)', animation: 'float2 22s ease-in-out infinite' }} />
-        <div className="absolute top-[40%] left-[40%] w-[400px] h-[400px] rounded-full opacity-15"
-          style={{ background: 'radial-gradient(circle, #ff3366 0%, transparent 70%)', filter: 'blur(100px)', animation: 'float3 26s ease-in-out infinite' }} />
+      {/* Slow emerald aurora wash — premium, performant, reduced-motion safe */}
+      <div className="absolute inset-0 pointer-events-none aurora-hero" aria-hidden="true" />
+
+      {/* Animated gradient blobs — desktop only; they animate blur(90-110px) which stutters phones */}
+      <div className="absolute inset-0 pointer-events-none hidden md:block">
+        <div className="absolute top-[10%] -left-32 w-[500px] h-[500px] rounded-full opacity-[0.2]"
+          style={{ background: 'radial-gradient(circle, #10D982 0%, transparent 70%)', filter: 'blur(90px)', animation: 'float1 20s ease-in-out infinite' }} />
+        <div className="absolute bottom-[5%] -right-32 w-[600px] h-[600px] rounded-full opacity-[0.16]"
+          style={{ background: 'radial-gradient(circle, #5B8DEF 0%, transparent 70%)', filter: 'blur(100px)', animation: 'float2 24s ease-in-out infinite' }} />
+        <div className="absolute top-[40%] left-[40%] w-[400px] h-[400px] rounded-full opacity-[0.07]"
+          style={{ background: 'radial-gradient(circle, #F2566E 0%, transparent 70%)', filter: 'blur(110px)', animation: 'float3 28s ease-in-out infinite' }} />
       </div>
 
-      {/* Live 3D PBFT consensus swarm — the product's core claim, animated */}
-      <SwarmConsensus3D className="absolute inset-0 pointer-events-none opacity-90" />
+      {/* Cinematic bloom-lit 3D consensus mesh — the product's core claim, filmic */}
+      <CinematicHero3D className="absolute inset-0 pointer-events-none" />
       {/* Legibility vignette: darken the centre where the headline sits */}
       <div className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 55% 42% at 50% 44%, rgba(3,3,10,0.72) 0%, rgba(3,3,10,0.3) 50%, transparent 78%)' }} />
+        style={{ background: 'linear-gradient(100deg, rgba(4,5,9,0.92) 0%, rgba(4,5,9,0.62) 42%, rgba(4,5,9,0.18) 72%, transparent 100%)' }} />
 
       {/* Subtle grid */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.025]"
@@ -236,62 +209,68 @@ function Hero() {
           backgroundSize: '60px 60px',
         }} />
 
-      <div className="relative max-w-6xl w-full mx-auto text-center">
+      {/* Bottom fade — blend the cinematic hero into the page so there's no hard seam */}
+      <div className="absolute inset-x-0 bottom-0 h-56 pointer-events-none z-[1]" aria-hidden="true"
+        style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(6,7,10,0.72) 55%, #06070A 100%)' }} />
+
+      <div className="relative max-w-7xl w-full mx-auto grid lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+        {/* LEFT — the pitch */}
+        <div className="lg:col-span-7 text-center lg:text-left">
         {/* Pre-headline pill */}
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-8"
           style={{
-            background: 'rgba(0,255,136,0.06)',
-            border: '1px solid rgba(0,255,136,0.25)',
+            background: 'rgba(16,217,130,0.06)',
+            border: '1px solid rgba(16,217,130,0.25)',
             backdropFilter: 'blur(12px)',
           }}>
-          <span className="w-1.5 h-1.5 rounded-full bg-[#00ff88]" style={{ animation: 'pulse 1.2s ease-in-out infinite', boxShadow: '0 0 8px #00ff88' }} />
-          <span className="text-[10px] font-black tracking-[0.25em] uppercase text-[#00ff88]">
-            DORA · Jan 17, 2027 Enforcement
+          <span className="w-1.5 h-1.5 rounded-full bg-[#10D982]" style={{ animation: 'pulse 1.2s ease-in-out infinite', boxShadow: '0 0 8px #10D982' }} />
+          <span className="text-[10px] font-black tracking-[0.25em] uppercase text-[#10D982]">
+            AIFMD II · UCITS · Deterministic
           </span>
         </div>
 
         {/* Killer headline */}
-        <h1 className="font-black leading-[0.95] tracking-[-0.04em] mb-6"
-          style={{ fontSize: 'clamp(2.75rem, 7vw, 6.5rem)' }}>
-          <span className="text-white">The AI immune system</span>
+        <h1 className="font-black leading-[0.95] tracking-[-0.045em] mb-6"
+          style={{ fontSize: 'clamp(2.5rem, 5.2vw, 4.75rem)' }}>
+          <span className="text-white">Paste a prospectus.</span>
           <br />
-          <span style={{
-            background: 'linear-gradient(90deg, #00ff88 0%, #00d8ff 100%)',
+          <span className="text-white">See </span>
+          <span className="gradient-sheen" style={{
+            background: 'linear-gradient(90deg, #10D982 0%, #6FF0B8 50%, #10D982 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
             textShadow: 'none',
-          }}>
-            for European funds.
-          </span>
+          }}>every breach</span>
+          <br />
+          <span className="text-white">in 10 seconds.</span>
         </h1>
 
         {/* Subhead */}
-        <p className="max-w-2xl mx-auto text-[rgba(255,255,255,0.55)] mb-3"
-          style={{ fontSize: 'clamp(1rem, 1.5vw, 1.25rem)', lineHeight: 1.55 }}>
-          Genesis Swarm reads a fund prospectus and checks it against AIFMD II —
-          <span className="text-white font-semibold"> deterministically, in your browser, in ~300&nbsp;ms</span>.
-          No LLM in the decision path, so every verdict is reproducible and cites the exact rule.
+        <p className="max-w-xl mx-auto lg:mx-0 text-[rgba(255,255,255,0.62)] mb-3"
+          style={{ fontSize: 'clamp(1rem, 1.5vw, 1.2rem)', lineHeight: 1.55 }}>
+          Deterministic checks against the <span className="text-white font-semibold">AIFMD II and UCITS</span> quantitative limits —
+          in your browser, in under a second, with no LLM in the decision path. Every verdict is reproducible and cites the exact rule.
         </p>
         <p className="text-[rgba(255,255,255,0.4)] text-sm mb-12">
-          Built for Luxembourg AIFMs · AIFMD II · DORA · SFDR · CSSF-aligned
+          Built for Luxembourg AIFMs · AIFMD II · UCITS · DORA · CSSF-aligned
         </p>
 
         {/* Primary CTAs — lead with the real, no-signup product */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-16">
+        <div className="flex flex-col sm:flex-row flex-wrap items-center lg:justify-start justify-center gap-3 mb-8">
           <a href="/scan"
-            className="group flex items-center gap-2 px-6 py-3.5 rounded-md text-sm uppercase tracking-[0.15em] font-black transition-all hover:scale-[1.02]"
+            className="group shimmer-sweep flex items-center justify-center gap-2 px-6 py-3.5 rounded-md text-sm uppercase tracking-[0.15em] font-black whitespace-nowrap transition-all hover:scale-[1.02]"
             style={{
-              background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
-              color: '#000',
-              boxShadow: '0 0 30px rgba(0,255,136,0.35), 0 8px 24px rgba(0,255,136,0.18)',
+              background: 'linear-gradient(135deg, #10D982 0%, #0B9E63 100%)',
+              color: '#04130b',
+              boxShadow: '0 1px 0 rgba(255,255,255,0.18) inset, 0 8px 24px rgba(16,217,130,0.16)',
             }}>
-            <ScanLine className="w-4 h-4" />
+            <ScanLine className="w-4 h-4 shrink-0" />
             Scan a prospectus — live
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform" />
           </a>
           <a href="/shadow"
-            className="group flex items-center gap-2 px-6 py-3.5 rounded-md text-sm uppercase tracking-[0.15em] font-bold transition-all"
+            className="group flex items-center justify-center gap-2 px-6 py-3.5 rounded-md text-sm uppercase tracking-[0.15em] font-bold whitespace-nowrap transition-all"
             style={{
               background: 'rgba(255,255,255,0.04)',
               border: '1px solid rgba(255,255,255,0.18)',
@@ -299,67 +278,67 @@ function Hero() {
               backdropFilter: 'blur(12px)',
             }}>
             See Shadow Mode
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </a>
-          <a href="/trial"
-            className="flex items-center gap-2 px-6 py-3.5 rounded-md text-sm uppercase tracking-[0.15em] font-bold transition-colors text-[rgba(255,255,255,0.55)] hover:text-white">
-            Request a pilot
+            <ArrowRight className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform" />
           </a>
         </div>
 
-        {/* Primary feature row — only the strongest surfaces, plus one door to the rest */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-10 text-[10px] uppercase tracking-[0.15em] font-bold">
-          {FEATURE_CHIPS.filter(c => PRIMARY_HREFS.has(c.href)).map(({ href, label, Icon, color }) => (
-            <a
-              key={href}
-              href={href}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full transition-all hover:scale-[1.03]"
-              style={{
-                background: hexToRgba(color, 0.14),
-                border: `1px solid ${hexToRgba(color, 0.7)}`,
-                color,
-                boxShadow: `0 0 22px ${hexToRgba(color, 0.25)}`,
-              }}
-            >
-              <Icon className="w-3 h-3" aria-hidden="true" />
-              {label}
-            </a>
-          ))}
-          <a
-            href="/everything"
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-full transition-all hover:scale-[1.03]"
-            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.7)' }}
-          >
-            Explore all {FEATURE_CHIPS.length} <ArrowRight className="w-3 h-3" aria-hidden="true" />
-          </a>
+        {/* Feature row — every real product surface, directly reachable */}
+        <div className="flex flex-wrap items-center lg:justify-start justify-center gap-2 text-[10px] uppercase tracking-[0.15em] font-bold">
+          {FEATURE_CHIPS.map(({ href, label, Icon, emphasis }) => {
+            // Disciplined two-tone: emerald for the headline surfaces, the cool
+            // secondary for everything else. No rainbow.
+            const tone = emphasis ? '#10D982' : '#5B8DEF'
+            return (
+              <a
+                key={href}
+                href={href}
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-full transition-all hover:scale-[1.03]"
+                style={{
+                  background: hexToRgba(tone, 0.1),
+                  border: `1px solid ${hexToRgba(tone, 0.4)}`,
+                  color: tone,
+                }}
+              >
+                <Icon className="w-3 h-3" aria-hidden="true" />
+                {label}
+              </a>
+            )
+          })}
         </div>
+        </div>{/* /LEFT */}
 
-        {/* Honest signal — what's actually true, not vanity metrics */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-px max-w-3xl mx-auto mt-14 rounded-2xl overflow-hidden"
-          style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.05)' }}>
+        {/* RIGHT — the product, judging a prospectus live */}
+        <div className="lg:col-span-5 w-full">
+          <LiveScanHero />
+
+          {/* Honest signal — what's actually true, not vanity metrics */}
+          <div className="grid grid-cols-2 gap-3 mt-4">
           {[
-            { value: '~300 ms', label: 'verdict · in-browser' },
+            { value: 'Instant', label: 'in-browser verdict' },
             { value: 'No LLM',  label: 'fully deterministic' },
             { value: 'SHA-256', label: 'every verdict sealed' },
-            { value: 'Open',    label: 'source on GitHub' },
+            { value: 'Source',  label: 'available on GitHub' },
           ].map(({ value, label }) => (
-            <div key={label} className="text-center px-4 py-6" style={{ background: 'rgba(6,7,13,0.85)' }}>
+            <TiltCard key={label}
+              className="rounded-2xl px-4 py-6 text-center card-hover"
+              style={{ background: 'rgba(14,16,20,0.7)', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(8px)' }}>
               <div className="font-black tracking-tight text-white" style={{ fontSize: 'clamp(1.15rem, 2.2vw, 1.75rem)' }}>{value}</div>
-              <div className="text-[9.5px] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.4)] mt-1.5">{label}</div>
-            </div>
+              <div className="text-[9.5px] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.55)] mt-1.5">{label}</div>
+            </TiltCard>
           ))}
-        </div>
+          </div>
+        </div>{/* /RIGHT */}
+      </div>{/* /grid */}
 
-        {/* Regulator badges */}
-        <div className="flex items-center justify-center gap-6 mt-12 flex-wrap text-[10px] uppercase tracking-[0.18em]">
-          <span className="text-[rgba(255,255,255,0.3)]">ALIGNED WITH</span>
-          {['AIFMD II', 'DORA', 'SFDR', 'UCITS V', 'CSSF', 'FATF R.10'].map(r => (
-            <div key={r} className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-3 h-3 text-[#00ff88]" />
-              <span className="text-[rgba(255,255,255,0.55)]">{r}</span>
-            </div>
-          ))}
-        </div>
+      {/* Regulator badges — full-width strip under the split */}
+      <div className="relative max-w-5xl mx-auto flex items-center justify-center gap-x-6 gap-y-2 mt-14 flex-wrap text-[10px] uppercase tracking-[0.18em]">
+        <span className="text-[rgba(255,255,255,0.4)]">ALIGNED WITH</span>
+        {['AIFMD II', 'DORA', 'SFDR', 'UCITS V', 'CSSF', 'FATF R.10'].map(r => (
+          <div key={r} className="flex items-center gap-1.5">
+            <CheckCircle2 className="w-3 h-3 text-[#10D982]" />
+            <span className="text-[rgba(255,255,255,0.6)]">{r}</span>
+          </div>
+        ))}
       </div>
 
       <style jsx>{`
@@ -373,80 +352,48 @@ function Hero() {
 
 // Problem section — DORA countdown
 function Problem() {
-  const deadline = new Date('2027-01-17T00:00:00Z').getTime()
-  const [now, setNow] = useState(Date.now())
-  useEffect(() => {
-    const i = setInterval(() => setNow(Date.now()), 1000)
-    return () => clearInterval(i)
-  }, [])
-  const ms = Math.max(0, deadline - now)
-  const days = Math.floor(ms / 86400000)
-  const hours = Math.floor((ms % 86400000) / 3600000)
-  const mins = Math.floor((ms % 3600000) / 60000)
-  const secs = Math.floor((ms % 60000) / 1000)
-
   return (
     <section id="problem" data-reveal className="relative py-20 md:py-32 px-6 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at center top, rgba(255,51,102,0.06) 0%, transparent 60%)' }} />
+        style={{ background: 'radial-gradient(ellipse at center top, rgba(242,86,110,0.06) 0%, transparent 60%)' }} />
 
       <div className="relative max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <div className="text-[11px] uppercase tracking-[0.3em] text-[#ff3366] mb-4 font-bold">
-            // THE €18 BILLION PROBLEM
+          <div className="text-[11px] uppercase tracking-[0.3em] text-[#F2566E] mb-4 font-bold">
+            // WHY NOW
           </div>
           <h2 className="font-black tracking-tight text-white" style={{ fontSize: 'clamp(2rem, 4.5vw, 3.5rem)' }}>
-            European fund managers have
+            The rules are already
             <br />
-            <span className="text-[#ff3366]" style={{ textShadow: '0 0 40px rgba(255,51,102,0.4)' }}>
-              {days} days
+            <span className="text-[#F2566E]" style={{ textShadow: '0 0 40px rgba(242,86,110,0.4)' }}>
+              in force.
             </span>
-            {' '}to comply.
           </h2>
           <p className="text-[rgba(255,255,255,0.5)] max-w-2xl mx-auto mt-6 text-base leading-relaxed">
-            DORA enforcement begins January 17, 2027. AIFMD II rolls out in parallel. Most funds are
-            still relying on manual quarterly audits — a regulatory model designed for the 1990s.
+            DORA has applied since January 2025 and AIFMD II since April 2026, with reporting under
+            the new ESMA templates landing in 2027. Most funds still rely on manual quarterly audits —
+            a regulatory model designed for the 1990s.
           </p>
-        </div>
-
-        {/* Countdown */}
-        <div className="flex items-center justify-center gap-3 sm:gap-6 mb-20">
-          {[
-            { v: days,  l: 'Days' },
-            { v: hours, l: 'Hours' },
-            { v: mins,  l: 'Min' },
-            { v: secs,  l: 'Sec' },
-          ].map(({ v, l }, i) => (
-            <div key={l} className="flex items-center gap-3 sm:gap-6">
-              <div className="text-center">
-                <div className="font-black tabular-nums leading-none text-white"
-                  style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', textShadow: '0 0 30px rgba(255,255,255,0.15)' }}>
-                  {String(v).padStart(2, '0')}
-                </div>
-                <div className="text-[9px] uppercase tracking-[0.2em] text-[rgba(255,255,255,0.4)] mt-2">{l}</div>
-              </div>
-              {i < 3 && <div className="text-[#ff3366] font-black text-3xl opacity-30">:</div>}
-            </div>
-          ))}
         </div>
 
         {/* 3 problem cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
-            { Icon: AlertOctagon, t: '48-hour detection', d: 'Manual quarterly audits miss fast-moving fraud. Wirecard was hidden for 500+ days.', c: '#ff3366' },
-            { Icon: FileText,     t: '€2.4M average fine', d: 'CSSF penalties for ICT vendor register gaps under DORA Art. 28 alone.',           c: '#ffaa00' },
-            { Icon: Lock,         t: '0 board-level visibility', d: 'Most CIOs cannot answer "are we compliant right now?" in real time.',          c: '#4a9eff' },
+            { Icon: AlertOctagon, t: 'Audited once a quarter', d: 'Manual quarterly reviews leave a fund unverified for months — a prospectus can drift out of line with no one checking.', c: '#F2566E' },
+            { Icon: FileText,     t: 'Named CSSF priority', d: 'DORA makes ICT third-party register and oversight gaps a supervisory focus — with administrative penalties and named management accountability.', c: '#F5A524' },
+            { Icon: Lock,         t: '0 board-level visibility', d: 'Most CIOs cannot answer "are we compliant right now?" in real time.',          c: '#5B8DEF' },
           ].map(({ Icon, t, d, c }) => (
-            <div key={t} className="rounded-xl p-6 transition-all hover:scale-[1.02]"
+            <TiltCard key={t} max={5}
+              className="rounded-xl p-6 card-hover"
               style={{
-                background: `rgba(255,255,255,0.02)`,
-                border: '1px solid rgba(255,255,255,0.06)',
+                background: 'rgba(14,16,20,0.7)',
+                border: '1px solid rgba(255,255,255,0.08)',
                 backdropFilter: 'blur(12px)',
               }}>
-              <Icon className="w-7 h-7 mb-4" style={{ color: c, filter: `drop-shadow(0 0 8px ${c})` }} />
+              <Icon className="w-7 h-7 mb-4" style={{ color: c, filter: `drop-shadow(0 0 6px ${c}88)` }} />
               <div className="text-lg font-bold text-white mb-2">{t}</div>
-              <p className="text-sm text-[rgba(255,255,255,0.5)] leading-relaxed">{d}</p>
-            </div>
+              <p className="text-sm leading-relaxed" style={{ color: '#A6AEB6' }}>{d}</p>
+            </TiltCard>
           ))}
         </div>
       </div>
@@ -457,24 +404,24 @@ function Problem() {
 // Solution — 3 step "how it works"
 function Solution() {
   const steps = [
-    { n: '01', Icon: Cpu, t: 'Connect your fund', d: 'Paste an LEI, drop a prospectus PDF, or sync via SFTP. Genesis Swarm onboards in under 90 seconds.', accent: '#00ff88' },
-    { n: '02', Icon: GitBranch, t: '11 bots vote in real time', d: 'Each transaction crosses NAV detection, sanctions screening, FX volatility, ICT vendor checks. PBFT consensus reaches quorum in 312ms.', accent: '#4a9eff' },
-    { n: '03', Icon: Shield, t: 'Merkle-anchored audit trail', d: 'Every decision is hashed into an immutable chain. CSSF-grade evidence trail downloadable as PDF the moment a regulator asks.', accent: '#ffaa00' },
+    { n: '01', Icon: Cpu, t: 'Bring a document', d: 'Paste an LEI, drop a prospectus PDF, or paste the text. Genesis reads it in your browser — nothing is uploaded, no account needed.', accent: '#10D982' },
+    { n: '02', Icon: GitBranch, t: 'Checked against the rule', d: 'Each declared limit is tested against the document’s own caps and the AIFMD II statutory caps — plain arithmetic, instant, no LLM in the decision path.', accent: '#5B8DEF' },
+    { n: '03', Icon: Shield, t: 'Tamper-evident audit trail', d: 'Every verdict is hashed into a tamper-evident chain — a CSSF-grade evidence trail you can export as a PDF the moment a regulator asks.', accent: '#F5A524' },
   ]
   return (
     <section id="solution" data-reveal className="relative py-20 md:py-32 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-20">
-          <div className="text-[11px] uppercase tracking-[0.3em] text-[#00ff88] mb-4 font-bold">
+          <div className="text-[11px] uppercase tracking-[0.3em] text-[#10D982] mb-4 font-bold">
             // HOW GENESIS SWARM WORKS
           </div>
           <h2 className="font-black tracking-tight text-white" style={{ fontSize: 'clamp(2rem, 4.5vw, 3.5rem)' }}>
-            From fund LEI to compliance proof
+            From prospectus to compliance proof
             <br />
             <span style={{
-              background: 'linear-gradient(90deg, #00ff88 0%, #4a9eff 100%)',
+              background: 'linear-gradient(90deg, #10D982 0%, #5B8DEF 100%)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-            }}>in 90 seconds.</span>
+            }}>in under a second.</span>
           </h2>
         </div>
 
@@ -513,9 +460,9 @@ function Solution() {
         </div>
 
         <div className="text-center mt-12">
-          <a href="/operator"
-            className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.15em] font-bold text-[#00ff88] hover:gap-3 transition-all">
-            See the live operator dashboard <ArrowRight className="w-4 h-4" />
+          <a href="/scan"
+            className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.15em] font-bold text-[#10D982] hover:gap-3 transition-all">
+            Run a live compliance scan <ArrowRight className="w-4 h-4" />
           </a>
         </div>
       </div>
@@ -528,21 +475,20 @@ function ROICalculator() {
   const [aum, setAum] = useState(500) // €M
   const sliderMax = 5000
   const annualSavings = Math.round((aum * 1000 * 0.018) + (aum > 100 ? 240000 : 80000))
-  const fines = Math.round(aum * 1000 * 0.004)
   const hours = Math.round(aum * 24)
 
   return (
     <section data-reveal className="relative py-20 md:py-32 px-6">
       <div className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at center, rgba(0,255,136,0.04) 0%, transparent 70%)' }} />
+        style={{ background: 'radial-gradient(ellipse at center, rgba(16,217,130,0.04) 0%, transparent 70%)' }} />
 
       <div className="relative max-w-5xl mx-auto">
         <div className="text-center mb-14">
-          <div className="text-[11px] uppercase tracking-[0.3em] text-[#00ff88] mb-4 font-bold">// ILLUSTRATIVE SAVINGS ESTIMATE</div>
+          <div className="text-[11px] uppercase tracking-[0.3em] text-[#10D982] mb-4 font-bold">// ILLUSTRATIVE SAVINGS ESTIMATE</div>
           <h2 className="font-black tracking-tight text-white" style={{ fontSize: 'clamp(2rem, 4.5vw, 3.5rem)' }}>
             What Genesis Swarm could save
             <br />
-            <span className="text-[#00ff88]" style={{ textShadow: '0 0 30px rgba(0,255,136,0.4)' }}>
+            <span className="text-[#10D982]" style={{ textShadow: '0 0 30px rgba(16,217,130,0.4)' }}>
               a fund your size.
             </span>
           </h2>
@@ -550,9 +496,9 @@ function ROICalculator() {
 
         <div className="rounded-2xl p-8 md:p-12"
           style={{
-            background: 'linear-gradient(135deg, rgba(0,255,136,0.04) 0%, rgba(74,158,255,0.03) 100%)',
-            border: '1px solid rgba(0,255,136,0.18)',
-            boxShadow: '0 0 60px rgba(0,255,136,0.06), inset 0 0 80px rgba(0,255,136,0.02)',
+            background: 'linear-gradient(135deg, rgba(16,217,130,0.04) 0%, rgba(91,141,239,0.03) 100%)',
+            border: '1px solid rgba(16,217,130,0.18)',
+            boxShadow: '0 0 60px rgba(16,217,130,0.06), inset 0 0 80px rgba(16,217,130,0.02)',
           }}>
 
           <div className="mb-10">
@@ -563,12 +509,13 @@ function ROICalculator() {
               </div>
             </div>
             <input type="range"
+              aria-label="Adjust assets under management (€)"
               min="50" max={sliderMax} step="50"
               value={aum}
               onChange={e => setAum(Number(e.target.value))}
               className="w-full"
               style={{
-                accentColor: '#00ff88',
+                accentColor: '#10D982',
                 height: 6,
               }} />
             <div className="flex justify-between text-[9px] uppercase tracking-wider text-[rgba(255,255,255,0.3)] mt-2">
@@ -576,30 +523,21 @@ function ROICalculator() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="text-center p-6 rounded-xl"
-              style={{ background: 'rgba(0,255,136,0.05)', border: '1px solid rgba(0,255,136,0.2)' }}>
-              <div className="text-[9px] uppercase tracking-[0.2em] text-[rgba(0,255,136,0.6)] font-bold mb-2">Annual Savings</div>
-              <div className="font-black tabular-nums text-[#00ff88] text-3xl md:text-4xl"
-                style={{ textShadow: '0 0 24px rgba(0,255,136,0.5)' }}>
+              style={{ background: 'rgba(16,217,130,0.05)', border: '1px solid rgba(16,217,130,0.2)' }}>
+              <div className="text-[9px] uppercase tracking-[0.2em] text-[rgba(16,217,130,0.6)] font-bold mb-2">Annual Savings</div>
+              <div className="font-black tabular-nums text-[#10D982] text-3xl md:text-4xl"
+                style={{ textShadow: '0 0 12px rgba(16,217,130,0.3)' }}>
                 €{annualSavings.toLocaleString()}
               </div>
               <div className="text-[10px] text-[rgba(255,255,255,0.4)] mt-1">vs manual quarterly audit</div>
             </div>
             <div className="text-center p-6 rounded-xl"
-              style={{ background: 'rgba(255,170,0,0.05)', border: '1px solid rgba(255,170,0,0.2)' }}>
-              <div className="text-[9px] uppercase tracking-[0.2em] text-[rgba(255,170,0,0.6)] font-bold mb-2">Fines Avoided</div>
-              <div className="font-black tabular-nums text-[#ffaa00] text-3xl md:text-4xl"
-                style={{ textShadow: '0 0 24px rgba(255,170,0,0.5)' }}>
-                €{fines.toLocaleString()}
-              </div>
-              <div className="text-[10px] text-[rgba(255,255,255,0.4)] mt-1">CSSF DORA Art.28 baseline</div>
-            </div>
-            <div className="text-center p-6 rounded-xl"
-              style={{ background: 'rgba(74,158,255,0.05)', border: '1px solid rgba(74,158,255,0.2)' }}>
-              <div className="text-[9px] uppercase tracking-[0.2em] text-[rgba(74,158,255,0.6)] font-bold mb-2">Hours Saved</div>
-              <div className="font-black tabular-nums text-[#4a9eff] text-3xl md:text-4xl"
-                style={{ textShadow: '0 0 24px rgba(74,158,255,0.5)' }}>
+              style={{ background: 'rgba(91,141,239,0.05)', border: '1px solid rgba(91,141,239,0.2)' }}>
+              <div className="text-[9px] uppercase tracking-[0.2em] text-[rgba(91,141,239,0.6)] font-bold mb-2">Hours Saved</div>
+              <div className="font-black tabular-nums text-[#5B8DEF] text-3xl md:text-4xl"
+                style={{ textShadow: '0 0 12px rgba(91,141,239,0.3)' }}>
                 {hours.toLocaleString()}
               </div>
               <div className="text-[10px] text-[rgba(255,255,255,0.4)] mt-1">compliance team workload</div>
@@ -614,9 +552,9 @@ function ROICalculator() {
             <a href="/trial"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-md text-sm uppercase tracking-[0.15em] font-black"
               style={{
-                background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
+                background: 'linear-gradient(135deg, #10D982 0%, #0B9E63 100%)',
                 color: '#000',
-                boxShadow: '0 0 24px rgba(0,255,136,0.4)',
+                boxShadow: '0 0 24px rgba(16,217,130,0.4)',
               }}>
               Request a pilot <ArrowRight className="w-4 h-4" />
             </a>
@@ -639,9 +577,9 @@ function Pricing() {
       ctaHref: '/trial?tier=starter',
       featured: false,
       features: [
-        '1 fund · up to €100M AUM',
-        '11-bot swarm · 8s polling',
-        'AIFMD II + UCITS V gap analysis',
+        '1 fund',
+        'Save, seal & monitor every scan',
+        'AIFMD II + UCITS gap analysis',
         'OFAC + EU sanctions screening',
         'Monthly PDF compliance report',
         'Email support',
@@ -656,14 +594,14 @@ function Pricing() {
       ctaHref: '/trial?tier=pro',
       featured: true,
       features: [
-        'Up to 25 funds · €2B AUM',
-        '11-bot swarm · 340ms real-time',
-        'Full DORA + AIFMD II + SFDR + CSSF coverage',
-        'Real-time sanctions + adverse media',
-        'Weekly PDF + Merkle-anchored proof',
-        'Slack + dedicated support',
+        'Up to 25 funds',
+        'Continuous monitoring + regression alerts',
+        'AIFMD II + UCITS + DORA + SFDR references',
+        'OFAC + EU + UN sanctions screening',
+        'PDF report + Merkle-anchored proof',
+        'Slack + email support',
         'API + webhook access',
-        'XAI reasoning console',
+        'Full citation + provenance on every finding',
       ],
     },
     {
@@ -675,14 +613,14 @@ function Pricing() {
       ctaHref: '/trial?tier=enterprise',
       featured: false,
       features: [
-        'Unlimited funds & AUM',
-        'On-premise + dedicated swarm cluster',
+        'Unlimited funds',
+        'On-premise / self-hosted deployment',
         'Custom regulatory rule engine',
         'Real-time CSSF + ECB feed integration',
         'White-label boardroom dashboards',
-        '24/7 SOC + dedicated CSM',
-        'SLA: 99.99% uptime',
-        'Penetration test + SOC 2 reports',
+        'Priority support + dedicated contact',
+        'Custom uptime SLA',
+        'Independent penetration test + security review',
       ],
     },
   ]
@@ -691,7 +629,7 @@ function Pricing() {
     <section id="pricing" data-reveal className="relative py-20 md:py-32 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <div className="text-[11px] uppercase tracking-[0.3em] text-[#00ff88] mb-4 font-bold">// PRICING · INDICATIVE</div>
+          <div className="text-[11px] uppercase tracking-[0.3em] text-[#10D982] mb-4 font-bold">// PRICING · INDICATIVE</div>
           <h2 className="font-black tracking-tight text-white" style={{ fontSize: 'clamp(2rem, 4.5vw, 3.5rem)' }}>
             Indicative pricing
             <br />
@@ -707,29 +645,29 @@ function Pricing() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {tiers.map(t => (
             <div key={t.name}
-              className="relative rounded-2xl p-7 flex flex-col"
+              className={`relative rounded-2xl p-7 flex flex-col${t.featured ? '' : ' card-hover'}`}
               style={{
                 background: t.featured
-                  ? 'linear-gradient(180deg, rgba(0,255,136,0.06) 0%, rgba(0,255,136,0.02) 100%)'
-                  : 'rgba(255,255,255,0.02)',
-                border: t.featured ? '1px solid rgba(0,255,136,0.4)' : '1px solid rgba(255,255,255,0.08)',
-                boxShadow: t.featured ? '0 0 50px rgba(0,255,136,0.12), inset 0 0 60px rgba(0,255,136,0.04)' : 'none',
+                  ? 'linear-gradient(180deg, rgba(16,217,130,0.06) 0%, rgba(16,217,130,0.02) 100%)'
+                  : 'rgba(14,16,20,0.7)',
+                border: t.featured ? '1px solid rgba(16,217,130,0.4)' : '1px solid rgba(255,255,255,0.08)',
+                boxShadow: t.featured ? '0 0 50px rgba(16,217,130,0.12), inset 0 0 60px rgba(16,217,130,0.04)' : 'none',
                 backdropFilter: 'blur(12px)',
                 transform: t.featured ? 'scale(1.03)' : 'scale(1)',
               }}>
               {t.featured && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-[0.2em]"
                   style={{
-                    background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
+                    background: 'linear-gradient(135deg, #10D982 0%, #0B9E63 100%)',
                     color: '#000',
-                    boxShadow: '0 0 16px rgba(0,255,136,0.5)',
+                    boxShadow: '0 0 16px rgba(16,217,130,0.5)',
                   }}>
                   Most Popular
                 </div>
               )}
               <div className="mb-6">
                 <div className="text-sm font-black uppercase tracking-[0.2em] mb-2"
-                  style={{ color: t.featured ? '#00ff88' : 'rgba(255,255,255,0.6)' }}>
+                  style={{ color: t.featured ? '#10D982' : 'rgba(255,255,255,0.6)' }}>
                   {t.name}
                 </div>
                 <div className="flex items-baseline gap-1 mb-3">
@@ -743,14 +681,14 @@ function Pricing() {
                     </>
                   )}
                 </div>
-                <p className="text-[12px] text-[rgba(255,255,255,0.45)] leading-snug">{t.tagline}</p>
+                <p className="text-[12px] text-[#93A1AD] leading-snug">{t.tagline}</p>
               </div>
 
               <ul className="space-y-2.5 mb-8 flex-1">
                 {t.features.map(f => (
                   <li key={f} className="flex items-start gap-2 text-[12px] text-[rgba(255,255,255,0.7)]">
                     <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 mt-0.5"
-                      style={{ color: t.featured ? '#00ff88' : 'rgba(255,255,255,0.4)' }} />
+                      style={{ color: t.featured ? '#10D982' : 'rgba(255,255,255,0.4)' }} />
                     <span>{f}</span>
                   </li>
                 ))}
@@ -759,9 +697,9 @@ function Pricing() {
               <a href={t.ctaHref}
                 className="block text-center py-3 rounded-md text-[11px] uppercase tracking-[0.15em] font-black transition-all"
                 style={t.featured ? {
-                  background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
+                  background: 'linear-gradient(135deg, #10D982 0%, #0B9E63 100%)',
                   color: '#000',
-                  boxShadow: '0 0 24px rgba(0,255,136,0.35)',
+                  boxShadow: '0 0 24px rgba(16,217,130,0.35)',
                 } : {
                   background: 'rgba(255,255,255,0.05)',
                   border: '1px solid rgba(255,255,255,0.15)',
@@ -783,41 +721,42 @@ function FinalCTA() {
     <section data-reveal className="relative py-20 md:py-32 px-6 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-25"
-          style={{ background: 'radial-gradient(circle, #00ff88 0%, transparent 60%)', filter: 'blur(100px)' }} />
+          style={{ background: 'radial-gradient(circle, #10D982 0%, transparent 60%)', filter: 'blur(100px)' }} />
       </div>
 
       <div className="relative max-w-3xl mx-auto text-center">
         <h2 className="font-black tracking-tight text-white mb-6"
           style={{ fontSize: 'clamp(2.25rem, 5vw, 4rem)' }}>
-          Don't be the next
+          Catch it before
           <br />
           <span style={{
-            background: 'linear-gradient(90deg, #ff3366 0%, #ffaa00 100%)',
+            background: 'linear-gradient(90deg, #F2566E 0%, #F5A524 100%)',
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-          }}>Wirecard headline.</span>
+          }}>the regulator does.</span>
         </h2>
-        <p className="text-[rgba(255,255,255,0.55)] text-base md:text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
-          Genesis Swarm catches what manual quarterly audits miss. Start your free trial — no card,
-          no contract, no friction. Be CSSF-bulletproof in 14 days.
+        <p className="text-[rgba(255,255,255,0.6)] text-base md:text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
+          Genesis Swarm catches what manual quarterly audits miss — including a prospectus that
+          permits more leverage than AIFMD&nbsp;II allows. Try the live scanner free: no account,
+          nothing uploaded, every verdict reproducible and cited to the rule.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <a href="/trial"
             className="group flex items-center gap-2 px-8 py-4 rounded-md text-sm uppercase tracking-[0.15em] font-black transition-all"
             style={{
-              background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
-              color: '#000',
-              boxShadow: '0 0 40px rgba(0,255,136,0.5), 0 12px 32px rgba(0,255,136,0.2)',
+              background: 'linear-gradient(135deg, #10D982 0%, #0B9E63 100%)',
+              color: '#04130b',
+              boxShadow: '0 1px 0 rgba(255,255,255,0.18) inset, 0 10px 30px rgba(16,217,130,0.18)',
             }}>
             Request a pilot <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </a>
-          <a href="/operator"
+          <a href="/scan"
             className="flex items-center gap-2 px-8 py-4 rounded-md text-sm uppercase tracking-[0.15em] font-bold transition-all"
             style={{
               background: 'rgba(255,255,255,0.04)',
               border: '1px solid rgba(255,255,255,0.15)',
               color: 'rgba(255,255,255,0.85)',
             }}>
-            Watch live dashboard
+            Run a live scan
           </a>
         </div>
       </div>
@@ -833,7 +772,7 @@ function Footer() {
           <div className="col-span-2">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-7 h-7 rounded-md flex items-center justify-center"
-                style={{ background: 'linear-gradient(135deg, #00ff88 0%, #00aa55 100%)' }}>
+                style={{ background: 'linear-gradient(135deg, #10D982 0%, #0B9E63 100%)' }}>
                 <Sparkles className="w-4 h-4 text-black" />
               </div>
               <span className="text-sm font-black tracking-[0.15em] text-white">GENESIS SWARM</span>
@@ -841,38 +780,34 @@ function Footer() {
             <p className="text-[12px] text-[rgba(255,255,255,0.4)] max-w-sm leading-relaxed">
               Deterministic compliance tooling for Luxembourg AIFMs — AIFMD II, DORA, SFDR.
               No LLM in the decision path; every verdict is reproducible and re-verifiable.
-              Open-source, built solo.
+              Source-available, built solo.
             </p>
           </div>
           <div>
             <div className="text-[10px] uppercase tracking-[0.2em] text-[rgba(255,255,255,0.4)] font-bold mb-3">Product</div>
             <ul className="space-y-2 text-[12px] text-[rgba(255,255,255,0.7)]">
-              <li><a href="/everything" className="hover:text-white font-bold text-white">All Features →</a></li>
-              <li><a href="/operator" className="hover:text-white">Live Dashboard</a></li>
-              <li><a href="/analyze" className="hover:text-white">PDF Analyzer</a></li>
-              <li><a href="/audit" className="hover:text-white">60-Min Audit Pack</a></li>
-              <li><a href="/opinion" className="hover:text-white">AI Legal Opinion</a></li>
+              <li><a href="/scan" className="hover:text-white font-bold text-white">Run a Scan →</a></li>
+              <li><a href="/shadow" className="hover:text-white">Shadow Mode</a></li>
+              <li><a href="/vault" className="hover:text-white">Evidence Vault</a></li>
+              <li><a href="/screening" className="hover:text-white">Sanctions Screening</a></li>
               <li><a href="/token-screen" className="hover:text-white">RWA Token Compliance</a></li>
               <li><a href="/intelligence" className="hover:text-white">Intelligence Feed</a></li>
-              <li><a href="/case-studies" className="hover:text-white">Case Studies</a></li>
             </ul>
           </div>
           <div>
             <div className="text-[10px] uppercase tracking-[0.2em] text-[rgba(255,255,255,0.4)] font-bold mb-3">Developers</div>
             <ul className="space-y-2 text-[12px] text-[rgba(255,255,255,0.7)]">
+              <li><a href="/ruleset" className="hover:text-white">Ruleset Spec</a></li>
               <li><a href="/docs" className="hover:text-white">API Docs</a></li>
               <li><a href="/extension" className="hover:text-white">Chrome Extension</a></li>
-              <li><a href="/gpt" className="hover:text-white">ChatGPT Integration</a></li>
               <li><a href="/status" className="hover:text-white">System Status</a></li>
-              <li><a href="/api/gpt/openapi" className="hover:text-white">OpenAPI Spec</a></li>
             </ul>
           </div>
           <div>
             <div className="text-[10px] uppercase tracking-[0.2em] text-[rgba(255,255,255,0.4)] font-bold mb-3">Company</div>
             <ul className="space-y-2 text-[12px] text-[rgba(255,255,255,0.7)]">
               <li><a href="/about" className="hover:text-white">About</a></li>
-              <li><a href="/investors" className="hover:text-white">Investors</a></li>
-              <li><a href="/press" className="hover:text-white">Press Kit</a></li>
+              <li><a href="/research" className="hover:text-white">Research</a></li>
               <li><a href="#pricing" className="hover:text-white">Pricing</a></li>
               <li><a href="/trial" className="hover:text-white">Start Trial</a></li>
               <li><a href="/privacy" className="hover:text-white">Privacy</a></li>
@@ -885,7 +820,7 @@ function Footer() {
           <div className="flex gap-4">
             <span>CSSF-aligned</span>
             <span>·</span>
-            <span>SOC 2 Type II in progress</span>
+            <span>SOC 2 Type II planned</span>
             <span>·</span>
             <span>GDPR · DORA · AIFMD II ready</span>
           </div>
@@ -899,11 +834,12 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen text-white" style={{
       background: 'transparent',
-      fontFamily: 'system-ui, -apple-system, "Segoe UI", sans-serif',
+      fontFamily: 'var(--font-geist-sans), system-ui, -apple-system, "Segoe UI", sans-serif',
       textTransform: 'none',
       letterSpacing: 'normal',
     }}>
-      <CosmicBackground variant="intense" accent="#00ff88" />
+      <CosmicBackground variant="void" accent="#10D982" />
+      <CinematicFx />
       <Nav />
       <Hero />
       <ComplianceWall />
