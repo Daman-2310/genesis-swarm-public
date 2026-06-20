@@ -1,8 +1,8 @@
-// Genesis Swarm — minimal service worker.
+// ProvenLex — minimal service worker.
 // Currently: cache shell + offline fallback for static pages.
-// Future: web push for vindication alerts.
+// Future: web push for alerts.
 
-const CACHE = 'genesis-v2';
+const CACHE = 'provenlex-v3';
 const SHELL = [
   '/',
   '/manifest.json',
@@ -54,7 +54,7 @@ self.addEventListener('fetch', (event) => {
 // Web Push hook — will accept payload from /api/cron/vindicate when vindication hits
 self.addEventListener('push', (event) => {
   if (!event.data) return;
-  let payload = { title: 'Genesis Swarm', body: 'A new event has been recorded.', url: '/' };
+  let payload = { title: 'ProvenLex', body: 'A new event has been recorded.', url: '/' };
   try { payload = { ...payload, ...event.data.json() }; } catch (e) {}
   event.waitUntil(
     self.registration.showNotification(payload.title, {
