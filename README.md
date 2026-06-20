@@ -61,6 +61,36 @@ details remain subject to ESMA's final RTS/ITS — always verify against the reg
 The [Trust page](https://provenlex.vercel.app/security) states plainly which parts are
 production-grade and which are reference implementations.
 
+## Technical FAQ
+
+**How is text extracted from a PDF?**
+Client-side, via [`unpdf`](https://github.com/unjs/unpdf) (a browser/serverless build of
+pdf.js) for PDFs, [`mammoth`](https://github.com/mwilliamson/mammoth.js) for `.docx`, and
+the native File API for `.txt`. It is lazy-imported so it never bloats the initial bundle.
+Everything runs in your browser — the document never leaves your machine, and there is no
+code path that uploads it to a server or an AI provider.
+
+**What is the main limitation of that approach?**
+The PDF *text layer* flattens structure. Tables, multi-column layouts and footnotes —
+exactly where the leverage, retention and concentration figures live in a real
+prospectus — collapse into linear text. The numbers are present, but reliably pairing
+each one with its meaning is the hard part, and holding tables frequently extract empty.
+This is documented in detail in
+[NOTE-02 — *Extraction Is the Hard Part*](https://provenlex.vercel.app/research/note-02-extraction-is-the-hard-part).
+
+**So what happens when a document cannot be read cleanly?**
+The engine returns `INSUFFICIENT_DATA` — it fails *loud*, never inventing a verdict — and
+offers a manual-entry path where a person supplies the figure and the *same* deterministic
+rules run on it. A confident wrong "compliant" is worse than an honest "cannot judge."
+
+**Do you run OCR on scanned / image PDFs?**
+No. A scanned PDF yields little or no selectable text; the tool says so and asks you to
+paste the text, rather than guessing a verdict from garbage.
+
+**Is there any AI / LLM anywhere in the decision path?**
+No. Rules and arithmetic only; every verdict is reproducible and SHA-256 sealed. There is
+no code path to any model provider.
+
 ## What's in this repository
 
 - **`jarvis-ui/`** — the product: the Next.js application and the deterministic compliance
