@@ -18,7 +18,7 @@ interface Endpoint {
   examples: Record<Lang, string>
 }
 
-const BASE = 'https://genesis-swarm-rgq5.vercel.app/api/v1'
+const BASE = 'https://genesis-swarm.vercel.app/api/v1'
 
 const ENDPOINTS: Endpoint[] = [
   {
@@ -126,143 +126,20 @@ print(r.json()["rates"]["USD"])`,
 }).then(r => r.json())`,
     },
   },
-  {
-    id: 'analyze',
-    method: 'POST',
-    path: '/analyze',
-    scope: 'analyze',
-    title: 'PDF Prospectus Analyzer',
-    description: 'Upload a fund prospectus PDF (up to 8 MB). AI extracts fund identity, AIFMD/DORA/SFDR/CSSF gap analysis, compliance score 0-100.',
-    request: `multipart/form-data
-file: <prospectus.pdf>`,
-    response: `{
-  "filename": "blackrock-prospectus.pdf",
-  "pageCount": 187,
-  "analysis": {
-    "fundName": "BlackRock Lux UCITS",
-    "fundType": "UCITS",
-    "domicile": "LU",
-    "estimatedAUM": "€2.4B",
-    "sfdrClassification": "Article 8",
-    "complianceScore": 78,
-    "verdict": "Largely compliant - 2 gaps require remediation",
-    "strengths": [...],
-    "risks": [...],
-    "gaps": [{ "requirement": "DORA Art. 28", "status": "partial", "note": "..." }]
-  }
-}`,
-    examples: {
-      curl: `curl -s -X POST "${BASE}/analyze" \\
-  -H "Authorization: Bearer gs_live_YOUR_KEY" \\
-  -F "file=@prospectus.pdf"`,
-      python: `with open("prospectus.pdf", "rb") as f:
-    r = requests.post(
-        "${BASE}/analyze",
-        files={"file": f},
-        headers={"Authorization": "Bearer gs_live_YOUR_KEY"},
-    )
-print(r.json()["analysis"]["complianceScore"])`,
-      typescript: `const form = new FormData()
-form.append("file", pdfFile)
-const r = await fetch("${BASE}/analyze", {
-  method: "POST",
-  headers: { Authorization: "Bearer gs_live_YOUR_KEY" },
-  body: form,
-})
-const { analysis } = await r.json()`,
-    },
-  },
-  {
-    id: 'opinion',
-    method: 'POST',
-    path: '/opinion',
-    scope: 'opinion',
-    title: 'AI Legal Opinion Generator',
-    description: 'Generate a formal legal memorandum on Luxembourg financial law. Returns a Merkle-signed PDF with watermark, citations, qualifications.',
-    request: `{
-  "question": "Does DORA Art. 28 apply to a sub-threshold AIFM with EUR 80M AUM?",
-  "fundContext": "(optional)"
-}`,
-    response: `Returns: application/pdf
-Headers:
-  X-Merkle-Root: <64 hex>
-  X-Signature:   <64 hex>
-  X-Confidence:  high|moderate|low`,
-    examples: {
-      curl: `curl -s -X POST "${BASE}/opinion" \\
-  -H "Authorization: Bearer gs_live_YOUR_KEY" \\
-  -H "Content-Type: application/json" \\
-  -d '{"question":"Does DORA Art. 28 apply to a sub-threshold AIFM?"}' \\
-  --output opinion.pdf`,
-      python: `r = requests.post(
-    "${BASE}/opinion",
-    json={"question": "Does DORA Art. 28 apply to sub-threshold AIFMs?"},
-    headers={"Authorization": "Bearer gs_live_YOUR_KEY"},
-)
-open("opinion.pdf", "wb").write(r.content)`,
-      typescript: `const r = await fetch("${BASE}/opinion", {
-  method: "POST",
-  headers: {
-    "Authorization": "Bearer gs_live_YOUR_KEY",
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({ question: "DORA Art. 28 sub-threshold?" }),
-})
-const blob = await r.blob()`,
-    },
-  },
-  {
-    id: 'audit',
-    method: 'POST',
-    path: '/audit',
-    scope: 'audit',
-    title: '60-Minute Audit Pack',
-    description: 'Drop a regulator question, get a CSSF-grade response PDF in ~60 seconds. AI cites real article numbers, builds evidence chain, signs with Merkle proof.',
-    request: `{
-  "question": "Provide evidence of DORA Art. 28 ICT vendor register compliance...",
-  "fundIds": ["abc123", "def456"]  // optional - links to your saved analyses
-}`,
-    response: `Returns: application/pdf
-Headers:
-  X-Merkle-Root: <64 hex>
-  X-Signature:   <64 hex>
-  X-Audit-Id:    <16 hex>`,
-    examples: {
-      curl: `curl -s -X POST "${BASE}/audit" \\
-  -H "Authorization: Bearer gs_live_YOUR_KEY" \\
-  -H "Content-Type: application/json" \\
-  -d '{"question":"DORA Art. 28 ICT vendor evidence..."}' \\
-  --output audit-pack.pdf`,
-      python: `r = requests.post(
-    "${BASE}/audit",
-    json={"question": "Provide DORA Art. 28 ICT vendor evidence..."},
-    headers={"Authorization": "Bearer gs_live_YOUR_KEY"},
-    timeout=60,
-)
-open("audit-pack.pdf", "wb").write(r.content)`,
-      typescript: `const r = await fetch("${BASE}/audit", {
-  method: "POST",
-  headers: { "Authorization": "Bearer gs_live_YOUR_KEY", "Content-Type": "application/json" },
-  body: JSON.stringify({ question: "DORA Art. 28 ICT register evidence..." }),
-})
-const buf = await r.arrayBuffer()
-const merkle = r.headers.get("X-Merkle-Root")`,
-    },
-  },
 ]
 
 function CodeBlock({ code, lang }: { code: string; lang: string }) {
   const [copied, setCopied] = useState(false)
   return (
-    <div className="relative rounded-lg overflow-hidden" style={{ background: '#020207', border: '1px solid rgba(0,255,136,0.12)' }}>
-      <div className="flex items-center justify-between px-3 py-2" style={{ background: 'rgba(0,255,136,0.02)', borderBottom: '1px solid rgba(0,255,136,0.08)' }}>
-        <span className="text-[9px] uppercase tracking-widest font-bold text-[rgba(0,255,136,0.6)]">{lang}</span>
+    <div className="relative rounded-lg overflow-hidden" style={{ background: '#020207', border: '1px solid rgba(16,217,130,0.12)' }}>
+      <div className="flex items-center justify-between px-3 py-2" style={{ background: 'rgba(16,217,130,0.02)', borderBottom: '1px solid rgba(16,217,130,0.08)' }}>
+        <span className="text-[9px] uppercase tracking-widest font-bold text-[rgba(16,217,130,0.6)]">{lang}</span>
         <button onClick={() => { navigator.clipboard.writeText(code); setCopied(true); setTimeout(() => setCopied(false), 1500) }}
           className="flex items-center gap-1 text-[9px] uppercase tracking-wider text-[rgba(255,255,255,0.5)] hover:text-white">
           {copied ? <><Check className="w-3 h-3" /> Copied</> : <><Copy className="w-3 h-3" /> Copy</>}
         </button>
       </div>
-      <pre className="p-4 text-[11px] leading-relaxed text-[#00ff88] overflow-x-auto whitespace-pre" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>{code}</pre>
+      <pre className="p-4 text-[11px] leading-relaxed text-[#10D982] overflow-x-auto whitespace-pre" style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>{code}</pre>
     </div>
   )
 }
@@ -280,12 +157,12 @@ export default function DocsPage() {
             <ArrowLeft className="w-3 h-3" /> Home
           </Link>
           <div className="w-px h-4 bg-[rgba(255,255,255,0.1)]" />
-          <Code2 className="w-4 h-4 text-[#00ff88]" />
-          <span className="text-sm font-bold tracking-[0.18em] text-[#00ff88]">API DOCS</span>
+          <Code2 className="w-4 h-4 text-[#10D982]" />
+          <span className="text-sm font-bold tracking-[0.18em] text-[#10D982]">API DOCS</span>
         </div>
         <Link href="/dashboard"
           className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded text-[10px] uppercase tracking-wider font-bold"
-          style={{ background: 'rgba(0,255,136,0.08)', border: '1px solid rgba(0,255,136,0.35)', color: '#00ff88' }}>
+          style={{ background: 'rgba(16,217,130,0.08)', border: '1px solid rgba(16,217,130,0.35)', color: '#10D982' }}>
           <Key className="w-3 h-3" /> Get API key
         </Link>
       </header>
@@ -297,7 +174,7 @@ export default function DocsPage() {
           <h1 className="font-black tracking-tight mb-3" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', lineHeight: 1 }}>
             <span className="text-white">The compliance API for</span>
             <br />
-            <span style={{ background: 'linear-gradient(90deg, #00ff88 0%, #4a9eff 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            <span style={{ background: 'linear-gradient(90deg, #10D982 0%, #5B8DEF 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               European funds.
             </span>
           </h1>
@@ -308,7 +185,7 @@ export default function DocsPage() {
 
           <div className="flex flex-col sm:flex-row gap-3 mt-6">
             <Link href="/dashboard" className="px-5 py-3 rounded-md text-[11px] uppercase tracking-[0.15em] font-black inline-flex items-center gap-2"
-              style={{ background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)', color: '#000', boxShadow: '0 0 24px rgba(0,255,136,0.4)' }}>
+              style={{ background: 'linear-gradient(135deg, #10D982 0%, #0B9E63 100%)', color: '#000', boxShadow: '0 0 24px rgba(16,217,130,0.4)' }}>
               <Key className="w-3.5 h-3.5" /> Create API key
             </Link>
             <a href="#screen" className="px-5 py-3 rounded-md text-[11px] uppercase tracking-[0.15em] font-bold inline-flex items-center gap-2"
@@ -320,10 +197,10 @@ export default function DocsPage() {
 
         {/* Authentication */}
         <section className="mb-10">
-          <h2 className="text-[10px] uppercase tracking-[0.25em] text-[#00ff88] font-black mb-3">AUTHENTICATION</h2>
+          <h2 className="text-[10px] uppercase tracking-[0.25em] text-[#10D982] font-black mb-3">AUTHENTICATION</h2>
           <p className="text-[rgba(255,255,255,0.6)] text-[13px] mb-3">
-            Every request requires a Bearer token. Create one at <Link href="/dashboard" className="text-[#00ff88] hover:underline">/dashboard</Link> → API Keys.
-            Keys are <code className="text-[#00ff88] font-mono">gs_live_</code> prefixed, 24 bytes of entropy. Rate-limited per hour by plan tier
+            Every request requires a Bearer token. Create one at <Link href="/dashboard" className="text-[#10D982] hover:underline">/dashboard</Link> → API Keys.
+            Keys are <code className="text-[#10D982] font-mono">gs_live_</code> prefixed, 24 bytes of entropy. Rate-limited per hour by plan tier
             (Starter: 100, Pro: 5,000, Enterprise: 100,000).
           </p>
           <CodeBlock lang="HTTP" code={`Authorization: Bearer gs_live_AbC123dEf456GhI789jKl0...
@@ -336,18 +213,18 @@ X-RateLimit-Reset: 1748714400`} />
 
         {/* Endpoint list */}
         <section className="mb-10">
-          <h2 className="text-[10px] uppercase tracking-[0.25em] text-[#00ff88] font-black mb-3">ENDPOINTS</h2>
+          <h2 className="text-[10px] uppercase tracking-[0.25em] text-[#10D982] font-black mb-3">ENDPOINTS</h2>
           <div className="flex flex-wrap gap-1.5 mb-6">
             {ENDPOINTS.map(e => (
               <a key={e.id} href={`#${e.id}`} onClick={() => setActiveId(e.id)}
                 className="px-2.5 py-1 rounded text-[10px] uppercase tracking-wider font-bold"
                 style={{
-                  background: activeId === e.id ? 'rgba(0,255,136,0.15)' : 'rgba(255,255,255,0.03)',
-                  border: `1px solid ${activeId === e.id ? 'rgba(0,255,136,0.5)' : 'rgba(255,255,255,0.08)'}`,
-                  color: activeId === e.id ? '#00ff88' : 'rgba(255,255,255,0.6)',
+                  background: activeId === e.id ? 'rgba(16,217,130,0.15)' : 'rgba(255,255,255,0.03)',
+                  border: `1px solid ${activeId === e.id ? 'rgba(16,217,130,0.5)' : 'rgba(255,255,255,0.08)'}`,
+                  color: activeId === e.id ? '#10D982' : 'rgba(255,255,255,0.6)',
                 }}>
                 <span className="text-[9px] mr-1.5"
-                  style={{ color: e.method === 'GET' ? '#4a9eff' : '#ffaa00' }}>{e.method}</span>
+                  style={{ color: e.method === 'GET' ? '#5B8DEF' : '#F5A524' }}>{e.method}</span>
                 {e.id}
               </a>
             ))}
@@ -361,9 +238,9 @@ X-RateLimit-Reset: 1748714400`} />
             <button key={l} onClick={() => setLang(l)}
               className="px-3 py-1.5 rounded text-[10px] uppercase tracking-widest font-bold"
               style={{
-                background: lang === l ? 'rgba(0,255,136,0.12)' : 'transparent',
-                color: lang === l ? '#00ff88' : 'rgba(255,255,255,0.5)',
-                border: `1px solid ${lang === l ? 'rgba(0,255,136,0.4)' : 'transparent'}`,
+                background: lang === l ? 'rgba(16,217,130,0.12)' : 'transparent',
+                color: lang === l ? '#10D982' : 'rgba(255,255,255,0.5)',
+                border: `1px solid ${lang === l ? 'rgba(16,217,130,0.4)' : 'transparent'}`,
               }}>
               {l}
             </button>
@@ -376,9 +253,9 @@ X-RateLimit-Reset: 1748714400`} />
             <div className="flex items-baseline gap-3 mb-3">
               <span className="text-[10px] uppercase tracking-widest font-black px-2 py-1 rounded"
                 style={{
-                  background: e.method === 'GET' ? 'rgba(74,158,255,0.1)' : 'rgba(255,170,0,0.1)',
-                  color: e.method === 'GET' ? '#4a9eff' : '#ffaa00',
-                  border: `1px solid ${e.method === 'GET' ? 'rgba(74,158,255,0.4)' : 'rgba(255,170,0,0.4)'}`,
+                  background: e.method === 'GET' ? 'rgba(91,141,239,0.1)' : 'rgba(245,165,36,0.1)',
+                  color: e.method === 'GET' ? '#5B8DEF' : '#F5A524',
+                  border: `1px solid ${e.method === 'GET' ? 'rgba(91,141,239,0.4)' : 'rgba(245,165,36,0.4)'}`,
                 }}>{e.method}</span>
               <code className="text-base font-mono text-white">{e.path}</code>
               <span className="text-[9px] uppercase tracking-wider text-[rgba(255,255,255,0.4)] ml-auto">scope: {e.scope}</span>
@@ -407,7 +284,7 @@ X-RateLimit-Reset: 1748714400`} />
 
         {/* Errors */}
         <section className="mb-10">
-          <h2 className="text-[10px] uppercase tracking-[0.25em] text-[#00ff88] font-black mb-3">ERROR CODES</h2>
+          <h2 className="text-[10px] uppercase tracking-[0.25em] text-[#10D982] font-black mb-3">ERROR CODES</h2>
           <div className="rounded-lg overflow-hidden" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
             {[
               { code: 400, label: 'BAD_REQUEST', desc: 'Missing or malformed query parameters / body' },
@@ -415,11 +292,11 @@ X-RateLimit-Reset: 1748714400`} />
               { code: 403, label: 'INSUFFICIENT_SCOPE', desc: 'Key does not have permission for this endpoint' },
               { code: 404, label: 'NOT_FOUND', desc: 'LEI / fund / record does not exist in source registry' },
               { code: 429, label: 'RATE_LIMITED', desc: 'Hourly request quota exceeded for your plan' },
-              { code: 502, label: 'UPSTREAM_ERROR', desc: 'OFAC / GLEIF / Frankfurter / Groq returned non-2xx' },
+              { code: 502, label: 'UPSTREAM_ERROR', desc: 'OFAC / GLEIF / Frankfurter returned non-2xx' },
               { code: 503, label: 'NOT_CONFIGURED', desc: 'A required environment variable is missing server-side' },
             ].map(e => (
               <div key={e.code} className="flex items-center gap-4 px-4 py-3" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
-                <code className="text-base font-mono font-black text-[#ff3366] w-12">{e.code}</code>
+                <code className="text-base font-mono font-black text-[#F2566E] w-12">{e.code}</code>
                 <code className="text-[12px] font-mono font-bold text-white w-44">{e.label}</code>
                 <span className="text-[12px] text-[rgba(255,255,255,0.55)] flex-1">{e.desc}</span>
               </div>
@@ -430,16 +307,16 @@ X-RateLimit-Reset: 1748714400`} />
         {/* CTA */}
         <section className="rounded-2xl p-8 text-center"
           style={{
-            background: 'linear-gradient(135deg, rgba(0,255,136,0.04) 0%, rgba(74,158,255,0.03) 100%)',
-            border: '1px solid rgba(0,255,136,0.3)',
+            background: 'linear-gradient(135deg, rgba(16,217,130,0.04) 0%, rgba(91,141,239,0.03) 100%)',
+            border: '1px solid rgba(16,217,130,0.3)',
           }}>
-          <Zap className="w-8 h-8 text-[#00ff88] mx-auto mb-3" />
+          <Zap className="w-8 h-8 text-[#10D982] mx-auto mb-3" />
           <h2 className="text-2xl font-black text-white mb-2">Ready to ship?</h2>
           <p className="text-[rgba(255,255,255,0.5)] text-[13px] mb-5 max-w-xl mx-auto">
             14-day free trial. 100 API calls/hour on Starter. No credit card. Get a key in 30 seconds.
           </p>
           <Link href="/dashboard" className="inline-flex items-center gap-2 px-6 py-3 rounded-md text-[12px] uppercase tracking-[0.15em] font-black"
-            style={{ background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)', color: '#000', boxShadow: '0 0 24px rgba(0,255,136,0.4)' }}>
+            style={{ background: 'linear-gradient(135deg, #10D982 0%, #0B9E63 100%)', color: '#000', boxShadow: '0 0 24px rgba(16,217,130,0.4)' }}>
             Create API key <ArrowRight className="w-4 h-4" />
           </Link>
         </section>

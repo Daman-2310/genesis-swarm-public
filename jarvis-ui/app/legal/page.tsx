@@ -16,8 +16,8 @@ export default function LegalPage() {
             <ArrowLeft className="w-3 h-3" /> Home
           </Link>
           <div className="w-px h-4 bg-[rgba(255,255,255,0.1)]" />
-          <ScrollText className="w-4 h-4 text-[#ffaa00]" />
-          <span className="text-sm font-bold tracking-[0.18em] text-[#ffaa00]">LEGAL</span>
+          <ScrollText className="w-4 h-4 text-[#F5A524]" />
+          <span className="text-sm font-bold tracking-[0.18em] text-[#F5A524]">LEGAL</span>
           <span className="ml-auto text-[9px] uppercase tracking-wider text-[rgba(255,255,255,0.35)]">v1.0 · effective 2026-05-30</span>
         </div>
       </header>
@@ -26,16 +26,16 @@ export default function LegalPage() {
 
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-4"
-            style={{ background: 'rgba(255,170,0,0.08)', border: '1px solid rgba(255,170,0,0.3)' }}>
-            <ShieldCheck className="w-3 h-3 text-[#ffaa00]" />
-            <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#ffaa00]">
+            style={{ background: 'rgba(245,165,36,0.08)', border: '1px solid rgba(245,165,36,0.3)' }}>
+            <ShieldCheck className="w-3 h-3 text-[#F5A524]" />
+            <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#F5A524]">
               Plain-English terms · binding when you use Genesis Swarm
             </span>
           </div>
           <h1 className="font-black tracking-tight mb-3" style={{ fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', lineHeight: 1.05 }}>
             <span className="text-white">Terms of use,</span>
             <br />
-            <span style={{ background: 'linear-gradient(90deg, #ffaa00 0%, #ff7700 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            <span style={{ background: 'linear-gradient(90deg, #F5A524 0%, #F5A524 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               honestly written.
             </span>
           </h1>
@@ -45,11 +45,11 @@ export default function LegalPage() {
         </div>
 
         {/* THE BIG DISCLAIMER */}
-        <Section icon={AlertOctagon} accent="#ff3366" title="§ 1 — What Genesis Swarm is and is not">
+        <Section icon={AlertOctagon} accent="#F2566E" title="§ 1 — What Genesis Swarm is and is not">
           <p>
-            <strong className="text-white">Genesis Swarm is an experimental AI research platform</strong> that produces
-            operational-risk analyses, forecasts, and forensic-style narratives about financial entities, using public
-            data and large language models (Groq llama-3.3-70b primarily).
+            <strong className="text-white">Genesis Swarm is a deterministic compliance-checking tool.</strong> It reads a
+            fund prospectus and tests it against the AIFMD II and UCITS quantitative limits using rules and arithmetic —
+            no LLM or AI in the decision path. Outputs are reproducible and cited to the rule.
           </p>
           <p>
             Outputs on Genesis Swarm <strong className="text-white">are not</strong>:
@@ -69,7 +69,7 @@ export default function LegalPage() {
         </Section>
 
         {/* HISTORICAL ARCHETYPES */}
-        <Section icon={FileText} accent="#9b6dff" title="§ 2 — On historical archetypes">
+        <Section icon={FileText} accent="#5B8DEF" title="§ 2 — On historical archetypes">
           <p>
             Several Genesis Swarm features reference historical fraud cases (Wirecard, Archegos, FTX, Greensill, Madoff).
             These are referenced <strong className="text-white">as analytical pattern templates only</strong> — never as
@@ -83,7 +83,7 @@ export default function LegalPage() {
         </Section>
 
         {/* THE COURT */}
-        <Section icon={Hash} accent="#4a9eff" title="§ 3 — On the Constitutional Court">
+        <Section icon={Hash} accent="#5B8DEF" title="§ 3 — On the Constitutional Court">
           <p>
             The "Constitutional Court" feature simulates a three-AI deliberation (Prosecution, Defense, Chief Justice)
             on a subject entity. The Court's <strong className="text-white">assessments</strong> (CRITICAL, CONCERNED,
@@ -92,12 +92,12 @@ export default function LegalPage() {
           </p>
           <p>
             The Court never alleges fraud, criminality, or guilt. Subjects appearing before the Court may{' '}
-            <a href="#erasure" className="text-[#4a9eff] hover:underline">request that their assessment be removed</a>.
+            <a href="#erasure" className="text-[#5B8DEF] hover:underline">request that their assessment be removed</a>.
           </p>
         </Section>
 
         {/* GDPR + RIGHT TO ERASURE */}
-        <Section icon={Lock} accent="#00ff88" title="§ 4 — GDPR, personal data, and your rights" id="erasure">
+        <Section icon={Lock} accent="#10D982" title="§ 4 — GDPR, personal data, and your rights" id="erasure">
           <p>
             Where Genesis Swarm processes personal data of identifiable individuals (e.g. named executives in a public
             dossier), the lawful basis is <strong className="text-white">Article 6(1)(f) of the GDPR</strong> — legitimate
@@ -115,15 +115,15 @@ export default function LegalPage() {
             <li>— lodge a complaint with the Luxembourg CNPD (Commission nationale pour la protection des données)</li>
           </ul>
           <div className="mt-4 rounded-lg p-4"
-            style={{ background: 'rgba(0,255,136,0.04)', border: '1px solid rgba(0,255,136,0.2)' }}>
+            style={{ background: 'rgba(16,217,130,0.04)', border: '1px solid rgba(16,217,130,0.2)' }}>
             <div className="flex items-center gap-2 mb-2">
-              <Mail className="w-4 h-4 text-[#00ff88]" />
-              <span className="text-[10px] uppercase tracking-[0.18em] text-[#00ff88] font-black">How to make a request</span>
+              <Mail className="w-4 h-4 text-[#10D982]" />
+              <span className="text-[10px] uppercase tracking-[0.18em] text-[#10D982] font-black">How to make a request</span>
             </div>
             <p className="text-[12px] text-[rgba(255,255,255,0.8)] mb-2">
               Email <a href="mailto:daman.sharma.2310@gmail.com?subject=Genesis%20Swarm%20%E2%80%94%20GDPR%2FErasure%20request"
-                className="text-[#00ff88] font-bold hover:underline">daman.sharma.2310@gmail.com</a> with the subject{' '}
-              <span className="font-mono text-[#00ff88]">"GDPR/Erasure request"</span>.
+                className="text-[#10D982] font-bold hover:underline">daman.sharma.2310@gmail.com</a> with the subject{' '}
+              <span className="font-mono text-[#10D982]">"GDPR/Erasure request"</span>.
             </p>
             <p className="text-[11px] text-[rgba(255,255,255,0.6)]">
               Include: the URL or entity name, the nature of your request, and (if helpful) proof of identity or authority
@@ -134,7 +134,7 @@ export default function LegalPage() {
         </Section>
 
         {/* AI WARNINGS */}
-        <Section icon={AlertOctagon} accent="#ffaa00" title="§ 5 — AI-specific limitations">
+        <Section icon={AlertOctagon} accent="#F5A524" title="§ 5 — AI-specific limitations">
           <p>
             All scoring, narratives, and verdicts are produced by large language models. These models:
           </p>
@@ -151,7 +151,7 @@ export default function LegalPage() {
         </Section>
 
         {/* LIABILITY */}
-        <Section icon={ShieldCheck} accent="#ff7700" title="§ 6 — Liability limitation">
+        <Section icon={ShieldCheck} accent="#F5A524" title="§ 6 — Liability limitation">
           <p>
             To the maximum extent permitted by law, Genesis Swarm and its editor are <strong className="text-white">not liable</strong> for:
           </p>
@@ -167,7 +167,7 @@ export default function LegalPage() {
         </Section>
 
         {/* GOVERNING LAW */}
-        <Section icon={ScrollText} accent="#9b6dff" title="§ 7 — Governing law &amp; contact">
+        <Section icon={ScrollText} accent="#5B8DEF" title="§ 7 — Governing law &amp; contact">
           <p>
             These terms are governed by the laws of the Grand Duchy of Luxembourg. Disputes shall be brought
             before the courts of the city of Luxembourg, without prejudice to mandatory consumer-protection
@@ -175,7 +175,7 @@ export default function LegalPage() {
           </p>
           <p>
             Editor and operator: Daman Sharma · Luxembourg.{' '}
-            <a href="mailto:daman.sharma.2310@gmail.com" className="text-[#9b6dff] hover:underline">
+            <a href="mailto:daman.sharma.2310@gmail.com" className="text-[#5B8DEF] hover:underline">
               daman.sharma.2310@gmail.com
             </a>
           </p>
