@@ -6,7 +6,6 @@ import type { LucideIcon } from 'lucide-react'
 
 // 3D consensus swarm — lazy + client-only so Three.js stays out of the initial
 // bundle and only loads once the hero mounts.
-const CinematicHero3D = dynamic(() => import('@/components/CinematicHero3D'), { ssr: false })
 const CosmicBackground = dynamic(() => import('@/components/CosmicBackground'), { ssr: false })
 // Live Compliance Wall — runs the real scan engine in-browser as a proof section.
 const ComplianceWall = dynamic(() => import('@/components/ComplianceWall'), { ssr: false })
@@ -188,8 +187,9 @@ function Hero() {
       {/* Animated gradient blobs removed — institutional restraint. The single
           aurora wash above carries the ambient emerald; no floating neon orbs. */}
 
-      {/* Cinematic bloom-lit 3D consensus mesh — the product's core claim, filmic */}
-      <CinematicHero3D className="absolute inset-0 pointer-events-none" />
+      {/* 3D "consensus mesh" retired — it was off-thesis (the engine is
+          deterministic, not a consensus swarm) and flashy. The real product
+          preview (LiveScanHero) on the right carries the hero now. */}
       {/* Legibility vignette: darken the centre where the headline sits */}
       <div className="absolute inset-0 pointer-events-none"
         style={{ background: 'linear-gradient(100deg, rgba(4,5,9,0.92) 0%, rgba(4,5,9,0.62) 42%, rgba(4,5,9,0.18) 72%, transparent 100%)' }} />
@@ -334,11 +334,6 @@ function Hero() {
         ))}
       </div>
 
-      <style jsx>{`
-        @keyframes float1 { 0%, 100% { transform: translate(0,0); } 50% { transform: translate(60px, 40px); } }
-        @keyframes float2 { 0%, 100% { transform: translate(0,0); } 50% { transform: translate(-80px, -40px); } }
-        @keyframes float3 { 0%, 100% { transform: translate(0,0); } 50% { transform: translate(40px, -60px); } }
-      `}</style>
     </section>
   )
 }
@@ -358,7 +353,7 @@ function Problem() {
           <h2 className="font-black tracking-tight text-white" style={{ fontSize: 'clamp(2rem, 4.5vw, 3.5rem)' }}>
             The rules are already
             <br />
-            <span className="text-[#F2566E]" style={{ textShadow: '0 0 40px rgba(242,86,110,0.4)' }}>
+            <span className="text-[#F2566E]" style={{ textShadow: '0 0 22px rgba(242,86,110,0.18)' }}>
               in force.
             </span>
           </h2>
@@ -481,7 +476,7 @@ function ROICalculator() {
           <h2 className="font-black tracking-tight text-white" style={{ fontSize: 'clamp(2rem, 4.5vw, 3.5rem)' }}>
             What ProvenLex could save
             <br />
-            <span className="text-[#10D982]" style={{ textShadow: '0 0 30px rgba(16,217,130,0.4)' }}>
+            <span className="text-[#10D982]" style={{ textShadow: '0 0 22px rgba(16,217,130,0.18)' }}>
               a fund your size.
             </span>
           </h2>
