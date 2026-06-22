@@ -60,7 +60,12 @@ const JSON_LD = {
       logo: 'https://provenlex.vercel.app/icon-512.svg',
       description:
         'Deterministic AIFMD II / UCITS prospectus compliance tooling for European funds — no LLM in the decision path; every verdict reproducible, cited and sealed.',
-      founder: { '@type': 'Person', name: 'Daman Sharma' },
+      founder: {
+        '@type': 'Person',
+        name: 'Daman Sharma',
+        url: 'https://www.linkedin.com/in/daman-sharma-4b0b67407',
+        sameAs: ['https://www.linkedin.com/in/daman-sharma-4b0b67407'],
+      },
       sameAs: ['https://github.com/Daman-2310/provenlex-public'],
     },
     {
