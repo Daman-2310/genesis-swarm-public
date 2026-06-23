@@ -574,6 +574,19 @@ body {
   transform: none;
 }
 
+/* Cinematic hero load — a choreographed staggered entrance you feel on open. */
+@keyframes heroRise {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.rise { opacity: 0; animation: heroRise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.rise-1 { animation-delay: 0.05s; }
+.rise-2 { animation-delay: 0.16s; }
+.rise-3 { animation-delay: 0.30s; }
+.rise-4 { animation-delay: 0.44s; }
+.rise-5 { animation-delay: 0.60s; }
+.rise-6 { animation-delay: 0.74s; }
+
 /* Respect the user's motion preference across the whole app. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -583,5 +596,6 @@ body {
     transition-duration: 0.001ms !important;
   }
   [data-reveal] { opacity: 1; transform: none; }
+  .rise { opacity: 1 !important; animation: none !important; }
   .cine-curtain { display: none; }
 }

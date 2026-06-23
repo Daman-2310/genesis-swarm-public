@@ -2,7 +2,7 @@
 // Currently: cache shell + offline fallback for static pages.
 // Future: web push for alerts.
 
-const CACHE = 'provenlex-v3';
+const CACHE = 'provenlex-v4';
 const SHELL = [
   '/',
   '/manifest.json',

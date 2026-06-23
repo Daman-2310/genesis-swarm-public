@@ -210,7 +210,7 @@ function Hero() {
         {/* LEFT — the pitch */}
         <div className="lg:col-span-7 text-center lg:text-left">
         {/* Pre-headline pill */}
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-8"
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-8 rise rise-1"
           style={{
             background: 'rgba(16,217,130,0.06)',
             border: '1px solid rgba(16,217,130,0.25)',
@@ -223,7 +223,7 @@ function Hero() {
         </div>
 
         {/* Killer headline */}
-        <h1 className="font-black leading-[0.95] tracking-[-0.045em] mb-6"
+        <h1 className="font-black leading-[0.95] tracking-[-0.045em] mb-6 rise rise-2"
           style={{ fontSize: 'clamp(2.5rem, 5.2vw, 4.75rem)' }}>
           <span className="text-white">Paste a prospectus.</span>
           <br />
@@ -234,7 +234,7 @@ function Hero() {
         </h1>
 
         {/* Subhead */}
-        <p className="max-w-xl mx-auto lg:mx-0 text-[rgba(255,255,255,0.62)] mb-3"
+        <p className="max-w-xl mx-auto lg:mx-0 text-[rgba(255,255,255,0.62)] mb-3 rise rise-3"
           style={{ fontSize: 'clamp(1rem, 1.5vw, 1.2rem)', lineHeight: 1.55 }}>
           Deterministic checks against the <span className="text-white font-semibold">AIFMD II and UCITS</span> quantitative limits —
           in your browser, in under a second, with no LLM in the decision path. Every verdict is reproducible and cites the exact rule.
@@ -244,7 +244,7 @@ function Hero() {
         </p>
 
         {/* Primary CTAs — lead with the real, no-signup product */}
-        <div className="flex flex-col sm:flex-row flex-wrap items-center lg:justify-start justify-center gap-3 mb-8">
+        <div className="flex flex-col sm:flex-row flex-wrap items-center lg:justify-start justify-center gap-3 mb-8 rise rise-4">
           <a href="/scan"
             className="group shimmer-sweep flex items-center justify-center gap-2 px-6 py-3.5 rounded-md text-sm uppercase tracking-[0.15em] font-black whitespace-nowrap transition-all hover:scale-[1.02]"
             style={{
@@ -270,7 +270,7 @@ function Hero() {
         </div>
 
         {/* Feature row — every real product surface, directly reachable */}
-        <div className="flex flex-wrap items-center lg:justify-start justify-center gap-2 text-[10px] uppercase tracking-[0.15em] font-bold">
+        <div className="flex flex-wrap items-center lg:justify-start justify-center gap-2 text-[10px] uppercase tracking-[0.15em] font-bold rise rise-5">
           {FEATURE_CHIPS.map(({ href, label, Icon, emphasis }) => {
             // Disciplined two-tone: emerald for the headline surfaces, the cool
             // secondary for everything else. No rainbow.
@@ -295,7 +295,7 @@ function Hero() {
         </div>{/* /LEFT */}
 
         {/* RIGHT — the product, judging a prospectus live */}
-        <div className="lg:col-span-5 w-full">
+        <div className="lg:col-span-5 w-full rise rise-3">
           <LiveScanHero />
 
           {/* Honest signal — what's actually true, not vanity metrics */}
