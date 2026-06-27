@@ -1,6 +1,6 @@
 # The ProvenLex Ruleset Specification
 
-**Version `2026.1` · Effective `2026-04-16` · Framework: AIFMD II + UCITS (Directive 2009/65/EC)**
+**Version `2026.2` · Effective `2026-04-16` (AIFMD II application date) · Revised `2026-06-27` · Framework: AIFMD II + UCITS (Directive 2009/65/EC)**
 
 The public, versioned, **deterministic** interpretation of the AIFMD II loan-origination limits and the UCITS diversification rule — the exact body of rules behind every [ProvenLex](https://provenlex.vercel.app) verdict. The engine is one implementation; *this* is the standard. Inspect it, cite it, fork it.
 
@@ -18,7 +18,7 @@ Every verdict the engine issues is stamped with this version and a SHA-256 hash 
 - **Rule:** Open-ended ≤ **175%** of NAV · closed-ended ≤ **300%** of NAV (commitment method).
 - **Scope:** Loan-originating AIFs only.
 - **Source:** AIFMD II (Dir (EU) 2024/927), via Art. 15 of Dir 2011/61/EU.
-- **Method:** Declared leverage cap compared to the statutory cap for the fund's structure.
+- **Method:** Declared **commitment-method** leverage cap compared to the statutory cap for the fund's structure. A figure stated on a gross / VaR basis is *not directly comparable* and is flagged for confirmation, not asserted as a breach.
 
 ### GS-RET-1 — Risk retention
 - **Rule:** ≥ **5%** of the notional value of each originated loan retained.
@@ -27,10 +27,10 @@ Every verdict the engine issues is stamped with this version and a SHA-256 hash 
 - **Method:** Declared retention compared to the statutory minimum; a lower figure is a breach.
 
 ### GS-CON-1 — Single-borrower concentration
-- **Rule:** ≤ **20%** of the AIF's capital to any single borrower (aggregate).
-- **Scope:** Loan-originating AIFs only.
+- **Rule:** ≤ **20%** of the AIF's capital to a single borrower that is a **financial undertaking, another AIF, or a UCITS** (not an ordinary corporate borrower).
+- **Scope:** Loan-originating AIFs only; binds only where the borrower is a financial undertaking / AIF / UCITS.
 - **Source:** AIFMD II, Art. 15 of Dir 2011/61/EU.
-- **Method:** Largest single-borrower exposure compared to the statutory limit.
+- **Method:** An exposure above the limit is a breach where the borrower is a financial undertaking / AIF / UCITS; for an ordinary corporate borrower it is flagged for **borrower-type confirmation**, not asserted as a breach.
 
 ## UCITS — diversification
 
@@ -58,6 +58,10 @@ Every verdict the engine issues is stamped with this version and a SHA-256 hash 
 
 ---
 
+## Changelog
+- **2026.2 (2026-06-27):** GS-CON-1 scoped — the 20% single-borrower limit binds only where the borrower is a financial undertaking / AIF / UCITS (an ordinary corporate borrower over 20% is flagged for confirmation, not a breach). GS-LEV-1 clarified — only a commitment-method figure is compared to the cap; a gross / VaR "expected leverage" figure (often several hundred percent, and normal for a derivative-using fund) is flagged as not directly comparable, never breached. *Verdicts sealed under 2026.1 remain valid against that interpretation.*
+- **2026.1 (2026-04-16):** Initial specification.
+
 ## Sources
 - Directive (EU) 2024/927 (AIFMD II)
 - Directive 2011/61/EU (AIFMD), Art. 15 & 23
@@ -66,7 +70,7 @@ Every verdict the engine issues is stamped with this version and a SHA-256 hash 
 ## Cite as
 
 ```
-Sharma, D. (2026). "The ProvenLex Ruleset Specification v2026.1."
+Sharma, D. (2026). "The ProvenLex Ruleset Specification v2026.2."
 ProvenLex. Effective 2026-04-16.
 URL: https://provenlex.vercel.app/ruleset
 ```

@@ -18,7 +18,7 @@ const AIFMD_RULES = [
     rule: `Open-ended ≤ ${S.LEVERAGE_CAP_OPEN_PCT}% of NAV · closed-ended ≤ ${S.LEVERAGE_CAP_CLOSED_PCT}% of NAV (commitment method).`,
     scope: 'Loan-originating AIFs only.',
     source: 'AIFMD II (Dir (EU) 2024/927), via Art. 15 of Dir 2011/61/EU.',
-    method: 'Declared leverage cap compared to the statutory cap for the fund’s structure.',
+    method: 'Declared commitment-method leverage cap compared to the statutory cap for the fund’s structure. A figure stated on a gross / VaR basis is not directly comparable and is flagged for confirmation, not asserted as a breach.',
   },
   {
     id: 'GS-RET-1', title: 'Risk retention',
@@ -29,10 +29,10 @@ const AIFMD_RULES = [
   },
   {
     id: 'GS-CON-1', title: 'Single-borrower concentration',
-    rule: `≤ ${S.SINGLE_ISSUER_CONCENTRATION_PCT}% of the AIF’s capital to any single borrower (aggregate).`,
-    scope: 'Loan-originating AIFs only.',
+    rule: `≤ ${S.SINGLE_ISSUER_CONCENTRATION_PCT}% of the AIF’s capital to a single borrower that is a financial undertaking, another AIF, or a UCITS.`,
+    scope: 'Loan-originating AIFs only; binds only where the borrower is a financial undertaking / AIF / UCITS — not an ordinary corporate borrower.',
     source: 'AIFMD II, Art. 15 of Dir 2011/61/EU.',
-    method: 'Largest single-borrower exposure compared to the statutory limit.',
+    method: 'A single-borrower exposure above the limit is a breach where the borrower is a financial undertaking / AIF / UCITS; for an ordinary corporate borrower it is flagged for borrower-type confirmation, not asserted as a breach.',
   },
 ]
 

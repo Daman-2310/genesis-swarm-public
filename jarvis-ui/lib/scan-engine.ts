@@ -35,8 +35,9 @@ export const STATUTORY = {
 // what a regulator (SupTech), an auditor, and an acquirer's diligence each ask for.
 // Bump `version` (and the date) whenever STATUTORY or the rule logic changes.
 export const RULESET = {
-  version: '2026.1',
-  effective: '2026-04-16',                       // AIFMD II application date
+  version: '2026.2',
+  effective: '2026-04-16',                       // AIFMD II application date (law); version = interpretation revision
+  revised: '2026-06-27',                         // 2026.2: scope 20% single-borrower to financial-undertaking/AIF/UCITS borrowers; leverage compared on commitment basis only (gross/VaR flagged, not breached)
   framework: 'AIFMD II + UCITS (Directive 2009/65/EC)',
   statutory: STATUTORY,
   sources: [
